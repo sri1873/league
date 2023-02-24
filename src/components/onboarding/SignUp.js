@@ -11,7 +11,6 @@ const SignUp = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     const [branches, setBranches] = useState([]);
-    const [branchId, setBranchId] = useState('');
     const [courses, setCourses] = useState([]);
     const [pwd, setPwd] = useState(null);
     const [enable, setEnable] = useState('false')
@@ -20,18 +19,20 @@ const SignUp = () => {
             setBranches(res.data.data);
         })
     }, [])
-    useEffect(() => {
-        base.get(`api/v1/branches/${branchId}/courses`).then(res => {
+    const getCourse = (e) => {
+        e.preventDefault();
+        base.get(`api/v1/branches/${e.target.value}/courses`).then(res => {
             setCourses(res.data.data);
         })
-    }, [branchId])
+    }
+
     const signUpResource =
         <Formik
             initialValues={{
                 firstName: '',
                 lastName: '',
                 userName: '',
-                email: '', phone: '', password: '', confirmPassword: '', branchId: '', courseId: '',
+                email: '', phone: '', password: '', confirmPassword: '', courseId: '',
             }}
             validate={(values, props) => {
                 const errors = {};
@@ -42,20 +43,23 @@ const SignUp = () => {
                 ) {
                     errors.email = "Please enter a valid Woxsen email ID";
                 }
-                if (!values.userName) {
-                    errors.userName = "Enter your name";
-                }
+
                 if (!values.firstName) {
                     errors.firstName = "Enter your Firstname";
+                    console.log(values);
                 }
                 if (!values.lastName) {
                     errors.firstName = "Enter your Lastname";
                 }
+                if (!values.courseId || values.courseId === null) {
+                    errors.courseId = "Select your course";
+                }
                 if (!values.phone) {
                     errors.phone = "Enter phone number";
-                } else if (!isValidPhoneNumber("+91" + values.contact)) {
-                    errors.phone = "Enter valid phone number";
                 }
+                // } else if (!isValidPhoneNumber("+91" + values.contact)) {
+                //     errors.phone = "Enter valid phone number";
+                // }
                 if (!values.password) {
                     errors.password = "Enter password";
                 } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(values.password)) {
@@ -65,7 +69,9 @@ const SignUp = () => {
                 }
                 return errors;
             }}
+
             onSubmit={(values, { setSubmitting, resetForm }) => {
+
                 sessionStorage.clear();
                 base({
                     method: 'POST',
@@ -74,7 +80,7 @@ const SignUp = () => {
                     data: {
                         firstName: values.firstName,
                         lastName: values.lastName,
-                        userName: values.userName,
+                        userName: values.firstName + values.lastName,
                         email: values.email,
                         phone: values.phone,
                         password: values.password,
@@ -87,22 +93,23 @@ const SignUp = () => {
             }}
         >
             {props => (
+
                 <Form className="row g-3">
                     <div className="col-12 input-group">
                         <span className="input-group-text">First and last name</span>
                         <Field id="firstName" name="firstName" className="form-control" />
                         <Field id="lastName" name="lastName" className="form-control" />
                     </div>
-                        <ErrorMessage
-                            style={{ color: "red" }}
-                            name="firstName"
-                            component="div"
-                        />
+                    <ErrorMessage
+                        style={{ color: "red" }}
+                        name="firstName"
+                        component="div"
+                    />
                     <div className="col-md-6">
                         <label className="form-label">Email</label>
                         <div className='input-group flex-nowrap'><span className="input-group-text">@</span>
                             <Field id="email" name="email" type="email" className="form-control" /></div>
-                            <ErrorMessage
+                        <ErrorMessage
                             style={{ color: "red" }}
                             name="email"
                             component="div"
@@ -137,26 +144,31 @@ const SignUp = () => {
                     </div>
                     <div className="col-md-6">
                         <label className="form-label">Branch</label>
-                        <Field as='select' name="branchId" required value={branchId} onChange={e => setBranchId(e.target.value)}
+                        <select name="branchId" required onChange={e => getCourse(e)}
                             className="form-select">
-                            <option>Choose...</option>
+                            <option style={{ 'display': 'none' }} value={null}>Choose...</option>
                             {branches.map(branch => {
                                 return (<option value={branch.id}>{branch.name}</option>);
                             })
                             }
-                        </Field>
+                        </select>
 
                     </div>
                     <div className="col-md-6">
                         <label className="form-label">Course</label>
-                        <Field as='select' name='courseId' required className="form-select">
-                            <option>Select Branch First</option>
+                        <Field as='select' name='courseId' className="form-select">
+                            <option style={{ 'display': 'none' }} value={null}>Select Branch First</option>
                             {courses.map(course => {
                                 return (
                                     <option value={course.id}>{course.name}</option>);
                             })
                             }
                         </Field>
+                        <ErrorMessage
+                            style={{ color: "red" }}
+                            name="courseId"
+                            component="div"
+                        />
                     </div>
                     <button className=' col-12 btn btn-outline-success' type='submit'>SignUp</button>
                 </Form>
