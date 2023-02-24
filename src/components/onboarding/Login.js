@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
 import Decrypt from '../../helpers/decrypt'
