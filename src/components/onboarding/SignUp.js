@@ -1,7 +1,7 @@
 import { Field, Form, Formik, ErrorMessage } from 'formik';
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom/dist';
-import { isValidPhoneNumber } from "react-phone-number-input";
+// import { isValidPhoneNumber } from "react-phone-number-input";
 import base from '../../apis/base'
 import './onboarding.css'
 import Decrypt from '../../helpers/decrypt'
@@ -12,8 +12,6 @@ const SignUp = () => {
     const from = location.state?.from?.pathname || "/";
     const [branches, setBranches] = useState([]);
     const [courses, setCourses] = useState([]);
-    const [pwd, setPwd] = useState(null);
-    const [enable, setEnable] = useState('false')
     useEffect(() => {
         base.get("api/v1/branches").then(res => {
             setBranches(res.data.data);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom/dist';
 import './onboarding.css'
 
