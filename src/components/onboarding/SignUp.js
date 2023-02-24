@@ -1,61 +1,168 @@
+import { Field, Form, Formik, ErrorMessage } from 'formik';
 import React, { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom/dist';
+import { isValidPhoneNumber } from "react-phone-number-input";
 import base from '../../apis/base'
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './onboarding.css'
+import Decrypt from '../../helpers/decrypt'
 
 const SignUp = () => {
-
-    const [signUpDetails, setSignUpDetails] = useState({ "username": null, "password": null, "phoneNumber": null });
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(signUpDetails)
-        base({
-            method: 'POST',
-            url: ``,
-            data: signUpDetails
-        }).then(res => console.log(res))
-    }
-    // onChange={e => setSignUpDetails(prevState => ({ ...prevState, "username": e.target.value }))}
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    const [branches, setBranches] = useState([]);
+    const [branchId, setBranchId] = useState('');
+    const [courses, setCourses] = useState([]);
+    const [pwd, setPwd] = useState(null);
+    const [enable, setEnable] = useState('false')
+    useEffect(() => {
+        base.get("api/v1/branches").then(res => {
+            setBranches(res.data.data);
+        })
+    }, [])
+    useEffect(() => {
+        base.get(`api/v1/branches/${branchId}/courses`).then(res => {
+            setCourses(res.data.data);
+        })
+    }, [branchId])
     const signUpResource =
-            <form className="row g-3" onSubmit={e => handleSubmit(e)}>
-                <div class="col-12 input-group">
-                    <span class="input-group-text">First and last name</span>
-                    <input type="text" aria-label="First name" class="form-control" />
-                    <input type="text" aria-label="Last name" class="form-control" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Email</label>
-                    <div className='input-group flex-nowrap'><span class="input-group-text">@</span>
-                        <input type="email" class="form-control" id="inputEmail4" /></div>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">Mobile</label>
-                    <input type="password" class="form-control" id="inputPassword4" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputAddress" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Shh! Its's a secret" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputAddress2" class="form-label">Confirm Password</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="Should be same as password" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputState" class="form-label">Branch</label>
-                    <select id="inputState" class="form-select">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputState" class="form-label">Course</label>
-                    <select id="inputState" class="form-select">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <button className=' col-12 btn btn-outline-success' type='submit'>SignUp</button>
-            </form>
+        <Formik
+            initialValues={{
+                firstName: '',
+                lastName: '',
+                userName: '',
+                email: '', phone: '', password: '', confirmPassword: '', branchId: '', courseId: '',
+            }}
+            validate={(values, props) => {
+                const errors = {};
+                if (!values.email) {
+                    errors.email = "Enter Woxsen email ID";
+                } else if (
+                    !/^[A-Z0-9._%+-]+@woxsen.edu.in$/i.test(values.email)
+                ) {
+                    errors.email = "Please enter a valid Woxsen email ID";
+                }
+                if (!values.userName) {
+                    errors.userName = "Enter your name";
+                }
+                if (!values.firstName) {
+                    errors.firstName = "Enter your Firstname";
+                }
+                if (!values.lastName) {
+                    errors.firstName = "Enter your Lastname";
+                }
+                if (!values.phone) {
+                    errors.phone = "Enter phone number";
+                } else if (!isValidPhoneNumber("+91" + values.contact)) {
+                    errors.phone = "Enter valid phone number";
+                }
+                if (!values.password) {
+                    errors.password = "Enter password";
+                } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(values.password)) {
+                    errors.password = "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
+                } else if (values.password !== values.confirmPassword) {
+                    errors.confirmPassword = "Both passowords must be same";
+                }
+                return errors;
+            }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+                sessionStorage.clear();
+                base({
+                    method: 'POST',
+                    url: `api/v1/auth/signup`,
+                    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials': true },
+                    data: {
+                        firstName: values.firstName,
+                        lastName: values.lastName,
+                        userName: values.userName,
+                        email: values.email,
+                        phone: values.phone,
+                        password: values.password,
+                        courseId: values.courseId
+                    }
+                }).then(res => {
+                    Decrypt(res.data.data.token);
+                    navigate(from, { replace: true });
+                })
+            }}
+        >
+            {props => (
+                <Form className="row g-3">
+                    <div className="col-12 input-group">
+                        <span className="input-group-text">First and last name</span>
+                        <Field id="firstName" name="firstName" className="form-control" />
+                        <Field id="lastName" name="lastName" className="form-control" />
+                    </div>
+                        <ErrorMessage
+                            style={{ color: "red" }}
+                            name="firstName"
+                            component="div"
+                        />
+                    <div className="col-md-6">
+                        <label className="form-label">Email</label>
+                        <div className='input-group flex-nowrap'><span className="input-group-text">@</span>
+                            <Field id="email" name="email" type="email" className="form-control" /></div>
+                            <ErrorMessage
+                            style={{ color: "red" }}
+                            name="email"
+                            component="div"
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label">Mobile</label>
+                        <Field name="phone" id='phone' type="number" min={10} className="form-control" />
+                        <ErrorMessage
+                            style={{ color: "red" }}
+                            name="phone"
+                            component="div"
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label">Password</label>
+                        <Field name="password" id="password" type="password" className="form-control" placeholder="Shh! Its's a secret" />
+                        <ErrorMessage
+                            style={{ color: "red" }}
+                            name="password"
+                            component="div"
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label">Confirm Password</label>
+                        <Field name="confirmPassword" id="confirmPassword" type="password" className="form-control" placeholder="Should be same as password" />
+                        <ErrorMessage
+                            style={{ color: "red" }}
+                            name="confirmPassword"
+                            component="div"
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label">Branch</label>
+                        <Field as='select' name="branchId" required value={branchId} onChange={e => setBranchId(e.target.value)}
+                            className="form-select">
+                            <option>Choose...</option>
+                            {branches.map(branch => {
+                                return (<option value={branch.id}>{branch.name}</option>);
+                            })
+                            }
+                        </Field>
+
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label">Course</label>
+                        <Field as='select' name='courseId' required className="form-select">
+                            <option>Select Branch First</option>
+                            {courses.map(course => {
+                                return (
+                                    <option value={course.id}>{course.name}</option>);
+                            })
+                            }
+                        </Field>
+                    </div>
+                    <button className=' col-12 btn btn-outline-success' type='submit'>SignUp</button>
+                </Form>
+
+            )}
+        </Formik >
 
     const loginResource =
         <div>
