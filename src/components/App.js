@@ -10,12 +10,12 @@ import RequireAuth from '../helpers/RequireAuth';
 
 const App = () => {
     return (<>
+        <NavBar />
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Page><Login /></Page>} />
                 <Route path="/signUp" element={<Page><SignUp /></Page>} />
                 <Route element={<RequireAuth />}>
-                    <Route element={<NavBar />} />
                     <Route path="/" element={<Home />} />
                 </Route>
             </Routes>
