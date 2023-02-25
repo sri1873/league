@@ -1,6 +1,6 @@
-import base from "../apis/base"
+// import base from "../apis/base"
 import React from "react"
-import axios from "axios";
+// import axios from "axios";
 
 const Payu = () => {
     // const [isMount, setIsMount] = React.useState(false);
