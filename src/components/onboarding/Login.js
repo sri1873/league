@@ -1,11 +1,13 @@
-import React, { useState} from 'react'
+import React, { useContext, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
+import AuthContext from '../../context/AuthProvider'
 import Decrypt from '../../helpers/decrypt'
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './onboarding.css'
 
 const Login = () => {
+    const { setAuth } = useContext(AuthContext)
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -20,6 +22,7 @@ const Login = () => {
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials': true },
         }).then(res => {
             Decrypt(res.data.data.token);
+            setAuth({ 'user': sessionStorage.getItem('user') })
             navigate(from, { replace: true });
         })
     }

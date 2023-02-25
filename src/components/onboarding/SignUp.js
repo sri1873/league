@@ -1,12 +1,14 @@
 import { Field, Form, Formik, ErrorMessage } from 'formik';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom/dist';
 // import { isValidPhoneNumber } from "react-phone-number-input";
 import base from '../../apis/base'
 import './onboarding.css'
 import Decrypt from '../../helpers/decrypt'
+import AuthContext from '../../context/AuthProvider';
 
 const SignUp = () => {
+    const { setAuth } = useContext(AuthContext)
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -82,10 +84,12 @@ const SignUp = () => {
                         email: values.email,
                         phone: values.phone,
                         password: values.password,
-                        courseId: values.courseId
+                        courseId: values.courseId,
+                        graduationYear:"2024"
                     }
                 }).then(res => {
                     Decrypt(res.data.data.token);
+                    setAuth({ 'user': sessionStorage.getItem('user') })
                     navigate(from, { replace: true });
                 })
             }}
