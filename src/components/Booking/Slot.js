@@ -10,7 +10,9 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
     }, [])
 
     const handleClick = (e) => {
+
         e.preventDefault();
+        // e.target.classList.add("btn-outline")
         setBookingDetails(prevState => ({ ...prevState, "slotId": e.target.value }))
         setBookingDetails(prevState => ({ ...prevState, "arenaId": arenaId }))
         // setBookingDetails(prevState => ({ ...prevState, "isPay": true }))
@@ -20,9 +22,11 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
         <p className='courtname'>{court}</p>
         {slots.map((slot) => {
             var unavailable = (slot.available) ? 'success' : 'secondary disabled';
-
             return (
-                <button key={slot.id} value={slot.id} onClick={e => handleClick(e)} className={`btn btn-outline-${unavailable}`}>{slot.slot}</button>);
+                <button key={slot.id} value={slot.id}
+                    onClick={e => handleClick(e)}
+                    className={`btn btn-outline-${unavailable} `}
+                >{slot.slot}</button>);
         })}
     </div>);
 

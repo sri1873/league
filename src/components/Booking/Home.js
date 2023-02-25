@@ -30,13 +30,13 @@ const Home = () => {
             <div className="modal-content">
                 <div className="modal-header">
                     <h5 className="modal-title">Hooray!</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" className="btn-close" onClick={e => window.location.reload()} data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
                     <p>Booking Successfull.</p>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onClick={e => window.location.reload()} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" className="btn btn-primary">See Bookings</button>
                 </div>
             </div>
