@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
 import AuthContext from '../../context/AuthProvider'
 import Decrypt from '../../helpers/decrypt'
+import Error from '../../helpers/Error'
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './onboarding.css'
 
@@ -12,6 +13,7 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     const [loginDetails, setLoginDetails] = useState({ "email": null, "password": null });
+    const [errorMsg, setErrorMsg] = useState("")
     const handleSubmit = (e) => {
         e.preventDefault();
         sessionStorage.clear();
@@ -24,6 +26,8 @@ const Login = () => {
             Decrypt(res.data.data.token);
             setAuth({ 'user': sessionStorage.getItem('user') })
             navigate(from, { replace: true });
+        }).catch(err => {
+            setErrorMsg("Invalid Credentials!")
         })
     }
     const loginResource =
@@ -37,6 +41,7 @@ const Login = () => {
                 <input className="form-control" type={"password"} required placeholder='Password' onChange={e => setLoginDetails(prevState => ({ ...prevState, "password": e.target.value }))} />
             </div>
             <button className='col-12 btn btn-outline-success' type='submit'>Login</button>
+            <Error setErrorMsg={setErrorMsg} color={"danger"} message={errorMsg} />
         </form>;
     const signupResource =
         <div>

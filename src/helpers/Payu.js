@@ -21,16 +21,16 @@ const Payu = () => {
     // }, [isMount]);
     return (<form action='https://test.payu.in/_payment' method='post'>
         <input type="hidden" name="key" value="oZ7oo9" />
-        <input type="hidden" name="txnid" value="tjRw" />
+        <input type="hidden" name="txnid" value="twjedk" />
         <input type="hidden" name="productinfo" value="iPhone" />
         <input type="hidden" name="amount" value="1" />
         <input type="hidden" name="email" value="test@gmail.com" />
         <input type="hidden" name="firstname" value="Ashish" />
         <input type="hidden" name="lastname" value="Kumar" />
-        <input type="hidden" name="surl" value="https://localhost:3000/" />
+        <input type="hidden" name="surl" value="http://localhost:8080/api/v1/util/success" />
         <input type="hidden" name="furl" value="http://localhost:3000/" />
         <input type="hidden" name="phone" value="9988776655" />
-        <input type="hidden" name="hash" value="3c298f6332203a5be3b9cf9409e6f1e9bc18aacb2a8a3a5edbdf53c489fc08fd6fb05b0cf51a891e647e93cd31b7d9d5246765db97c6368399e3727b8ae8d479" />
+        <input type="hidden" name="hash" value="217dc7168cc5b059ac632d24c89d7359b3a4ccacf5bcf6342237871de5b0e4eaf49abad10e0f2bc50c1dae36f4b192dee1ac6f480d88a0385d2490bed3733cf7" />
         <input type="submit" className="btn btn-info" value="Proceed to Pay" /> </form>);
 
 }
