@@ -15,7 +15,7 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
         // e.target.classList.add("btn-outline")
         setBookingDetails(prevState => ({ ...prevState, "slotId": e.target.value }))
         setBookingDetails(prevState => ({ ...prevState, "arenaId": arenaId }))
-        // setBookingDetails(prevState => ({ ...prevState, "isPay": true }))
+        setBookingDetails(prevState => ({ ...prevState, "isPay": true }))
         setSlotId(e.target.value)
     }
     return (<div className='slot'>

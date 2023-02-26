@@ -58,6 +58,11 @@ a{
     
 }
 .signup{
-    flex: 3 1 100px;
+    flex: 8 1 100px;
 
+}
+.errmsg{
+    font-size: small;
+    font-style: italic;
+    text-align: justify;
 }

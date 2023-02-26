@@ -16,7 +16,7 @@ const Home = () => {
         e.preventDefault();
         console.log()
         if (bookingDetails?.isPay) {
-            // <Payu />
+            <Payu />
         } else {
             base({
                 method: 'POST',
