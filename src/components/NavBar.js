@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Avatar } from "@progress/kendo-react-layout";
 
 const NavBar = () => {
@@ -8,10 +8,10 @@ const NavBar = () => {
         sessionStorage.clear();
         window.location.reload();
     }
-    useEffect(() => {
-        if (userName === "")
-            setUserName(sessionStorage.getItem("user"))
-    }, [userName])
+    // useEffect(() => {
+    //     if (userName === "")
+    //         setUserName(sessionStorage.getItem("user"))
+    // }, [userName])
     return (<>{userName
         ?
         <nav className="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">

@@ -1,8 +1,9 @@
 // import base from "../apis/base"
 import React, { useEffect, useState } from "react"
-import base from "../apis/base";
+import base from "../../apis/base";
 
-const Payu = ({ slotId, arenaId }) => {
+const Payu = ({bookingDetails, slotId, arenaId }) => {
+    
     const [details, setDetails] = useState({});
     useEffect(() => {
         const userId = sessionStorage.getItem("userId");
@@ -14,7 +15,7 @@ const Payu = ({ slotId, arenaId }) => {
     return (<form action='https://test.payu.in/_payment' method='post'>
         <input type="hidden" name="key" value="oZ7oo9" />
         <input type="hidden" name="txnid" value={details.txnId} />
-        <input type="hidden" name="productinfo" value="slot-booking" />
+        <input type="hidden" name="productinfo" value="iPhone" />
         <input type="hidden" name="amount" value="1.0" />
         <input type="hidden" name="email" value="test@gmail.com" />
         <input type="hidden" name="firstname" value="Ashish" />

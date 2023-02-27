@@ -1,21 +1,26 @@
 import { Field, Form, Formik, ErrorMessage } from 'formik';
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom/dist';
 // import { isValidPhoneNumber } from "react-phone-number-input";
 import base from '../../apis/base'
 import './onboarding.css'
-import Decrypt from '../../helpers/decrypt'
-import AuthContext from '../../context/AuthProvider';
+import Decrypt from '../../helpers/Decrypt'
 import Error from '../../helpers/Error';
+import { toggleActive } from '../../store';
+import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
-    const { setAuth } = useContext(AuthContext)
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+
     const [branches, setBranches] = useState([]);
     const [courses, setCourses] = useState([]);
     const [errorMsg, setErrorMsg] = useState("")
+
+    const from = location.state?.from?.pathname || "/";
+
     useEffect(() => {
         base.get("api/v1/branches").then(res => {
             setBranches(res.data.data);
@@ -95,7 +100,7 @@ const SignUp = () => {
                                 }
                             }).then(res => {
                                 Decrypt(res.data.data.token);
-                                setAuth({ 'user': sessionStorage.getItem('user') })
+                                dispatch(toggleActive());
                                 navigate(from, { replace: true });
                             })
                     }

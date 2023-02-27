@@ -1,13 +1,17 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom/dist';
 import './onboarding.css'
 
 
-const Page = ({ children }) => {
+const Onboarding = ({ children }) => {
     const location=useLocation();
+    const user = useSelector ((state) => {
+        return state.auth
+    })
     return (
         <>
-        {!sessionStorage.getItem("user")?
+        {!user.isValid?
         <div className='onboarding'>
             <div className='container'>
                 <div className='welcome-img'>
@@ -20,4 +24,4 @@ const Page = ({ children }) => {
         </>
     );
 }
-export default Page
+export default Onboarding

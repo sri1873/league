@@ -12,7 +12,7 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
     const handleClick = (e) => {
 
         e.preventDefault();
-        console.log(e.target);
+        console.log(e.target.value);
         // e.target.classList.add("btn-outline")
         setBookingDetails(prevState => ({ ...prevState, "slotId": e.target.value }))
         setBookingDetails(prevState => ({ ...prevState, "arenaId": arenaId }))

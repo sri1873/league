@@ -1,19 +1,22 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
-import AuthContext from '../../context/AuthProvider'
-import Decrypt from '../../helpers/decrypt'
+import Decrypt from '../../helpers/Decrypt'
 import Error from '../../helpers/Error'
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { toggleActive } from '../../store'
 import './onboarding.css'
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext)
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    
     const [loginDetails, setLoginDetails] = useState({ "email": null, "password": null });
     const [errorMsg, setErrorMsg] = useState("")
+    
+    const from = location.state?.from?.pathname || "/";
+
     const handleSubmit = (e) => {
         e.preventDefault();
         sessionStorage.clear();
@@ -24,7 +27,7 @@ const Login = () => {
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials': true },
         }).then(res => {
             Decrypt(res.data.data.token);
-            setAuth({ 'user': sessionStorage.getItem('user') })
+            dispatch(toggleActive());
             navigate(from, { replace: true });
         }).catch(err => {
             setErrorMsg("Invalid Credentials!")

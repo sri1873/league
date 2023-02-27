@@ -2,26 +2,27 @@ import React, { useEffect, useState } from 'react'
 import base from '../../apis/base'
 import Slot from './Slot';
 import './booking.css'
-import Payu from '../../helpers/Payu';
+import Payu from './Payu';
+
 
 const Home = () => {
     const [arenas, setArenas] = useState([]);
-    const [slots, setSlots] = useState([]);
     const [bookingDetails, setBookingDetails] = useState({})
     useEffect(() => {
         base.get("api/v1/arenas").then(res => setArenas(res.data.data))
     }, [])
 
+    console.log(bookingDetails?.arenaId, bookingDetails?.slotId)
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log()
-        base({
-            method: 'POST',
-            url: `api/v1/users/${sessionStorage.getItem("userId")}/bookings`,
-            data: { "arenaId": bookingDetails?.arenaId, "slotId": bookingDetails?.slotId }
-        }).then(res => console.log(res))
         if (bookingDetails?.isPay) {
-            <Payu arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />
+            <Payu bookingDetails={bookingDetails} arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />
+        } else {
+            base({
+                method: 'POST',
+                url: `api/v1/users/${sessionStorage.getItem("userId")}/bookings`,
+                data: { "arenaId": bookingDetails?.arenaId, "slotId": bookingDetails?.slotId }
+            }).then(res => console.log(res))
         }
     }
     const modalResource = <div className="modal" tabIndex="-1" id="exampleModal">
