@@ -21,7 +21,7 @@ const Home = () => {
             data: { "arenaId": bookingDetails?.arenaId, "slotId": bookingDetails?.slotId }
         }).then(res => console.log(res))
         if (bookingDetails?.isPay) {
-            <Payu />
+            <Payu arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />
         }
     }
     const modalResource = <div className="modal" tabIndex="-1" id="exampleModal">
