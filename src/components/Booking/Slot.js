@@ -12,6 +12,7 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
     const handleClick = (e) => {
 
         e.preventDefault();
+        console.log(e.target);
         // e.target.classList.add("btn-outline")
         setBookingDetails(prevState => ({ ...prevState, "slotId": e.target.value }))
         setBookingDetails(prevState => ({ ...prevState, "arenaId": arenaId }))
@@ -25,7 +26,7 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
             return (
                 <button key={slot.id} value={slot.id}
                     onClick={e => handleClick(e)}
-                    className={`btn btn-outline-${unavailable} `}
+                    className={`btn btn${slotId === slot.id ? "" : "-outline"}-${unavailable} `}
                 >{slot.slot}</button>);
         })}
     </div>);

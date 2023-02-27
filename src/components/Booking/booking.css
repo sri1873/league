@@ -45,3 +45,15 @@
 .slot-button{
     background-color: #198754;
 }
+
+.ant-table-content{
+    display: flex;
+    padding: 2%;
+    width: 80%;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    /* bottom: 50%; */
+    top: 10%;
+    left: 10%;
+}

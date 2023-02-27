@@ -15,14 +15,13 @@ const Home = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log()
+        base({
+            method: 'POST',
+            url: `api/v1/users/${sessionStorage.getItem("userId")}/bookings`,
+            data: { "arenaId": bookingDetails?.arenaId, "slotId": bookingDetails?.slotId }
+        }).then(res => console.log(res))
         if (bookingDetails?.isPay) {
             <Payu />
-        } else {
-            base({
-                method: 'POST',
-                url: `api/v1/users/${sessionStorage.getItem("userId")}/bookings`,
-                data: { "arenaId": bookingDetails?.arenaId, "slotId": bookingDetails?.slotId }
-            }).then(res => console.log(res))
         }
     }
     const modalResource = <div className="modal" tabIndex="-1" id="exampleModal">
