@@ -23,7 +23,7 @@ const Payu = ({ slotId, arenaId }) => {
         <input type="hidden" name="furl" value={`http://localhost:8080/api/v1/payments/users/${userId}/arenas/${arenaId}/slots/${slotId}/redirect`} />
         <input type="hidden" name="phone" value="9988776655" />
         <input type="hidden" name="hash" value={details.hash} />
-        <input type="submit" className="btn btn-info" value="Proceed to Pay" />
+        <input type="submit" className="btn submit" value="Proceed to Pay" />
     </form>);
 
 }

@@ -20,12 +20,13 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
     return (<div className='slot'>
         <p className='courtname'>{court}</p>
         {slots.map((slot) => {
-            var unavailable = (slot.available) ? 'success' : 'secondary disabled';
-            return (
-                <button key={slot.id} value={slot.id}
-                    onClick={e => handleClick(e)}
-                    className={`btn btn${slotId === slot.id ? "" : "-outline"}-${unavailable} `}
-                >{slot.slot}</button>);
+            var css=(slot.available) ? '' : 'btn btn-outline-secondary disabled';
+        var unavailable = (slot.available) ? 'success' : 'secondary disabled';
+        return (
+        <button key={slot.id} value={slot.id}
+            onClick={e => handleClick(e)}
+            className={`btn btn${slotId === slot.id ? "" : "-outline"}-${unavailable} pink `}
+        >{slot.slot}</button>);
         })}
     </div>);
 
