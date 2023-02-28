@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom/dist'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
 import Decrypt from '../../helpers/Decrypt'
 import Error from '../../helpers/Error'
@@ -31,7 +31,9 @@ const Login = () => {
             dispatch(addUser(user));
             navigate(from, { replace: true });
         }).catch(err => {
-            setErrorMsg("Invalid Credentials!")
+            err.code === "ERR_NETWORK" ?
+                navigate("/server-error", { replace: true })
+                : setErrorMsg("Invalid Credentials!")
         })
     }
     const loginResource =

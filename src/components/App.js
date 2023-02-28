@@ -7,6 +7,10 @@ import Home from './Booking/Home';
 import NavBar from './NavBar';
 import RequireAuth from '../helpers/RequireAuth';
 import Booking from './Booking/Booking';
+import Success from './Utils/Success';
+import Failure from './Utils/Failure';
+import PageNotFound from './Utils/PageNotFound';
+import InternalServerError from './Utils/InternalServerError';
 
 
 const App = () => {
@@ -19,7 +23,11 @@ const App = () => {
                 <Route element={<RequireAuth />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/bookings" element={<Booking />} />
+                    <Route path="/success" element={<Success />} />
+                    <Route path="/failure" element={<Failure />} />
                 </Route>
+                <Route path="*" element={<PageNotFound />} />
+                <Route path="/server-error" element={<InternalServerError />} />
             </Routes>
         </BrowserRouter>
     </>

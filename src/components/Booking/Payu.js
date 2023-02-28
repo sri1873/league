@@ -14,7 +14,7 @@ const Payu = ({ slotId, arenaId }) => {
     return (<form action='https://test.payu.in/_payment' method='post'>
         <input type="hidden" name="key" value="oZ7oo9" />
         <input type="hidden" name="txnid" value={details.txnId} />
-        <input type="hidden" name="productinfo" value="iPhone" />
+        <input type="hidden" name="productinfo" value="slot-booking" />
         <input type="hidden" name="amount" value="1.0" />
         <input type="hidden" name="email" value="test@gmail.com" />
         <input type="hidden" name="firstname" value="Ashish" />
