@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "@progress/kendo-react-layout";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
-    const [userName, setUserName] = useState("")
     const onLogoutClick = (e) => {
         e.preventDefault();
-        sessionStorage.clear();
+        localStorage.clear();
         window.location.reload();
     }
-    // useEffect(() => {
-    //     if (userName === "")
-    //         setUserName(sessionStorage.getItem("user"))
-    // }, [userName])
+    const userName = useSelector(state => state.user.userName)
     return (<>{userName
         ?
         <nav className="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">

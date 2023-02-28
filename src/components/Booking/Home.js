@@ -3,11 +3,13 @@ import base from '../../apis/base'
 import Slot from './Slot';
 import './booking.css'
 import Payu from './Payu';
+import { useSelector } from 'react-redux';
 
 
 const Home = () => {
     const [arenas, setArenas] = useState([]);
     const [bookingDetails, setBookingDetails] = useState({})
+    const userId = useSelector(state => state.user.userId);
     useEffect(() => {
         base.get("api/v1/arenas").then(res => setArenas(res.data.data))
     }, [])
@@ -16,11 +18,11 @@ const Home = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (bookingDetails?.isPay) {
-            <Payu bookingDetails={bookingDetails} arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />
+            <Payu arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />
         } else {
             base({
                 method: 'POST',
-                url: `api/v1/users/${sessionStorage.getItem("userId")}/bookings`,
+                url: `api/v1/users/${userId}/bookings`,
                 data: { "arenaId": bookingDetails?.arenaId, "slotId": bookingDetails?.slotId }
             }).then(res => console.log(res))
         }
@@ -58,7 +60,7 @@ const Home = () => {
                     })}
                 </div>
                 <button type='submit' className="btn btn-info" data-bs-target="#exampleModal" data-bs-toggle="modal">
-                    {!bookingDetails?.isPay ? "Confirm Booking" : <Payu />}
+                    {!bookingDetails?.isPay ? "Confirm Booking" : <Payu arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />}
                 </button>
             </form>
         </div>

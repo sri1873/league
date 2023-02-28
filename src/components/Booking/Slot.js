@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import base from '../../apis/base';
-// import base from '../../apis/base'
 
 const Slot = ({ arenaId, court, setBookingDetails }) => {
     const [slotId, setSlotId] = useState();
@@ -12,7 +11,6 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
     const handleClick = (e) => {
 
         e.preventDefault();
-        console.log(e.target.value);
         // e.target.classList.add("btn-outline")
         setBookingDetails(prevState => ({ ...prevState, "slotId": e.target.value }))
         setBookingDetails(prevState => ({ ...prevState, "arenaId": arenaId }))

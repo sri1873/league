@@ -3,9 +3,13 @@ import jwt from 'jwt-decode'
 
 const Decrypt = (token) => {
     const decode = jwt(token);
-    sessionStorage.setItem("token", token);
-    sessionStorage.setItem("user", decode.sub);
-    sessionStorage.setItem("userId", decode.user_id);
-    sessionStorage.setItem("roles", decode.roles);
+    const user = {
+        userName: decode.sub,
+        token: token,
+        userId: decode.user_id,
+        roles: decode.roles
+
+    }
+    return (user);
 }
 export default Decrypt

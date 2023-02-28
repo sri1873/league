@@ -4,30 +4,31 @@ import { useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
 import Decrypt from '../../helpers/Decrypt'
 import Error from '../../helpers/Error'
-import { toggleActive } from '../../store'
+import { addUser, toggleActive } from '../../store'
 import './onboarding.css'
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     const [loginDetails, setLoginDetails] = useState({ "email": null, "password": null });
     const [errorMsg, setErrorMsg] = useState("")
-    
+
     const from = location.state?.from?.pathname || "/";
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        sessionStorage.clear();
+        localStorage.clear();
         base({
             method: 'POST',
             url: `api/v1/auth/login`,
             data: loginDetails,
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials': true },
         }).then(res => {
-            Decrypt(res.data.data.token);
+            const user = Decrypt(res.data.data.token);
             dispatch(toggleActive());
+            dispatch(addUser(user));
             navigate(from, { replace: true });
         }).catch(err => {
             setErrorMsg("Invalid Credentials!")
