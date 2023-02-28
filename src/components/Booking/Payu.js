@@ -9,7 +9,7 @@ const Payu = ({ slotId, arenaId }) => {
         base.post(`payu/generate-hash?amount=1&userId=${userId}`).then(res => {
             setDetails(res.data)
         })
-    }, []);
+    }, [userId]);
 
     return (<form action='https://test.payu.in/_payment' method='post'>
         <input type="hidden" name="key" value="oZ7oo9" />

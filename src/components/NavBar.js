@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Avatar } from "@progress/kendo-react-layout";
 import { useSelector } from "react-redux";
 

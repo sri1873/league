@@ -53,7 +53,7 @@ const Booking = () => {
             })
             setData(tempData)
         })
-    }, [])
+    }, [userId])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();

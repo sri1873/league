@@ -143,7 +143,7 @@ const SignUp = () => {
                         <Field name="confirmPassword" id="confirmPassword" type="password" className="form-control" placeholder="Should be same as password" />
 
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                         <label className="form-label">Branch</label>
                         <select name="branchId" required onChange={e => getCourse(e)}
                             className="form-select">
@@ -155,7 +155,7 @@ const SignUp = () => {
                         </select>
 
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                         <label className="form-label">Course</label>
                         <Field as='select' name='courseId' className="form-select">
                             <option style={{ 'display': 'none' }} value={null}>Select Branch First</option>
@@ -165,6 +165,22 @@ const SignUp = () => {
                             })
                             }
                         </Field>
+
+                    </div>
+                    <div className="col-md-2">
+                        <label className="form-label">Gender</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Male
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked/>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Female
+                                </label>
+                        </div>
 
                     </div>
                     <div className='col-md-6'>

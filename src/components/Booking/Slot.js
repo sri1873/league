@@ -6,7 +6,7 @@ const Slot = ({ arenaId, court, setBookingDetails }) => {
     const [slots, setSlots] = useState([]);
     useEffect(() => {
         base.get(`api/v1/arenas/${arenaId}/slots`).then(res => setSlots(res.data.data))
-    }, [])
+    }, [arenaId])
 
     const handleClick = (e) => {
 
