@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import base from "../../apis/base";
-import Payu from "./Payu";
 import './registration.css';
 import Slot from "./Slot";
 
@@ -11,7 +9,6 @@ const Registration = () => {
     const [arenaName, setArenaName] = useState("SELECT ARENA");
     const [arenas, setArenas] = useState([]);
     const [slots, setSlots] = useState([]);
-    const userId = useSelector(state => state.user.userId);
     useEffect(() => {
         base.get("api/v1/arenas").then(res => setArenas(res.data.data))
     }, [])
@@ -26,14 +23,14 @@ const Registration = () => {
         {/* <div className="main"> */}
         <div className="arena-name col-md-1">
             {arenaName}
-            {arenaId?<i onClick={e=>setArenaId("")} className="fa-solid fa-arrow-right-long"></i>:<></>}
+            {arenaId?<i onClick={e=>{setArenaId("");setArenaName(("SELECT ARENA"))}} className="fa-solid fa-arrow-right-long"></i>:<></>}
         </div>
         {!arenaId ?
             <div className="arena-details col-md-11">
                 {arenas.map(arena => {
                     return (
-                        <div className="arena" onClick={e => handleClick(arena.id, arena.name)}>
-                            {arena.name}
+                        <div key={arena.id} className="arena" onClick={e => handleClick(arena.id, (arena.name).toUpperCase())}>
+                            {(arena.name).toUpperCase()}
                         </div>
                     );
                 })}

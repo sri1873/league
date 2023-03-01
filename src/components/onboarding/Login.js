@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom/dist'
+import { useLocation, useNavigate } from 'react-router-dom/dist'
 import base from '../../apis/base'
 import Decrypt from '../../helpers/Decrypt'
 import Error from '../../helpers/Error'
