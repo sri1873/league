@@ -6,6 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg);
+    /* background: url("https://i.pinimg.com/564x/98/3e/d4/983ed43db74d962e9df6da96e8787b48.jpg") repeat var(--bg); */
+    /* background-size: contain; */
 }
 
 code {
@@ -14,10 +16,10 @@ code {
 }
 
 :root{
-  --primary:#1b4332;
-  --secondary:#52b788;
-  --light:#b7e4c7;
-  --bg:#f6fff7;
+  --primary:#161A1D;
+  --secondary:#B1A7A6;
+  --light:#D3D3D3;
+  --bg:#F5F3F4;
 
   /* --primary:#413768;
   --secondary:#7f6da7;

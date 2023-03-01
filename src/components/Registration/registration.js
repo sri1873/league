@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import base from "../../apis/base";
-import Payu from "../Booking/Payu";
+import Payu from "./Payu";
 import './registration.css';
 import Slot from "./Slot";
 
@@ -54,7 +54,7 @@ const Registration = () => {
                         <div className="arena">
                             <div className="col-md-6 info">
                                 {/* <div className="info"></div> */}
-                                <button style={{border:"none",backgroundColor:"transparent",paddingRight:"10%" }} className="dropdown-arrow" onClick={e => dropdownToggle(arena.id)}><i style={{color:"white",fontSize:"xx-large" }} className="fa-solid fa-caret-down mr-3"></i></button>
+                                <button style={{ border: "none", backgroundColor: "transparent", paddingRight: "10%" }} className="dropdown-arrow" onClick={e => dropdownToggle(arena.id)}><i style={{ color: "white", fontSize: "xx-large" }} className="fa-solid fa-caret-down mr-3"></i></button>
                                 {arena.name}
                             </div>
                             <div className="col-md-6 details">
@@ -69,7 +69,7 @@ const Registration = () => {
                             {!bookingDetails?.isPay ?
                                 <button className="btn submit" data-bs-target="#exampleModal" onClick={e => handleSubmit(e)} data-bs-toggle="modal">
                                     Confirm Booking
-                                </button> : <Payu arenaId={bookingDetails?.arenaId} slotId={bookingDetails?.slotId} />}
+                                </button> : <Payu arenaId={arenaId} slotId={bookingDetails?.slotId} />}
                         </div>
                     </>
 

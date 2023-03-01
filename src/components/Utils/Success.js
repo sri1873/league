@@ -1,6 +1,10 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Success = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    console.log(searchParams.get("txnId"));
 
     return (<div style={{ display: "flex", padding: "2%", maxHeight: "90vh" }}>
         <div className="col-md-6">
