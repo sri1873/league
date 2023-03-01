@@ -1,3 +1,5 @@
+// TODO delete component and use the NavBar in the root component instead
+
 const TempNav = () => {
   return (
     <nav
