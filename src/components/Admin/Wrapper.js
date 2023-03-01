@@ -1,8 +1,6 @@
 import {
-  BarChart,
   Card,
   DateRangePicker,
-  DonutChart,
   Metric,
   Text,
   Title,
@@ -14,6 +12,8 @@ import {
 import "@tremor/react/dist/esm/tremor.css";
 import { useEffect, useState } from "react";
 import TempNav from "./TempNav";
+import TheBarChart from "./TheBarChat";
+import TheDonutChart from "./TheDonutChart";
 const AdminWrapper = () => {
   // replace arena with arena id?
   const sampleData = [
@@ -114,54 +114,13 @@ const AdminWrapper = () => {
   }
 
   //To show revenue on screen
-  function amountSum(fromDate, toDate) {
+  function amountSum() {
     var data = activeData;
     var amount = 0;
     data.forEach((entry) => {
       amount += entry.amount;
     });
     return amount;
-  }
-
-  function getRevenuePerGround(fromDate, toDate) {
-    const bookings = activeData;
-    const arenaTotals = {};
-
-    bookings.forEach((booking) => {
-      const arena = booking.arena;
-      const amount = booking.amount;
-
-      if (!arenaTotals[arena]) {
-        arenaTotals[arena] = 0;
-      }
-
-      arenaTotals[arena] += amount;
-    });
-
-    const result = Object.keys(arenaTotals).map((arena) => {
-      return { arena: arena, "Amount Generated": arenaTotals[arena] };
-    });
-
-    return result;
-  }
-
-  function countBookingsByArena() {
-    const bookings = activeData;
-    const arenaCounts = {};
-
-    bookings.forEach((booking) => {
-      const arena = booking.arena;
-
-      if (!arenaCounts[arena]) {
-        arenaCounts[arena] = 0;
-      }
-      arenaCounts[arena]++;
-    });
-
-    const result = Object.keys(arenaCounts).map((arena) => {
-      return { arena: arena, timesBooked: arenaCounts[arena] };
-    });
-    return result;
   }
 
   return (
@@ -191,7 +150,7 @@ const AdminWrapper = () => {
         </Card>
         <Card maxWidth="max-w-sm" decoration="top" marginTop="mt-4">
           <Text>Revenue</Text>
-          <Metric>INR {amountSum(dateValue[0], dateValue[1])}</Metric>
+          <Metric>INR {amountSum()}</Metric>
         </Card>
         <ColGrid numColsMd={2}>
           <Col>
@@ -202,13 +161,7 @@ const AdminWrapper = () => {
                 decoration="top"
                 decorationColor="purple"
               >
-                <BarChart
-                  data={getRevenuePerGround(dateValue[0], dateValue[1])}
-                  dataKey="arena"
-                  categories={["Amount Generated"]}
-                  marginTop="mt-6"
-                  yAxisWidth="w-12"
-                ></BarChart>
+                <TheBarChart data={activeData}></TheBarChart>
               </Card>
             )}
           </Col>
@@ -220,11 +173,7 @@ const AdminWrapper = () => {
               decorationColor="purple"
             >
               <Title>Number of Times the Facility was Booked</Title>
-              <DonutChart
-                data={countBookingsByArena()}
-                category="timesBooked"
-                dataKey="arena"
-              ></DonutChart>
+              <TheDonutChart data={activeData}></TheDonutChart>
             </Card>
           </Col>
         </ColGrid>
