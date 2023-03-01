@@ -1,103 +1,111 @@
-p {
-  margin: 0 !important;
-}
 .registration {
-  display: flex;
-  padding: 2%;
   max-height: 90vh;
-
-  /* background-image: url('https://woxsen.edu.in/uploads/A20230128011131.png'); */
-  /* background-image: url('https://woxsen.edu.in/uploads/A20230125013443.png'); */
-  /* background-image: url('https://woxsen.edu.in/uploads/A20221015102934.jpg'); */
-  /* background-position: left;
-  background-size: cover; */
+  color: #422c22;
+  background-color: #f9f5f3;
+  display: flex;
 }
-.arenas {
+
+.arena-name {
+  height: 100%;
+  padding: 2%;
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+  writing-mode: vertical-lr;
+  rotate: 180deg;
+  letter-spacing: 10px;
+}
+.arena-details {
+  border: 2px solid #422c22;
+  border-radius: 30px 0 0 30px;
+  padding: 5%;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: 15% 15% 15% 15% 15%;
+  row-gap: 10%;
+  column-gap: 10%;
+  overflow-y: scroll;
+}
+
+.arena {
+  border: 1px solid #422c22;
+  box-shadow: 5px 5px 2px #495057;
+  display: flex;
+  background-color: #e6d5ce;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+.arena:hover {
+  background-color: #d3b6ab;
+  box-shadow: 5px 5px 2px #212529;
+  color: #f8f9fa;
+  cursor: pointer;
+}
+
+/* SLOTS--------------------------- */
+
+.arena-slots {
+  border: 2px solid #422c22;
+  border-radius: 30px 0 0 30px;
+  padding: 2% 5%;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  row-gap: 15%;
+  width: 100%;
+}
+
+.time-slots {
+  display: flex;
+  justify-content: space-between;
+}
+.time {
+  border: 2px solid #422c22;
+  border-radius: 0%;
+}
+.time.selected,
+.booking-btn,.selected-btn{
+  background-color: #422c22;
+  color: #f9f5f3;
+}
+.time:hover,
+.booking-btn:hover,
+.slot:hover {
+  background-color: #644234;
+  color: #f9f5f3;
+}
+
+.slots {
+  grid-row: span 4;
+  /* border: 2px solid red; */
+  display: grid;
+  /* height: 50vh; */
+  grid-template-columns: auto auto auto auto auto;
+  column-gap: 10%;
+  row-gap: 10%;
   overflow-y: scroll;
   padding: 2%;
 }
 
-.date {
-  display: block;
-  width: 100%;
-  padding: 2%;
-  margin-bottom: 5%;
-  font-size: large;
-  background-color: var(--light);
-  color: var(--primary);
-  border: none;
-  outline: none;
-  border-bottom: 1px solid black;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+.slot {
+  width: 10;
+  border: 1px solid #422c22;
 }
-.date.selected {
-  background-color: var(--primary);
-  color: var(--light);
+
+.women {
+  border: 2px solid #fb747d;
+  color: #9f040e;
 }
-.date:hover {
-  background-color: var(--secondary);
-  color: var(--primary);
+.women.selected-btn,
+.women:hover {
+  background-color: #fb747d;
 }
-.arena {
-  color: white;
-  border-bottom: 10px solid white;
-  background: rgb(45, 106, 79);
-  background: linear-gradient(
-    126deg,
-    var(--primary) 0%,
-    var(--secondary) 55%,
-    var(--light) 100%
-  );
-  display: flex;
-  justify-content: space-between;
-  z-index: 4;
-  max-height: 20%;
-  border-radius: 10px;
-}
-.arena .info {
-  padding: 2%;
-  /* border: 2px solid blue; */
-  font-size: larger;
-  font-weight: bold;
-  justify-content: space-between;
-}
-.arena .details {
-  color: var(--primary);
-  font-weight: bold;
-  display: flex;
+
+
+.booking-btn {
   padding: 1%;
-  font-size: smaller;
-  justify-content: space-between;
-  align-items: center;
-}
-.dropdown-arena {
-  padding: 2%;
-  max-height: 60vh;
-  display: none;
-  text-align: center;
-}
-.dropdown-arena.selected {
-  display: block;
-}
-.bookmark {
-  /* background-image: url("https://i.pinimg.com/736x/d1/02/9a/d1029a26fa5ec24b41f04280f75378ac.jpg");
-    background-size: cover; */
-  /* background-image: url("https://i.pinimg.com/564x/98/3e/d4/983ed43db74d962e9df6da96e8787b48.jpg");
-    background-size: contain; */
-  z-index: -1;
-}
-
-.btn.submit {
-  background-color: var(--primary);
-  color: var(--light);
-  border-radius: 5px;
-}
-.btn.submit:hover {
-  background-color: var(--secondary);
-  color: var(--primary);
-}
-
-.btn.pink{
-    background-color: pink;
+  border: none;
 }
