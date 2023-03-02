@@ -22,25 +22,23 @@ const AdminWrapper = () => {
 
   return (
     <main className="admin-wrapper">
-      <TempNav></TempNav>
-      <div>
-        <Card maxWidth="max-w-7xl" marginTop="mt-8">
-          <TabList
-            defaultValue={"dashboard"}
-            marginTop="mt-3"
-            onValueChange={setShowCard}
-            value={showCard}
-            color="blue"
-          >
-            <Tab value={"dashboard"} text="Dashboard" />
-            <Tab value={"manage booking"} text="Manage Bookings" />
-          </TabList>
-        </Card>
-        <Card maxWidth="max-w-7xl" marginTop="mt-3">
-          {showCard === "dashboard" && <Dashboard></Dashboard>}
-          {showCard === "manage booking" && <AdminControls></AdminControls>}
-        </Card>
-      </div>
+      <Card maxWidth="max-w-7xl" marginTop="mt-8">
+        <TabList
+          defaultValue={"dashboard"}
+          marginTop="mt-3"
+          onValueChange={setShowCard}
+          value={showCard}
+          color="blue"
+        >
+          <Tab value={"dashboard"} text="Dashboard" />
+          <Tab value={"manage booking"} text="Manage Bookings" />
+        </TabList>
+      </Card>
+      <Card maxWidth="max-w-7xl" marginTop="mt-3">
+        {showCard === "dashboard" && <Dashboard></Dashboard>}
+        {showCard === "manage booking" && <AdminControls></AdminControls>}
+      </Card>
+
     </main>
   );
 };

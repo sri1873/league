@@ -3,10 +3,16 @@ import { useSelector } from 'react-redux';
 import base from '../../apis/base';
 import Payu from './Payu';
 
-const Slot = ({ slots, arenaId,setDate,date }) => {
+const Slot = ({ slots, arenaId, setDate, date }) => {
     const [slotId, setSlotId] = useState("")
     const [pay, setPay] = useState(false)
     const userId = useSelector(state => state.user.userId);
+
+    var today = new Date();
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var dayAfter = new Date();
+    dayAfter.setDate(dayAfter.getDate() + 2);
 
     const handleSubmit = (e) => {
         base({
@@ -26,9 +32,9 @@ const Slot = ({ slots, arenaId,setDate,date }) => {
     return (<div className='arena-slots'>
         <div>
             <div className='time-slots'>
-                <button onClick={e => handleDate(e)} value="today" className={`btn col-md-3 time ${date === "today" ? "selected" : ""}`}>Today</button>
-                <button onClick={e => handleDate(e)} value="tomorrow" className={`btn col-md-3 time ${date === "tomorrow" ? "selected" : ""}`}>Tomorrow</button>
-                <button onClick={e => handleDate(e)} value="day-after" className={`btn col-md-3 time ${date === "day-after" ? "selected" : ""}`}>Day After</button>
+                <button onClick={e => handleDate(e)} value="today" className={`btn col-md-3 time ${date === "today" ? "selected" : ""}`}>Today {today.toLocaleDateString('en-GB')} </button>
+                <button onClick={e => handleDate(e)} value="tomorrow" className={`btn col-md-3 time ${date === "tomorrow" ? "selected" : ""}`}>Tomorrow {tomorrow.toLocaleDateString('en-GB')}</button>
+                <button onClick={e => handleDate(e)} value="day-after" className={`btn col-md-3 time ${date === "day-after" ? "selected" : ""}`}>{dayAfter.toLocaleDateString('en-GB')}</button>
             </div>
         </div>
         <div>
