@@ -17,6 +17,7 @@ const SignUp = () => {
   const [branches, setBranches] = useState([]);
   const [courses, setCourses] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
+  const [gender, setGender] = useState("")
 
   const from = location.state?.from?.pathname || "/";
 
@@ -42,7 +43,7 @@ const SignUp = () => {
         phone: "",
         password: "",
         confirmPassword: "",
-        courseId: "",
+        courseId: ""
       }}
       validate={(values, props) => {
         const errors = {};
@@ -86,35 +87,37 @@ const SignUp = () => {
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         sessionStorage.clear();
+        console.log(gender)
         base
           .get(`/api/v1/util/availability/username?userName=${values.userName}`)
           .then((res) => {
             !res.data
               ? setErrorMsg("Username not available")
               : base({
-                  method: "POST",
-                  url: `api/v1/auth/signup`,
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Credentials": true,
-                  },
-                  data: {
-                    firstName: values.firstName,
-                    lastName: values.lastName,
-                    userName: values.userName,
-                    email: values.email,
-                    phone: values.phone,
-                    password: values.password,
-                    courseId: values.courseId,
-                    graduationYear: "2024",
-                  },
-                }).then((res) => {
-                  const user = Decrypt(res.data.data.token);
-                  dispatch(toggleActive());
-                  dispatch(addUser(user));
-                  navigate(from, { replace: true });
-                });
+                method: "POST",
+                url: `api/v1/auth/signup`,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": true,
+                },
+                data: {
+                  firstName: values.firstName,
+                  lastName: values.lastName,
+                  userName: values.userName,
+                  email: values.email,
+                  phone: values.phone,
+                  password: values.password,
+                  courseId: values.courseId,
+                  gender: gender,
+                  graduationYear: "2024",
+                },
+              }).then((res) => {
+                const user = Decrypt(res.data.data.token);
+                dispatch(toggleActive());
+                dispatch(addUser(user));
+                navigate(from, { replace: true });
+              });
           });
       }}
     >
@@ -177,7 +180,7 @@ const SignUp = () => {
               placeholder="Should be same as password"
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <label className="form-label">Branch</label>
             <select
               name="branchId"
@@ -193,7 +196,7 @@ const SignUp = () => {
               })}
             </select>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <label className="form-label">Course</label>
             <Field as="select" name="courseId" className="form-select">
               <option style={{ display: "none" }} value={null}>
@@ -203,6 +206,21 @@ const SignUp = () => {
                 return <option value={course.id}>{course.name}</option>;
               })}
             </Field>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Gender</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" onClick={e => setGender("MALE")} value={"MALE"} checked={gender === "MALE"} />
+              <label class="form-check-label">
+                Male
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" onClick={e => setGender("FEMALE")} value={"FEMALE"} checked={gender === "FEMALE"} />
+              <label class="form-check-label">
+                Female
+              </label>
+            </div>
           </div>
           <div className="col-md-6">
             <button className="col-12 btn btn-outline-success" type="submit">
