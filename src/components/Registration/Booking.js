@@ -14,18 +14,7 @@ const Booking = () => {
 
     useEffect(() => {
         base.get(`api/v1/users/${userId}/bookings`).then(res => {
-            const tempData = []
-            res.data.data.map((booking) => {
-                
-                tempData.push({
-                    "id": booking.id,
-                    "bookingStatus": booking.bookingStatus,
-                    "date": booking.date,
-                    "arena": booking.arena?.name,
-                    "slot":booking.slot?.slot
-                })
-            })
-            setData(tempData)
+            setData(res.data?.data)
         })
     }, [])
 
@@ -96,8 +85,8 @@ const Booking = () => {
     const columns = [
         {
             title: 'Booking Id',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'bookingId',
+            key: 'bookingId',
             width: '30%',
             ...getColumnSearchProps('id'),
         },
@@ -114,9 +103,9 @@ const Booking = () => {
         },
         {
             title: 'Status',
-            dataIndex: 'bookingStatus',
-            key: 'bookingStatus',
-            ...getColumnSearchProps('bookingStatus'),
+            dataIndex: 'status',
+            key: 'status',
+            ...getColumnSearchProps('status'),
         },
         {
             title: 'Arena',
