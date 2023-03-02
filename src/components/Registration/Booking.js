@@ -25,7 +25,6 @@ const Booking = () => {
                     "slot":booking.slot?.slot
                 })
             })
-            console.log(tempData)
             setData(tempData)
         })
     }, [])
