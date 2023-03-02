@@ -1,67 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { Input, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import base from '../../apis/base'
-// const data = [
-//     {
-//         key: '1',
-//         name: 'John Brown',
-//         age: 32,
-//         address: 'New York No. 1 Lake Park',
-//     },
-//     {
-//         key: '2',
-//         name: 'Joe Black',
-//         age: 42,
-//         address: 'London No. 1 Lake Park',
-//     },
-//     {
-//         key: '3',
-//         name: 'Jim Green',
-//         age: 32,
-//         address: 'Sydney No. 1 Lake Park',
-//     },
-//     {
-//         key: '4',
-//         name: 'Jim Red',
-//         age: 32,
-//         address: 'London No. 2 Lake Park',
-//     },
-// ];
+import { useSelector } from "react-redux";
 
 const Booking = () => {
     const [searchText, setSearchText] = useState('');
     const [data, setData] = useState([]);
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const userId = useSelector(state => state.user.userId);
 
     useEffect(() => {
-        const userId = sessionStorage.getItem("userId")
-        base.get(`api/v1/users/${userId}/bookings`).then(res =>{
-            const tempData=[]
-            res.data.data.map(booking=>{
+        base.get(`api/v1/users/${userId}/bookings`).then(res => {
+            const tempData = []
+            res.data.data.map(booking => {
                 tempData.push({
-                    "id":booking.id,
-                    "bookingStatus":booking.bookingStatus,
-                    "date":booking.date,
-                    "arena":booking.arena.name,
-                    "slot":booking.slot.slot
+                    "id": booking.id,
+                    "bookingStatus": booking.bookingStatus,
+                    "date": booking.date,
+                    "arena": booking.arena.name,
+                    "slot": booking.slot.slot
                 })
+                return null;
             })
             setData(tempData)
         })
-    }, [])
+    }, [userId])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
     };
-    const handleReset = (clearFilters) => {
-        clearFilters();
-        setSearchText('');
-    };
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({
             setSelectedKeys,

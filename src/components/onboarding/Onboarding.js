@@ -7,11 +7,11 @@ import './onboarding.css'
 const Onboarding = ({ children }) => {
     const location=useLocation();
     const user = useSelector ((state) => {
-        return state.auth
+        return state.isValid
     })
     return (
         <>
-        {!user.isValid?
+        {!user?
         <div className='onboarding'>
             <div className='container'>
                 <div className='welcome-img'>

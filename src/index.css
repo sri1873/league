@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg);
+    /* background: url("https://i.pinimg.com/564x/98/3e/d4/983ed43db74d962e9df6da96e8787b48.jpg") repeat var(--bg); */
+    /* background-size: contain; */
 }
 
 code {
@@ -12,6 +15,18 @@ code {
     monospace;
 }
 
+:root{
+  --primary:#161A1D;
+  --secondary:#B1A7A6;
+  --light:#D3D3D3;
+  --bg:#F5F3F4;
+
+  /* --primary:#413768;
+  --secondary:#7f6da7;
+  --light:#9f86c0;
+  --bg:#f4e7fa; */
+}
 
 .navbar{
+  background-color: var(--primary)!important;
 }

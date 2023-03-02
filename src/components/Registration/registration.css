@@ -1,0 +1,112 @@
+.registration {
+  max-height: 90vh;
+  color: #422c22;
+  background-color: #f9f5f3;
+  display: flex;
+}
+
+.arena-name {
+  height: 100%;
+  padding: 2%;
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+  writing-mode: vertical-lr;
+  rotate: 180deg;
+  letter-spacing: 10px;
+}
+.arena-details {
+  border: 2px solid #422c22;
+  border-bottom: none ;
+  border-radius: 30px 0 0 0px;
+  padding: 5%;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: 15% 15% 15% 15% 15%;
+  row-gap: 10%;
+  column-gap: 10%;
+  overflow-y: scroll;
+}
+
+.arena {
+  border: 1px solid #422c22;
+  box-shadow: 5px 5px 2px #495057;
+  display: flex;
+  background-color: #e6d5ce;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+.arena:hover {
+  background-color: #d3b6ab;
+  box-shadow: 5px 5px 2px #212529;
+  color: #f8f9fa;
+  cursor: pointer;
+}
+
+/* SLOTS--------------------------- */
+
+.arena-slots {
+  border: 2px solid #422c22;
+  border-radius: 30px 0 0 30px;
+  padding: 2% 5%;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  row-gap: 15%;
+  width: 100%;
+}
+
+.time-slots {
+  display: flex;
+  justify-content: space-between;
+}
+.time {
+  border: 2px solid #422c22;
+  border-radius: 0%;
+}
+.time.selected,
+.booking-btn,.selected-btn{
+  background-color: #422c22;
+  color: #f9f5f3;
+}
+.time:hover,
+.booking-btn:hover,
+.slot:hover {
+  background-color: #644234;
+  color: #f9f5f3;
+}
+
+.slots {
+  grid-row: span 4;
+  /* border: 2px solid red; */
+  display: grid;
+  /* height: 50vh; */
+  grid-template-columns: auto auto auto auto auto;
+  column-gap: 10%;
+  row-gap: 10%;
+  overflow-y: scroll;
+  padding: 2%;
+}
+
+.slot {
+  width: 10;
+  border: 1px solid #422c22;
+}
+
+.women {
+  border: 2px solid #fb747d;
+  color: #9f040e;
+}
+.women.selected-btn,
+.women:hover {
+  background-color: #fb747d;
+}
+
+
+.booking-btn {
+  padding: 1%;
+  border: none;
+}

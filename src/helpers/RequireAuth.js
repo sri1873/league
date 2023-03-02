@@ -4,13 +4,10 @@ import { useSelector } from "react-redux";
 
 
 const RequireAuth = () => {
-    // const user = sessionStorage.getItem('user');
-    const user = useSelector((state) => {
-        return state.auth
-    })
+    const user = useSelector((state) => state.isValid)
     const location = useLocation();
     return (
-        (user.isValid) ? <Outlet /> : <Navigate to={'/login'} state={{ from: location }} replace />
+        (user) ? <Outlet /> : <Navigate to={'/login'} state={{ from: location }} replace />
     )
 }
 
