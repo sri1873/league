@@ -15,19 +15,20 @@ const Booking = () => {
     useEffect(() => {
         base.get(`api/v1/users/${userId}/bookings`).then(res => {
             const tempData = []
-            res.data.data.map(booking => {
+            res.data.data.map((booking) => {
+                
                 tempData.push({
                     "id": booking.id,
                     "bookingStatus": booking.bookingStatus,
                     "date": booking.date,
-                    "arena": booking.arena.name,
-                    "slot": booking.slot.slot
+                    "arena": booking.arena?.name,
+                    "slot":booking.slot?.slot
                 })
-                return null;
             })
+            console.log(tempData)
             setData(tempData)
         })
-    }, [userId])
+    }, [])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();

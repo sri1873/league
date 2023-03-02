@@ -6,7 +6,7 @@ import base from "../../apis/base";
 import "./onboarding.css";
 import Decrypt from "../../helpers/decrypt";
 import Error from "../../helpers/Error";
-import { toggleActive } from "../../store";
+import { addUser, toggleActive } from "../../store";
 import { useDispatch } from "react-redux";
 
 const SignUp = () => {
@@ -110,8 +110,9 @@ const SignUp = () => {
                     graduationYear: "2024",
                   },
                 }).then((res) => {
-                  Decrypt(res.data.data.token);
+                  const user = Decrypt(res.data.data.token);
                   dispatch(toggleActive());
+                  dispatch(addUser(user));
                   navigate(from, { replace: true });
                 });
           });
