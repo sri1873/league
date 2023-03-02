@@ -20,6 +20,7 @@ import {
   SelectBoxItem,
   Col,
   ColGrid,
+  Divider,
 } from "@tremor/react";
 import "@tremor/react/dist/esm/tremor.css";
 import TheBarChart from "./TheBarChart";
@@ -29,7 +30,7 @@ import TheLineChart from "./TheLineChart";
 import { useEffect, useState } from "react";
 import "../adminPage.css";
 
-const revenueDecorationColor = "blue";
+const revenueAndDonutChartDecorationColor = "zinc";
 const chartsDecorationColor = "purple";
 
 const Dashboard = () => {
@@ -117,7 +118,9 @@ const Dashboard = () => {
     } else {
       data.forEach((entry) => {
         if (
-          entry.bookingDate === fromDate &&
+          entry.bookingDate.getDate() === fromDate.getDate() &&
+          entry.bookingDate.getMonth() === fromDate.getMonth() &&
+          entry.bookingDate.getFullYear() === fromDate.getFullYear() &&
           (entry.arena === arena || !arena)
         ) {
           entries.push(entry);
@@ -152,37 +155,63 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Card maxWidth="max-w-sm" min marginTop="mt-7">
-        <DateRangePicker
-          value={dateValue}
-          onValueChange={dateUpdate}
-        ></DateRangePicker>
-        <SelectBox
-          value={activeArena}
-          placeholder="Select Arena"
-          onValueChange={arenaUpdate}
-          marginTop="mt-5"
-        >
-          <SelectBoxItem value={null} text={"All"}></SelectBoxItem>
-          {getUniqueArenas().map((arena) => (
-            <SelectBoxItem
-              key={arena}
-              value={arena}
-              text={arena}
-            ></SelectBoxItem>
-          ))}
-        </SelectBox>
-      </Card>
+      <ColGrid numColsMd={2}>
+        <Col>
+          <Card maxWidth="max-w-sm" min marginTop="mt-7">
+            <DateRangePicker
+              value={dateValue}
+              onValueChange={dateUpdate}
+            ></DateRangePicker>
+            <SelectBox
+              value={activeArena}
+              placeholder="Select Arena"
+              onValueChange={arenaUpdate}
+              marginTop="mt-5"
+            >
+              <SelectBoxItem value={null} text={"All"}></SelectBoxItem>
+              {getUniqueArenas().map((arena) => (
+                <SelectBoxItem
+                  key={arena}
+                  value={arena}
+                  text={arena}
+                ></SelectBoxItem>
+              ))}
+            </SelectBox>
+          </Card>
+        </Col>
+        <Col>
+          <Card
+            maxWidth="max-w-lg"
+            marginTop="mt-4"
+            shadow={true}
+            decoration={"top"}
+            decorationColor={chartsDecorationColor}
+          >
+            <div className="revenue-and-donut-chart-card-container">
+              <Card
+                shadow={true}
+                decoration="bottom"
+                decorationColor={revenueAndDonutChartDecorationColor}
+                hFull={true}
+              >
+                <Title>Revenue</Title>
+                <Divider />
+                <Metric>INR {amountSum()}</Metric>
+              </Card>
+              <Card
+                shadow={true}
+                decoration="bottom"
+                decorationColor={revenueAndDonutChartDecorationColor}
+              >
+                <Title>Number of Times the Facility was Booked</Title>
+                <Divider />
+                <TheDonutChart data={activeData}></TheDonutChart>
+              </Card>
+            </div>
+          </Card>
+        </Col>
+      </ColGrid>
 
-      <Card
-        maxWidth="max-w-sm"
-        decoration="top"
-        marginTop="mt-4"
-        decorationColor={revenueDecorationColor}
-      >
-        <Text>Revenue</Text>
-        <Metric>INR {amountSum()}</Metric>
-      </Card>
       <ColGrid numColsMd={2}>
         <Col>
           <Card
@@ -192,6 +221,7 @@ const Dashboard = () => {
             decorationColor={chartsDecorationColor}
           >
             <Title>Revenue Generated per Facility</Title>
+            <Divider />
             <TheBarChart data={activeData}></TheBarChart>
           </Card>
         </Col>
@@ -203,24 +233,13 @@ const Dashboard = () => {
             decorationColor={chartsDecorationColor}
           >
             <Title>Frequency of Timeslot getting Booked</Title>
+            <Divider />
             <TheLineChart data={activeData}></TheLineChart>
-          </Card>
-        </Col>
-      </ColGrid>
-      <ColGrid numColsLg={1}>
-        <Col>
-          <Card
-            maxWidth="max-w-lg"
-            marginTop="mt-16"
-            decoration="top"
-            decorationColor={chartsDecorationColor}
-          >
-            <Title>Number of Times the Facility was Booked</Title>
-            <TheDonutChart data={activeData}></TheDonutChart>
           </Card>
         </Col>
       </ColGrid>
     </div>
   );
 };
+
 export default Dashboard;
