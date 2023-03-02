@@ -5,7 +5,7 @@ import Payu from './Payu';
 
 const Slot = ({ slots, arenaId,setDate,date }) => {
     const [slotId, setSlotId] = useState("")
-    const [pay, setPay] = useState(true)
+    const [pay, setPay] = useState(false)
     const userId = useSelector(state => state.user.userId);
 
     const handleSubmit = (e) => {
