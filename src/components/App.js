@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from './onboarding/Login';
 import SignUp from './onboarding/SignUp';
@@ -11,6 +11,7 @@ import Failure from './Utils/Failure';
 import PageNotFound from './Utils/PageNotFound';
 import InternalServerError from './Utils/InternalServerError';
 import Registration from './Registration/registration';
+import AdminWrapper from "./Admin/Wrapper";
 
 
 const App = () => {
@@ -27,13 +28,14 @@ const App = () => {
                     <Route path="/bookings" element={<Booking />} />
                     <Route path="/success" element={<Success />} />
                     <Route path="/failure" element={<Failure />} />
+                    <Route path="/adminPage" element={<AdminWrapper />} />
                 </Route>
                 <Route path="*" element={<PageNotFound />} />
                 <Route path="/server-error" element={<InternalServerError />} />
             </Routes>
         </BrowserRouter>
     </>
-    );
-}
+  );
+};
 
-export default App
+export default App;

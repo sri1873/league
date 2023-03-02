@@ -1,0 +1,16 @@
+.admin-wrapper{
+
+    background-image: url('https://woxsen.edu.in/uploads/A20230125013443.png');
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    background-attachment: fixed;
+}
+main {
+        overflow: hidden;
+        min-height: 100vh;
+}
+
+:root {
+    --primary-bg: rgb(248, 250, 252)
+}
