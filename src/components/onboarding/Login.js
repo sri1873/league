@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom/dist";
 import base from "../../apis/base";
 import Decrypt from "../../helpers/decrypt";
 import Error from "../../helpers/Error";
-import { toggleActive } from "../../store";
+import { addUser, toggleActive } from "../../store";
 import "./onboarding.css";
 
 const Login = () => {
@@ -34,8 +34,9 @@ const Login = () => {
       },
     })
       .then((res) => {
-        Decrypt(res.data.data.token);
+        const user = Decrypt(res.data.data.token);
         dispatch(toggleActive());
+        dispatch(addUser(user));
         navigate(from, { replace: true });
       })
       .catch((err) => {

@@ -9,21 +9,24 @@ const Registration = () => {
     const [arenaName, setArenaName] = useState("SELECT ARENA");
     const [arenas, setArenas] = useState([]);
     const [slots, setSlots] = useState([]);
+    const [date, setDate] = useState("today")
     useEffect(() => {
         base.get("api/v1/arenas").then(res => setArenas(res.data.data))
     }, [])
+    useEffect(() => {
+        if (arenaId) base.get(`api/v1/arenas/${arenaId}/slots?day=${date}`).then(res => setSlots(res.data.data));
+    }, [date, arenaId])
 
     const handleClick = (id, name) => {
         setArenaId(id)
         setArenaName(name)
-        base.get(`api/v1/arenas/${id}/slots`).then(res => setSlots(res.data.data))
     }
 
     return (<div className="registration">
         {/* <div className="main"> */}
         <div className="arena-name col-md-1">
             {arenaName}
-            {arenaId?<i onClick={e=>{setArenaId("");setArenaName(("SELECT ARENA"))}} className="fa-solid fa-arrow-right-long"></i>:<></>}
+            {arenaId ? <i onClick={e => { setArenaId(""); setArenaName(("SELECT ARENA")) }} className="fa-solid fa-arrow-right-long"></i> : <></>}
         </div>
         {!arenaId ?
             <div className="arena-details col-md-11">
@@ -35,7 +38,7 @@ const Registration = () => {
                     );
                 })}
             </div>
-            :<Slot arenaId={arenaId} slots={slots}/>}
+            : <Slot setDate={setDate} handleClick={handleClick} date={date} arenaId={arenaId} slots={slots} />}
         {/* </div> */}
     </div>);
 }

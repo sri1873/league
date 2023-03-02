@@ -3,16 +3,15 @@ import { useSelector } from 'react-redux';
 import base from '../../apis/base';
 import Payu from './Payu';
 
-const Slot = ({ slots, arenaId }) => {
+const Slot = ({ slots, arenaId,setDate,date }) => {
     const [slotId, setSlotId] = useState("")
-    const [date, setDate] = useState("Today")
-    const [pay, setPay] = useState(false)
+    const [pay, setPay] = useState(true)
     const userId = useSelector(state => state.user.userId);
 
     const handleSubmit = (e) => {
         base({
             method: 'POST',
-            url: `api/v1/users/${userId}/bookings`,
+            url: `api/v1/users/${userId}/bookings?day=${date}`,
             data: { "arenaId": arenaId, "slotId": slotId }
         }).then(res => console.log(res))
     }
@@ -27,16 +26,16 @@ const Slot = ({ slots, arenaId }) => {
     return (<div className='arena-slots'>
         <div>
             <div className='time-slots'>
-                <button onClick={e => handleDate(e)} value="Today" className={`btn col-md-3 time ${date === "Today" ? "selected" : ""}`}>Today</button>
-                <button onClick={e => handleDate(e)} value="Tomorrow" className={`btn col-md-3 time ${date === "Tomorrow" ? "selected" : ""}`}>Tomorrow</button>
-                <button onClick={e => handleDate(e)} value="DayAfter" className={`btn col-md-3 time ${date === "DayAfter" ? "selected" : ""}`}>Day After</button>
+                <button onClick={e => handleDate(e)} value="today" className={`btn col-md-3 time ${date === "today" ? "selected" : ""}`}>Today</button>
+                <button onClick={e => handleDate(e)} value="tomorrow" className={`btn col-md-3 time ${date === "tomorrow" ? "selected" : ""}`}>Tomorrow</button>
+                <button onClick={e => handleDate(e)} value="day-after" className={`btn col-md-3 time ${date === "day-after" ? "selected" : ""}`}>Day After</button>
             </div>
         </div>
         <div>
             <div className='slots'>
                 {slots.map((slot) => {
                     var unavailable = (slot.available) ? '' : 'btn-outline-secondary disabled';
-                    var women = (true) ? "women" : ""
+                    var women = (slot.forWomen) ? "women" : ""
                     return (
                         <button key={slot.id}
                             onClick={e => handleClick(slot)}
@@ -46,7 +45,7 @@ const Slot = ({ slots, arenaId }) => {
                 })}
             </div>
         </div>
-        {pay ? <Payu arenaId={arenaId} slotId={slotId} /> :
+        {pay ? <Payu date={date} arenaId={arenaId} slotId={slotId} /> :
             <button className='booking-btn col-md-12' onClick={e => handleSubmit(e)}>Confirm Booking</button>}
     </div>);
 
