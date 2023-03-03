@@ -13,7 +13,7 @@ const PageNotFound = () => {
                 <p>You are looking the wrong way! </p>
                 <a href="/">Go Home</a>
             </div>
-            <div className="col-12" >
+            <div className="atag col-12" >
                 <a style={{ fontSize: "x-small" }}  href="https://www.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_13315300.htm#query=failed&position=32&from_view=search&track=sph">Image by storyset on Freepik</a>
             </div>
         </div>
