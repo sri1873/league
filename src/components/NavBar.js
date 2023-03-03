@@ -9,6 +9,7 @@ const NavBar = () => {
         window.location.reload();
     }
     const userName = useSelector(state => state.user.userName)
+    const roles = useSelector(state => state.user.roles)
     return (<>{userName
         ?
         <nav className="navbar sticky-top navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
@@ -22,9 +23,11 @@ const NavBar = () => {
                         <li className="nav-item">
                             <a className="nav-link" aria-current="page" href="/">Home</a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" aria-current="page" href="/bookings">Bookings</a>
-                        </li>
+                        {roles?.includes('ADMIN') ? "" :
+                            <li className="nav-item">
+                                <a className="nav-link" aria-current="page" href="/bookings">Bookings</a>
+                            </li>
+                        }
                     </ul>
                     <div className="dropdown" data-bs-toggle="dropdown">
                         <button
