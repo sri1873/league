@@ -92,10 +92,10 @@ const Booking = () => {
         },
         {
             title: 'Date',
-            dataIndex: 'date',
-            key: 'date',
+            dataIndex: 'bookingDate',
+            key: 'bookingDate',
             width: '20%',
-            ...getColumnSearchProps('date'),
+            ...getColumnSearchProps('bookingDate'),
             sorter: {
                 compare: (a, b) => a.age - b.age,
                 multiple: 1,
@@ -103,9 +103,9 @@ const Booking = () => {
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            ...getColumnSearchProps('status'),
+            dataIndex: 'paymentStatus',
+            key: 'paymentStatus',
+            ...getColumnSearchProps('paymentStatus'),
         },
         {
             title: 'Arena',
