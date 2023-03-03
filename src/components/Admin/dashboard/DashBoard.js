@@ -14,7 +14,6 @@ import {
   Card,
   DateRangePicker,
   Metric,
-  Text,
   Title,
   SelectBox,
   SelectBoxItem,

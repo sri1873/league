@@ -1,5 +1,8 @@
-import { Button, Form, Input, Card, Select } from "antd";
+import { Button, Form, Input, Card, Select, DatePicker } from "antd";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import base from "../../../apis/base";
 
 /* TODO
 Bind input values to Variables
@@ -21,12 +24,53 @@ const { Option } = Select;
 const AddBooking = () => {
   const formRef = React.useRef(null);
 
-  const onFinish = (values) => {
+  const onSubmit = (values) => {
     console.log(values);
   };
   const onReset = () => {
     formRef.current?.resetFields();
   };
+
+  const [theDate, setTheDate] = useState("second");
+
+  const [arenas, setArenas] = useState([{ id: 1, name: "hi" }]);
+
+  function getDayFromRelativeString(relativeString) {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    const now = new Date();
+    let dayOffset;
+
+    if (relativeString === "today") {
+      dayOffset = 0;
+    } else if (relativeString === "tomorrow") {
+      dayOffset = 1;
+    } else if (relativeString === "dayAfterTomorrow") {
+      dayOffset = 2;
+    } else {
+      throw new Error("Invalid relative string parameter");
+    }
+
+    const targetDate = new Date(now);
+    targetDate.setDate(now.getDate() + dayOffset);
+
+    return daysOfWeek[targetDate.getDay()];
+  }
+
+  useEffect(() => {
+    base.get("api/v1/arenas").then((res) => {
+      setArenas(res.data?.data);
+      console.log(res.data?.data);
+    });
+  }, []);
 
   return (
     <Card
@@ -39,7 +83,7 @@ const AddBooking = () => {
         {...layout}
         ref={formRef}
         name="control-ref"
-        onFinish={onFinish}
+        onFinish={onSubmit}
         style={{
           maxWidth: 600,
         }}
@@ -56,7 +100,7 @@ const AddBooking = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="facility"
+          name="arenaId"
           label="Facility"
           rules={[
             {
@@ -65,9 +109,22 @@ const AddBooking = () => {
           ]}
         >
           <Select placeholder="Select a facility" allowClear>
-            <Option value="cricket ground">Cricket Ground</Option>
-            <Option value="basketball court">Basketball Court</Option>
-            <Option value="tennis court">Tennis Court</Option>
+            {arenas.map((entry, index) => (
+              <Option value={entry.id}>{entry.name}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item name="day" label="Date" rules={[{ required: true }]}>
+          <Select placeholder="When?">
+            <Option value="today">
+              Today, {getDayFromRelativeString("today")}
+            </Option>
+            <Option value="tomorrow">
+              Tomorrow, {getDayFromRelativeString("tomorrow")}
+            </Option>
+            <Option value="dayAfterTomorrow">
+              Day after tomorrow, {getDayFromRelativeString("dayAfterTomorrow")}
+            </Option>
           </Select>
         </Form.Item>
         <Form.Item

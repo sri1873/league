@@ -1,0 +1,3 @@
+[submodule "league-api"]
+    path = league-api
+    url = https://github.com/arunchandra23/league-api
