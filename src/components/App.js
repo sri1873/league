@@ -42,6 +42,7 @@ const App = () => {
 
                 <Route element={<RequireAuth />}>
                     {roleAdmin()}
+                    <Route path="/" element={<Registration />} />
                     <Route path="/success" element={<Success />} />
                     <Route path="/failure" element={<Failure />} />
                 </Route>

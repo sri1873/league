@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar } from "@progress/kendo-react-layout";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const onLogoutClick = (e) => {
