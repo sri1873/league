@@ -14,10 +14,14 @@ const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [questions, setQuestions] = useState([]);
   const [branches, setBranches] = useState([]);
   const [courses, setCourses] = useState([]);
+
   const [errorMsg, setErrorMsg] = useState("");
-  const [gender, setGender] = useState("")
+  const [formDetails, setFormDetails] = useState({ "graduationYear": 2024 });
+
+  const [modal, setModal] = useState(false);
 
   const from = location.state?.from?.pathname || "/";
 
@@ -25,6 +29,7 @@ const SignUp = () => {
     base.get("api/v1/branches").then((res) => {
       setBranches(res.data.data);
     });
+    base.get("api/v1/security/questions").then(res => setQuestions(res.data.data))
   }, []);
   const getCourse = (e) => {
     e.preventDefault();
@@ -32,6 +37,25 @@ const SignUp = () => {
       setCourses(res.data.data);
     });
   };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    base({
+      method: "POST",
+      url: `api/v1/auth/signup`,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      data: formDetails,
+    }).then((res) => {
+      const user = Decrypt(res.data.data.token);
+      dispatch(toggleActive());
+      dispatch(addUser(user));
+      navigate(from, { replace: true });
+    });
+  }
 
   const signUpResource = (
     <Formik
@@ -87,37 +111,24 @@ const SignUp = () => {
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         sessionStorage.clear();
-        console.log(gender)
         base
           .get(`/api/v1/util/availability/username?userName=${values.userName}`)
           .then((res) => {
-            !res.data
-              ? setErrorMsg("Username not available")
-              : base({
-                method: "POST",
-                url: `api/v1/auth/signup`,
-                headers: {
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Origin": "*",
-                  "Access-Control-Allow-Credentials": true,
-                },
-                data: {
-                  firstName: values.firstName,
-                  lastName: values.lastName,
-                  userName: values.userName,
-                  email: values.email,
-                  phone: values.phone,
-                  password: values.password,
-                  courseId: values.courseId,
-                  gender: gender,
-                  graduationYear: "2024",
-                },
-              }).then((res) => {
-                const user = Decrypt(res.data.data.token);
-                dispatch(toggleActive());
-                dispatch(addUser(user));
-                navigate(from, { replace: true });
-              });
+            if (!res.data)
+              setErrorMsg("Username not available")
+            else {
+              setFormDetails(prevState => ({
+                ...prevState,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                userName: values.userName,
+                email: values.email,
+                phone: values.phone,
+                password: values.password,
+                courseId: values.courseId
+              }))
+              setModal(true);
+            }
           });
       }}
     >
@@ -210,13 +221,13 @@ const SignUp = () => {
           <div className="col-md-4">
             <label className="form-label">Gender</label>
             <div class="form-check">
-              <input class="form-check-input" type="radio" onClick={e => setGender("MALE")} value={"MALE"} checked={gender === "MALE"} />
+              <input class="form-check-input" type="radio" value={"MALE"} checked={formDetails?.gender === "MALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
               <label class="form-check-label">
                 Male
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" onClick={e => setGender("FEMALE")} value={"FEMALE"} checked={gender === "FEMALE"} />
+              <input class="form-check-input" type="radio" value={"FEMALE"} checked={formDetails?.gender === "FEMALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
               <label class="form-check-label">
                 Female
               </label>
@@ -224,7 +235,7 @@ const SignUp = () => {
           </div>
           <div className="col-md-6">
             <button className="col-12 btn btn-outline-success" type="submit">
-              SignUp
+              Proceed
             </button>
             <Error
               setErrorMsg={setErrorMsg}
@@ -274,6 +285,36 @@ const SignUp = () => {
     </Formik>
   );
 
+  const securityQuestionModal = (
+    <form onSubmit={e => onSubmit(e)} class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Security Question</h1>
+            <button type="button" class="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label className="form-label">Choose Question</label>
+            <select required className="form-select" onChange={e => { setFormDetails(prevState => ({ ...prevState, "securityQuestionId": e.target.value })) }}>
+              <option>--Select--</option>
+              {questions.map((question) => {
+                return <option value={question.id}>{question.question}</option>;
+              })}
+            </select>
+            <label className="form-label">Answer</label>
+            <input type={"text"} className="form-control" required onChange={e => { setFormDetails(prevState => ({ ...prevState, "securityAnswer": e.target.value })) }} />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
+            <button type="submit" class="btn btn-outline-success">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  )
+
+
+
   const loginResource = (
     <div>
       <h1>SignUp</h1>
@@ -285,7 +326,11 @@ const SignUp = () => {
     <div className="signup">
       {loginResource}
       {signUpResource}
+      {modal ? securityQuestionModal : ""}
     </div>
   );
 };
 export default SignUp;
+
+
+

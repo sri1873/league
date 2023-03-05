@@ -11,8 +11,6 @@ a{
     display: flex;
     flex-wrap: wrap;
     align-items: center;    
-    /* background-image: url('https://woxsen.edu.in/uploads/A20230128011131.png'); */
-    /* background-image: url('https://woxsen.edu.in/uploads/A20230125013443.png'); */
     background-image: url('https://woxsen.edu.in/uploads/A20221015102934.jpg');
     background-position:left;
     background-size: cover;
@@ -65,4 +63,7 @@ a{
     font-size: small;
     font-style: italic;
     text-align: justify;
+}
+.modal{
+    display: block !important;
 }
