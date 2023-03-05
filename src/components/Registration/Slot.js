@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import base from '../../apis/base';
-import Payu from './Payu';
 
 const Slot = ({ slots, arenaId, setDate, date }) => {
     const [slotId, setSlotId] = useState("")
+    const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
     const userId = useSelector(state => state.user.userId);
 
@@ -13,6 +13,11 @@ const Slot = ({ slots, arenaId, setDate, date }) => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     var dayAfter = new Date();
     dayAfter.setDate(dayAfter.getDate() + 2);
+
+    useEffect(() => {
+        if (pay)
+            base.get(`/api/v1/payu/users/${userId}/arenas/${arenaId}/slots/${slotId}/day/${date}/get-payu-button`).then(res => setHTML({ "__html": res.data }))
+    }, [slotId])
 
     const handleSubmit = (e) => {
         base({
@@ -23,7 +28,7 @@ const Slot = ({ slots, arenaId, setDate, date }) => {
     }
     const handleClick = (slot) => {
         setSlotId(slot.id);
-        setPay(!pay);
+        setPay(slot?.paid)
     }
     const handleDate = e => {
         setDate(e.target.value);
@@ -51,7 +56,7 @@ const Slot = ({ slots, arenaId, setDate, date }) => {
                 })}
             </div>
         </div>
-        {pay ? <Payu date={date} arenaId={arenaId} slotId={slotId} /> :
+        {pay ? <div dangerouslySetInnerHTML={html} /> :
             <button className='booking-btn col-md-12' onClick={e => handleSubmit(e)}>Confirm Booking</button>}
     </div>);
 
@@ -59,14 +64,3 @@ const Slot = ({ slots, arenaId, setDate, date }) => {
 
 }
 export default Slot;
-
-    // return (<div className='slot'>
-    //         {slots.map((slot) => {
-    //         var unavailable = (slot.available) ? 'success' : 'secondary disabled';
-    //         return (
-    //             <button key={slot.id} value={slot.id}
-    //                 onClick={e => handleClick(e)}
-    //                 className={`btn btn${slotId === slot.id ? "" : "-outline"}-${unavailable} `}
-    //             >{slot.slot}</button>);
-    //     })}
-    // </div>);
