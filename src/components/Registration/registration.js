@@ -23,7 +23,6 @@ const Registration = () => {
     }
 
     return (<div className="registration">
-        {/* <div className="main"> */}
         <div className="arena-name col-md-1">
             {arenaName}
             {arenaId ? <i onClick={e => { setArenaId(""); setArenaName(("SELECT ARENA")) }} className="fa-solid fa-arrow-right-long"></i> : <></>}

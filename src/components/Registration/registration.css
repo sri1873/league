@@ -70,22 +70,16 @@
 .time.selected,
 .booking-btn,
 .selected-btn,
-#payu-btn {
-  background-color: #422c22;
-  color: #f9f5f3;
-}
-.time:hover,
+#payu-btn,.time:hover,
 .booking-btn:hover,
-#payu-btn:hover .slot:hover {
-  background-color: #644234;
+#payu-btn:hover,.slot:hover {
+  background-color: #422c22;
   color: #f9f5f3;
 }
 
 .slots {
   grid-row: span 4;
-  /* border: 2px solid red; */
   display: grid;
-  /* height: 50vh; */
   grid-template-columns: auto auto auto auto auto;
   column-gap: 10%;
   row-gap: 10%;
@@ -111,4 +105,8 @@
 #payu-btn {
   padding: 1%;
   border: none;
+}
+
+#payu-btn{
+  width: 100%;
 }
