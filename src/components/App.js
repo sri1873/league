@@ -42,8 +42,8 @@ const App = () => {
             <Route path="/bookings" element={<Booking />} />
             <Route path="/success" element={<Success />} />
             <Route path="/failure" element={<Failure />} />
+            <Route path="/adminPage" element={<AdminWrapper />} />
           </Route>
-          <Route path="/adminPage" element={<AdminWrapper />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/server-error" element={<InternalServerError />} />
         </Routes>
