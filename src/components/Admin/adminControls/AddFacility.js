@@ -12,6 +12,7 @@ import {
 
 import { useEffect, useState } from "react";
 import React from "react";
+import base from "../../../apis/base";
 
 /*TODO
 Bind inputs to variables
@@ -22,14 +23,68 @@ Make a confirmation toast notification?
 const AddFacility = () => {
   const [timeRange, setTimeRange] = useState(true);
   const [amount, setAmount] = useState(0);
-  const [isFemaleOnly, setIsFemaleOnly] = useState(false);
 
   const [timeslotList, setTimeslotList] = useState([]);
 
   const formRef = React.useRef(null);
 
-  const submitForm = (values) => {
+  /*
+    The function below adds the arena first
+    Then, retrieves every slot in the database
+    Then, compares to the input timeslot list
+    If the slot is not there, it creates it and then adds the slot to the arena
+    If it is there, it uses the existing id to link the arena and slot
+    */
+  const submitForm = async (values) => {
     console.log(values);
+    console.log(timeslotList);
+    const response = await base({
+      method: "POST",
+      url: "api/v1/arenas",
+      data: {
+        name: values.facilityName,
+        arenaType: values.facilityType,
+        description: values.description,
+      },
+    });
+    const resJSON = await response.data.data;
+
+    console.log(resJSON);
+
+    const existingTimesSlotsResponse = await base.get("api/v1/slots");
+    var existingTimesSlotsData = await existingTimesSlotsResponse.data.data;
+    console.log(existingTimesSlotsData);
+
+    const matchingSlots = timeslotList.map((obj) => obj.timeslot);
+    console.log(matchingSlots);
+    const existingTimesSlotsDataFiltered = await existingTimesSlotsData.filter(
+      (obj) => matchingSlots.includes(obj.slot)
+    );
+    var uniqueTimeSlots = existingTimesSlotsDataFiltered.map((obj) => obj.slot);
+    uniqueTimeSlots = matchingSlots.filter(
+      (obj) => !uniqueTimeSlots.includes(obj)
+    );
+    console.log(uniqueTimeSlots);
+    console.log(await existingTimesSlotsDataFiltered);
+
+    for (const timeSlot of existingTimesSlotsDataFiltered) {
+      base({
+        method: "POST",
+        url: `api/v1/arenas/${resJSON.id}/slots/${timeSlot.id}`,
+      });
+    }
+    for (const timeSlot of uniqueTimeSlots) {
+      base({
+        method: "POST",
+        url: `api/v1/slots`,
+        data: { slotName: timeSlot },
+      }).then((res) => {
+        base({
+          method: "POST",
+          url: `api/v1/arenas/${resJSON.id}/slots/${res.data.data.id}`,
+        });
+      });
+    }
   };
 
   function checkTimeRange(_, e1) {
@@ -48,11 +103,6 @@ const AddFacility = () => {
     if (newItem.timeslot === true || newItem.timeslot === "12AM-12AM") return;
 
     newItem.amount = amount;
-    try {
-      newItem.isFemaleOnly = isFemaleOnly.target.value;
-    } catch (e) {
-      newItem.isFemaleOnly = false;
-    }
 
     setTimeslotList((timeslotList) => [...timeslotList, newItem]);
   }
@@ -65,7 +115,7 @@ const AddFacility = () => {
       return `${hours}${suffix}`;
     });
 
-    return `${formattedTimes[0]}-${formattedTimes[1]}`;
+    return `${formattedTimes[0]} - ${formattedTimes[1]}`;
   }
 
   const layout = {
@@ -86,6 +136,7 @@ const AddFacility = () => {
             bodyStyle={{
               backgroundColor: "var(--primary-bg)",
               border: "1px solid",
+              maxWidth: "500px",
             }}
           >
             <Form
@@ -130,16 +181,6 @@ const AddFacility = () => {
                 ></InputNumber>
               </Form.Item>
               <Form.Item
-                name="isFemaleOnly"
-                label="Only for Females"
-                {...layout}
-              >
-                <Radio.Group onChange={setIsFemaleOnly}>
-                  <Radio value={true}> Yes </Radio>
-                  <Radio value={false}> No </Radio>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item
                 rules={[
                   {
                     required: false,
@@ -156,7 +197,7 @@ const AddFacility = () => {
               </Form.Item>
             </Form>
             {timeslotList.map((entry, index) => (
-              <Tag color="geekblue">
+              <Tag color="blue">
                 {" "}
                 {entry.timeslot}, INR {entry.amount}
               </Tag>
@@ -171,6 +212,7 @@ const AddFacility = () => {
               style={{
                 maxWidth: 600,
               }}
+              initialValues={{ facilityType: "OUTDOOR" }}
             >
               <Form.Item
                 label="Name of Facility"
@@ -210,7 +252,6 @@ const AddFacility = () => {
                 {...layout}
               >
                 <Select
-                  defaultValue={"OUTDOOR"}
                   options={[
                     { value: "OUTDOOR", label: "Outdoors" },
                     { value: "INDOOR", label: "Indoors" },
@@ -225,7 +266,11 @@ const AddFacility = () => {
                 >
                   Add Facility
                 </Button>
-                {timeslotList.length === 0 && <p>Add at least one timeslot</p>}
+                {timeslotList.length === 0 && (
+                  <p style={{ color: "var(--error-text)" }}>
+                    Add at least one timeslot
+                  </p>
+                )}
               </Form.Item>
             </Form>
           </Card>

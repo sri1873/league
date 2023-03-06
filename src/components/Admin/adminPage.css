@@ -12,7 +12,8 @@ main {
 }
 
 :root {
-    --primary-bg: rgb(248, 250, 252)
+    --primary-bg: rgb(248, 250, 252);
+    --error-text: rgb(240, 40, 40);
 }
 
 .revenue-and-donut-chart-card-container {

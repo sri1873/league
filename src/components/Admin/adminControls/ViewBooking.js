@@ -14,6 +14,7 @@ const ViewBooking = (props) => {
       let date = new Date(el.bookingDate);
       el.printableBookingDate =
         date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+      if (el.paymentStatus == null) el.paymentStatus = "NA";
       return el;
     });
     return data;
@@ -40,26 +41,11 @@ const ViewBooking = (props) => {
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "Booking ID",
+      dataIndex: "bookingId",
+      key: "bookingId",
     },
-    {
-      title: "Booked By",
-      dataIndex: "name",
-      key: "name",
-      onFilter: (value, record) => record.address.startsWith(value),
-      filterSearch: true,
-    },
-    {
-      title: "User ID",
-      dataIndex: "userId",
-    },
-    {
-      title: "Amount (in INR)",
-      dataIndex: "amount",
-      key: "id",
-    },
+
     {
       title: "Booking Date",
       dataIndex: "printableBookingDate",
@@ -75,6 +61,16 @@ const ViewBooking = (props) => {
       title: "Timeslot",
       dataIndex: "timeslot",
       key: "timeslot",
+    },
+    {
+      title: "User Phone No.",
+      dataIndex: "userPhone",
+      key: "userPhone",
+    },
+    {
+      title: "Payment Status",
+      dataIndex: "paymentStatus",
+      key: "paymentStatus",
     },
   ];
 

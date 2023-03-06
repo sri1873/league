@@ -1,7 +1,8 @@
-import { Button, Form, Input, Card, Select, DatePicker } from "antd";
+import { Button, Form, Card, Select, notification, Alert } from "antd";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import base from "../../../apis/base";
 
 /* TODO
@@ -22,18 +23,49 @@ const tailLayout = {
 const { Option } = Select;
 
 const AddBooking = () => {
+  const userId = useSelector((state) => state.user.userId);
+
   const formRef = React.useRef(null);
 
   const onSubmit = (values) => {
     console.log(values);
+    setFormValues(values);
+    base({
+      method: "POST",
+      url: `api/v1/users/${userId}/bookings?day=${values.day}`,
+      data: { arenaId: values.arenaId, slotId: values.slotId },
+    }).then((res) => {
+      console.log(res);
+      openNotification(res.data.data.id);
+    });
   };
   const onReset = () => {
     formRef.current?.resetFields();
   };
 
-  const [theDate, setTheDate] = useState("second");
+  const [theDate, setTheDate] = useState(null);
+  const [arena, setArena] = useState(null);
+  const [availableTimeslotList, setAvailableTimeslotList] = useState([]);
+  const [formValues, setFormValues] = useState(null);
 
-  const [arenas, setArenas] = useState([{ id: 1, name: "hi" }]);
+  const [arenas, setArenas] = useState([{ bookingId: 1, name: "Loading" }]);
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (bookingId = null) => {
+    if (!!bookingId) {
+      notification.success({
+        message: "Booking Successful",
+        description: "Booking was successful. Booking Id: " + bookingId,
+      });
+    } else {
+      notification.error({
+        message: "Something Went Wrong",
+        description:
+          "An error occurred. Please try refreshing the page and trying again",
+      });
+    }
+  };
 
   function getDayFromRelativeString(relativeString) {
     const daysOfWeek = [
@@ -72,6 +104,17 @@ const AddBooking = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (theDate == null || arena == null) return;
+
+    base
+      .get(`api/v1/arenas/${arena}/slots?arenaId=${arena}&day=${theDate}`)
+      .then((res) => {
+        console.log(res);
+        setAvailableTimeslotList(res.data?.data);
+      });
+  }, [arena, theDate]);
+
   return (
     <Card
       bodyStyle={{
@@ -79,6 +122,7 @@ const AddBooking = () => {
         marginTop: "5px",
       }}
     >
+      {contextHolder}
       <Form
         {...layout}
         ref={formRef}
@@ -89,17 +133,6 @@ const AddBooking = () => {
         }}
       >
         <Form.Item
-          name="name"
-          label="Name of user"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
           name="arenaId"
           label="Facility"
           rules={[
@@ -108,14 +141,18 @@ const AddBooking = () => {
             },
           ]}
         >
-          <Select placeholder="Select a facility" allowClear>
+          <Select
+            placeholder="Select a facility"
+            allowClear
+            onSelect={setArena}
+          >
             {arenas.map((entry, index) => (
               <Option value={entry.id}>{entry.name}</Option>
             ))}
           </Select>
         </Form.Item>
         <Form.Item name="day" label="Date" rules={[{ required: true }]}>
-          <Select placeholder="When?">
+          <Select placeholder="When?" onSelect={setTheDate}>
             <Option value="today">
               Today, {getDayFromRelativeString("today")}
             </Option>
@@ -128,7 +165,8 @@ const AddBooking = () => {
           </Select>
         </Form.Item>
         <Form.Item
-          name="timeslot"
+          name="slotId"
+          hidden={theDate == null || arena == null}
           label="Timeslot"
           rules={[
             {
@@ -137,8 +175,12 @@ const AddBooking = () => {
           ]}
         >
           <Select placeholder="Select a Timeslot" allowClear>
-            <Option value="21:00:00 - 22:00:00">21:00:00 - 22:00:00</Option>
-            <Option value="20:00:00 - 21:00:00">20:00:00 - 21:00:00</Option>
+            {availableTimeslotList.map(
+              (entry, index) =>
+                entry.available && (
+                  <Option value={entry.id}>{entry.slot}</Option>
+                )
+            )}
           </Select>
         </Form.Item>
 
@@ -151,6 +193,10 @@ const AddBooking = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Alert
+        message="Currently, slots already booked by any user CANNOT be re-booked from this page"
+        type="info"
+      ></Alert>
     </Card>
   );
 };
