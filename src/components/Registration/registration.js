@@ -38,7 +38,6 @@ const Registration = () => {
                 })}
             </div>
             : <Slot setDate={setDate} handleClick={handleClick} date={date} arenaId={arenaId} slots={slots} />}
-        {/* </div> */}
     </div>);
 }
 export default Registration;

@@ -105,8 +105,14 @@
 #payu-btn {
   padding: 1%;
   border: none;
+  cursor: pointer;
 }
 
 #payu-btn{
   width: 100%;
+}
+
+.booking-btn.disabled{
+  background-color: grey;
+  cursor: default;
 }

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 import base from '../../apis/base';
 
 const Slot = ({ slots, arenaId, setDate, date }) => {
+    const navigate = useNavigate();
+    
     const [slotId, setSlotId] = useState("")
     const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
@@ -24,7 +27,7 @@ const Slot = ({ slots, arenaId, setDate, date }) => {
             method: 'POST',
             url: `api/v1/users/${userId}/bookings?day=${date}`,
             data: { "arenaId": arenaId, "slotId": slotId }
-        }).then(res => console.log(res))
+        }).then(res =>  navigate("/bookings"))
     }
     const handleClick = (slot) => {
         setSlotId(slot.id);
@@ -57,7 +60,7 @@ const Slot = ({ slots, arenaId, setDate, date }) => {
             </div>
         </div>
         {pay ? <div dangerouslySetInnerHTML={html} /> :
-            <button className='booking-btn col-md-12' onClick={e => handleSubmit(e)}>Confirm Booking</button>}
+            <button className={`booking-btn col-md-12 ${slotId?"":"disabled"}`} disabled={slotId?"":"false"} onClick={e => handleSubmit(e)}>Confirm Booking</button>}
     </div>);
 
 
