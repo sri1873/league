@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Table } from 'antd';
+import { Input, Table, Popconfirm } from 'antd';
 import Highlighter from 'react-highlight-words';
 import base from '../../apis/base'
 import { useSelector } from "react-redux";
@@ -9,6 +9,9 @@ const Booking = () => {
     const [searchText, setSearchText] = useState('');
     const [data, setData] = useState([]);
     const [searchedColumn, setSearchedColumn] = useState('');
+
+    const [modal, setModal] = useState(false);
+    const [extend, setExtend] = useState(false);
     const searchInput = useRef(null);
     const userId = useSelector(state => state.user.userId);
 
@@ -101,12 +104,12 @@ const Booking = () => {
                 multiple: 1,
             },
         },
-        {
-            title: 'Status',
-            dataIndex: 'paymentStatus',
-            key: 'paymentStatus',
-            ...getColumnSearchProps('paymentStatus'),
-        },
+        // {
+        //     title: 'Status',
+        //     dataIndex: 'paymentStatus',
+        //     key: 'paymentStatus',
+        //     ...getColumnSearchProps('paymentStatus'),
+        // },
         {
             title: 'Arena',
             dataIndex: 'arena',
@@ -119,8 +122,46 @@ const Booking = () => {
             key: 'slot',
             ...getColumnSearchProps('slot'),
         },
+
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: () => <a style={{ color: "blue" }} onClick={e => setModal(true)}>Extend</a>
+        },
     ];
-    return <div className="home"><Table columns={columns} dataSource={data} size="middle" /></div>;
+
+    const extendSlot = (
+        <form class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Extend Slot</h1>
+                        <button type="button" class="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {extend ? <p>You will be redirected to payment page. Please Confirm</p> : <p>This slot cannot be extended</p>}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
+                        {extend ? <button type="submit" class="btn btn-outline-success">Submit</button>
+                            : <></>}
+                    </div>
+                </div>
+            </div>
+        </form>
+    )
+    const handleClick = (record) => {
+        record.arena === "Football Pitch 2" ? setExtend(true) : setExtend(false)
+    }
+    return (<>
+        {modal ? extendSlot : ""}
+        <div className="home"><Table columns={columns} dataSource={data} size="middle"
+            onRow={(record) => ({
+                onClick: event => { handleClick(record) }
+            })} /></div>;
+
+    </>);
 
 }
 export default Booking;
