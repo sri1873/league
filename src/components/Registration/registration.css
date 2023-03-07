@@ -1,20 +1,50 @@
 .registration {
-  max-height: 90vh;
-  color: #422c22;
-  background-color: #f9f5f3;
+  height: 90vh;
+  color: #000000;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
 }
+.date-slots {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.time {
+  border: none;
+  border-bottom: 2px solid #422c22;
+  border-radius: 0%;
+  width: 20%;
+}
+/* .btn-date, */
+.btn-date,
+.btn-date:hover {
+  background-color: none;
+  color: #000000 !important;
+  border: none !important;
+  cursor: default !important;
+}
 
-.arena-name {
+.arena-container {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
-  padding: 2%;
+}
+.fa-arrow-left-long {
+  padding-right: 1em;
+}
+.arena-name {
+  width: 90%;
+  padding: 1em;
+  padding-left: 0;
   font-size: x-large;
   font-weight: bold;
   letter-spacing: 10px;
+  border-bottom: 2px solid #000000;
 }
 .arena-details {
-  border-top: 2px solid #422c22;
   padding: 5%;
   display: grid;
   grid-template-columns: auto auto auto auto;
@@ -45,52 +75,43 @@
 /* SLOTS--------------------------- */
 
 .arena-slots {
-  border-top: 2px solid #422c22;
-  padding: 2% 5%;
-  display: grid;
-  grid-template-rows: auto auto auto auto auto;
-  row-gap: 15%;
-  width: 100%;
-}
-
-.time-slots {
-  display: flex;
-  justify-content: space-between;
-}
-.time {
-  border: 2px solid #422c22;
-  border-radius: 0%;
-}
-.time.selected,
-.booking-btn,
-.selected-btn,
-#payu-btn,
-.time:hover,
-.booking-btn:hover,
-#payu-btn:hover,
-.slot:hover {
-  background-color: #422c22;
-  color: #f9f5f3;
+  border-radius: 20px;
+  margin-top: 1em;
+  background: linear-gradient(to bottom right, #ffffff 0%, #00cc99 70%);
+  padding: 2em;
+  width: 90%;
+  height: 60%;
 }
 
 .slots {
-  grid-row: span 4;
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   column-gap: 10%;
   row-gap: 10%;
-  padding: 2%;
 }
 
 .slot {
   width: 10;
-  border: 1px solid #422c22;
+  border-radius: 0%;
+  border-bottom: 2px solid #000000;
+  font-size: 0.9em;
 }
 
 .women {
-  border: 2px solid #fb747d;
-  color: #9f040e;
+  border-bottom: 2px solid #fb747d;
+  color: #ff3745;
 }
+.time.selected,
+.time:hover,
+.selected-btn,
+#payu-btn,
+.booking-btn:hover,
+#payu-btn:hover,
+.slot:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .women.selected-btn,
 .women:hover {
   background-color: #fb747d;
@@ -98,9 +119,11 @@
 
 .booking-btn,
 #payu-btn {
-  padding: 1%;
+  padding: 0.5em;
   border: none;
   cursor: pointer;
+  border-bottom: 2px solid #000000;
+  margin-top: 1em;
 }
 
 #payu-btn {
@@ -108,8 +131,10 @@
 }
 
 .booking-btn.disabled {
-  background-color: grey;
-  cursor: default;
+  background-color: rgb(77, 77, 77);
+  color: white;
+  cursor: not-allowed;
+  border: none;
 }
 
 /* ------------------HOME */

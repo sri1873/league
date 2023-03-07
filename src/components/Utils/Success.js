@@ -8,7 +8,7 @@ const Success = () => {
     const bookingId = searchParams.get("bookingId");
     useEffect(() => {
         base.get(`api/v1/bookings/${bookingId}`).then(res => setBookingDetails(res.data.data))
-    },[])
+    },[bookingId])
 
     return (<div className="main" style={{ display: "flex", maxHeight: "90vh",padding:'5%',alignItems:"center"}}>
         <div className="img-wrapper col-md-6">

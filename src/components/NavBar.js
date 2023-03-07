@@ -2,7 +2,6 @@ import React from "react";
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const onLogoutClick = (e) => {
