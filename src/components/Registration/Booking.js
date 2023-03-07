@@ -9,6 +9,8 @@ const Booking = () => {
     const [searchText, setSearchText] = useState('');
     const [data, setData] = useState([]);
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [html, setHTML] = useState({ __html: "" });
+    const [bookingId, setBookingId] = useState("")
 
     const [modal, setModal] = useState(false);
     const [extend, setExtend] = useState(false);
@@ -18,8 +20,13 @@ const Booking = () => {
     useEffect(() => {
         base.get(`api/v1/users/${userId}/bookings`).then(res => {
             setData(res.data?.data)
+
         })
     }, [])
+    useEffect(() => {
+        if (extend)
+            base.get(`/api/v1/payu/bookings/${bookingId}/extension/get-payu-button`).then(res => setHTML({ "__html": res.data }))
+    }, [extend])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -104,12 +111,12 @@ const Booking = () => {
                 multiple: 1,
             },
         },
-        // {
-        //     title: 'Status',
-        //     dataIndex: 'paymentStatus',
-        //     key: 'paymentStatus',
-        //     ...getColumnSearchProps('paymentStatus'),
-        // },
+        {
+            title: 'Status',
+            dataIndex: 'paymentStatus',
+            key: 'paymentStatus',
+            ...getColumnSearchProps('paymentStatus'),
+        },
         {
             title: 'Arena',
             dataIndex: 'arena',
@@ -144,7 +151,7 @@ const Booking = () => {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
-                        {extend ? <button type="submit" class="btn btn-outline-success">Submit</button>
+                        {extend ? <div dangerouslySetInnerHTML={html} />
                             : <></>}
                     </div>
                 </div>
@@ -152,7 +159,8 @@ const Booking = () => {
         </form>
     )
     const handleClick = (record) => {
-        record.arena === "Football Pitch 2" ? setExtend(true) : setExtend(false)
+        setBookingId(record?.bookingId);
+        record.extendable ? setExtend(true) : setExtend(false)
     }
     return (<>
         {modal ? extendSlot : ""}
