@@ -1,5 +1,4 @@
 import React from "react";
-import { Avatar } from "@progress/kendo-react-layout";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -38,12 +37,12 @@ const NavBar = () => {
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">
-                            <Avatar
+                            {/* <Avatar
                                 type="icon"
                                 style={{ cursor: "pointer", marginRight: "10px" }}
                             >
                                 <span className="k-icon k-i-user" />
-                            </Avatar>
+                            </Avatar> */}
                             <div className="fw-bold" style={{ color: "white" }}>
                                 {userName}
                             </div>
