@@ -13,15 +13,15 @@ One
 import {
   Card,
   DateRangePicker,
-  Metric,
-  Text,
   Title,
   SelectBox,
   SelectBoxItem,
   Col,
   ColGrid,
+  Divider,
 } from "@tremor/react";
 import "@tremor/react/dist/esm/tremor.css";
+import base from "../../../apis/base";
 import TheBarChart from "./TheBarChart";
 
 import TheDonutChart from "./TheDonutChart";
@@ -29,52 +29,60 @@ import TheLineChart from "./TheLineChart";
 import { useEffect, useState } from "react";
 import "../adminPage.css";
 
-const revenueDecorationColor = "blue";
 const chartsDecorationColor = "purple";
 
 const Dashboard = () => {
-  const sampleData = [
-    {
-      id: 1,
-      amount: 14000,
-      bookingDate: new Date("2022-05-02"),
-      arena: "cricket ground",
-      timeslot: "09:00:00 - 11:00:00",
-      user_id: 5,
-    },
-    {
-      id: 2,
-      amount: 600,
-      bookingDate: new Date("2022-12-21"),
-      arena: "tennis court",
-      timeslot: "10:00:00 - 12:00:00",
-      user_id: 2,
-    },
-    {
-      id: 3,
-      amount: 1200,
-      bookingDate: new Date("2023-02-27"),
-      arena: "tennis court",
-      timeslot: "13:00:00 - 14:30:00",
-      user_id: 3,
-    },
-    {
-      id: 4,
-      amount: 14000,
-      bookingDate: new Date("2023-01-21"),
-      arena: "cricket ground",
-      timeslot: "16:00:00 - 18:00:00",
-      user_id: 2,
-    },
-    {
-      id: 5,
-      amount: 100,
-      bookingDate: new Date("2023-02-21"),
-      arena: "basketball court",
-      timeslot: "12:00:00 - 18:00:00",
-      user_id: 3,
-    },
-  ];
+  const [sampleData, setSampleData] = useState([]);
+
+  function formatDataFromDB(dataFromDB) {
+    const data = [];
+    var entryMap;
+    dataFromDB.forEach(function (entry, index) {
+      entryMap = {
+        arena: entry.arena,
+        bookingDate: new Date(entry.bookingDate),
+        timeslot: formatTimeSlot(entry.slot),
+        userBranch: entry.userBranch,
+      };
+      console.log(entryMap);
+      data.push(entryMap);
+    });
+    return data;
+  }
+
+  function formatTimeSlot(slot) {
+    const times = slot.split(" - ");
+    const startTime = times[0];
+    const endTime = times[1];
+
+    const startParts = startTime.split(/[T:]/);
+    const endParts = endTime.split(/[T:]/);
+
+    let startHour = parseInt(startParts[0], 10);
+    const startMin = "00";
+    const startSec = "00";
+
+    let endHour = parseInt(endParts[0], 10);
+    const endMin = "00";
+    const endSec = "00";
+
+    if (startTime.includes("PM") && startHour !== 12) {
+      startHour += 12;
+    }
+
+    if (endTime.includes("PM") && endHour !== 12) {
+      endHour += 12;
+    }
+
+    const formattedStartTime = `${startHour
+      .toString()
+      .padStart(2, "0")}:${startMin}:${startSec}`;
+    const formattedEndTime = `${endHour
+      .toString()
+      .padStart(2, "0")}:${endMin}:${endSec}`;
+
+    return `${formattedStartTime} - ${formattedEndTime}`;
+  }
 
   const [activeData, setActiveData] = useState(sampleData);
   const [activeArena, setActiveArena] = useState(null);
@@ -94,9 +102,40 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    let bookingList = [];
+
+    const getDataFromDB = async () => {
+      const data = await base.get("api/v1/arenas");
+      const arenaList = await data.data;
+
+      console.log(arenaList.data);
+
+      await arenaList.data.map(async (arenaInfo, index) => {
+        const bookings = await getBookingsOnArena(arenaInfo);
+        if (bookings.length !== 0 && !!bookings.length) {
+          bookingList.push(...bookings);
+          console.log("Booking List ====>>>");
+          console.log(bookingList);
+          setSampleData(formatDataFromDB(bookingList));
+          console.log(sampleData);
+        }
+      });
+    };
+
+    const getBookingsOnArena = async (arenaInfo) => {
+      const response = await base.get(
+        `api/v1/arenas/${arenaInfo.id}/bookings?arenaId=${arenaInfo.id}`
+      );
+      return await response.data.data;
+    };
+
+    getDataFromDB();
+  }, []);
+
+  useEffect(() => {
     entriesInRangeAndArena();
     // eslint-disable-next-line
-  }, [dateValue, activeArena]);
+  }, [dateValue, activeArena, sampleData]);
   //Extracts all the entries within the time range
   function entriesInRangeAndArena() {
     var entries = [];
@@ -117,7 +156,9 @@ const Dashboard = () => {
     } else {
       data.forEach((entry) => {
         if (
-          entry.bookingDate === fromDate &&
+          entry.bookingDate.getDate() === fromDate.getDate() &&
+          entry.bookingDate.getMonth() === fromDate.getMonth() &&
+          entry.bookingDate.getFullYear() === fromDate.getFullYear() &&
           (entry.arena === arena || !arena)
         ) {
           entries.push(entry);
@@ -140,49 +181,46 @@ const Dashboard = () => {
     return result;
   }
 
-  //To show revenue on screen
-  function amountSum() {
-    var data = activeData;
-    var amount = 0;
-    data.forEach((entry) => {
-      amount += entry.amount;
-    });
-    return amount;
-  }
-
   return (
     <div>
-      <Card maxWidth="max-w-sm" min marginTop="mt-7">
-        <DateRangePicker
-          value={dateValue}
-          onValueChange={dateUpdate}
-        ></DateRangePicker>
-        <SelectBox
-          value={activeArena}
-          placeholder="Select Arena"
-          onValueChange={arenaUpdate}
-          marginTop="mt-5"
-        >
-          <SelectBoxItem value={null} text={"All"}></SelectBoxItem>
-          {getUniqueArenas().map((arena) => (
-            <SelectBoxItem
-              key={arena}
-              value={arena}
-              text={arena}
-            ></SelectBoxItem>
-          ))}
-        </SelectBox>
-      </Card>
+      <ColGrid numColsMd={2}>
+        <Col>
+          <Card maxWidth="max-w-sm" min marginTop="mt-7">
+            <DateRangePicker
+              value={dateValue}
+              onValueChange={dateUpdate}
+            ></DateRangePicker>
+            <SelectBox
+              value={activeArena}
+              placeholder="Select Arena"
+              onValueChange={arenaUpdate}
+              marginTop="mt-5"
+            >
+              <SelectBoxItem value={null} text={"All"}></SelectBoxItem>
+              {getUniqueArenas().map((arena) => (
+                <SelectBoxItem
+                  key={arena}
+                  value={arena}
+                  text={arena}
+                ></SelectBoxItem>
+              ))}
+            </SelectBox>
+          </Card>
+        </Col>
+        <Col>
+          <Card
+            shadow={true}
+            decoration="top"
+            decorationColor={chartsDecorationColor}
+            maxWidth="max-w-lg"
+          >
+            <Title>Booking Count by Arena</Title>
+            <Divider />
+            <TheDonutChart data={activeData}></TheDonutChart>
+          </Card>
+        </Col>
+      </ColGrid>
 
-      <Card
-        maxWidth="max-w-sm"
-        decoration="top"
-        marginTop="mt-4"
-        decorationColor={revenueDecorationColor}
-      >
-        <Text>Revenue</Text>
-        <Metric>INR {amountSum()}</Metric>
-      </Card>
       <ColGrid numColsMd={2}>
         <Col>
           <Card
@@ -191,7 +229,8 @@ const Dashboard = () => {
             decoration="top"
             decorationColor={chartsDecorationColor}
           >
-            <Title>Revenue Generated per Facility</Title>
+            <Title>Booking Frequency by Branch</Title>
+            <Divider />
             <TheBarChart data={activeData}></TheBarChart>
           </Card>
         </Col>
@@ -203,24 +242,13 @@ const Dashboard = () => {
             decorationColor={chartsDecorationColor}
           >
             <Title>Frequency of Timeslot getting Booked</Title>
+            <Divider />
             <TheLineChart data={activeData}></TheLineChart>
-          </Card>
-        </Col>
-      </ColGrid>
-      <ColGrid numColsLg={1}>
-        <Col>
-          <Card
-            maxWidth="max-w-lg"
-            marginTop="mt-16"
-            decoration="top"
-            decorationColor={chartsDecorationColor}
-          >
-            <Title>Number of Times the Facility was Booked</Title>
-            <TheDonutChart data={activeData}></TheDonutChart>
           </Card>
         </Col>
       </ColGrid>
     </div>
   );
 };
+
 export default Dashboard;

@@ -11,57 +11,96 @@ import { useState } from "react";
 import AddBooking from "./AddBooking";
 import AddFacility from "./AddFacility";
 import ViewBooking from "./ViewBooking";
+import { useEffect } from "react";
+import base from "../../../apis/base";
 
 const tabSelectColor = "purple";
 
 const AdminControls = () => {
-  const sampleData = [
-    {
-      id: 1,
-      amount: 14000,
-      bookingDate: new Date("2022-05-02"),
-      arena: "cricket ground",
-      timeslot: "09:00:00 - 11:00:00",
-      name: "Harsh Morayya",
-      userId: 5,
-    },
-    {
-      id: 2,
-      amount: 600,
-      bookingDate: new Date("2022-12-21"),
-      arena: "tennis court",
-      timeslot: "10:00:00 - 12:00:00",
-      name: "Placeholder name",
-      userId: 2,
-    },
-    {
-      id: 3,
-      amount: 1200,
-      bookingDate: new Date("2023-02-27"),
-      arena: "tennis court",
-      timeslot: "13:00:00 - 14:30:00",
-      name: "Some name",
-      userId: 3,
-    },
-    {
-      id: 4,
-      amount: 14000,
-      bookingDate: new Date("2023-12-21"),
-      arena: "cricket ground",
-      timeslot: "16:00:00 - 18:00:00",
-      name: "Hi there",
-      userId: 2,
-    },
-    {
-      id: 5,
-      amount: 100,
-      bookingDate: new Date("2023-02-21"),
-      arena: "basketball court",
-      timeslot: "12:00:00 - 18:00:00",
-      name: "A name",
-      userId: 3,
-    },
-  ];
+  const [sampleData, setSampleData] = useState([]);
+
+  function formatDataFromDB(dataFromDB) {
+    const data = [];
+    var entryMap;
+    dataFromDB.forEach(function (entry, index) {
+      entryMap = {
+        arena: entry.arena,
+        bookingDate: new Date(entry.bookingDate),
+        timeslot: formatTimeSlot(entry.slot),
+        userBranch: entry.userBranch,
+        bookingId: entry.bookingId,
+        userPhone: entry.userPhone,
+        paymentStatus: entry.paymentStatus,
+      };
+      data.push(entryMap);
+    });
+    return data;
+  }
+
+  function formatTimeSlot(slot) {
+    const times = slot.split(" - ");
+    const startTime = times[0];
+    const endTime = times[1];
+
+    const startParts = startTime.split(/[T:]/);
+    const endParts = endTime.split(/[T:]/);
+
+    let startHour = parseInt(startParts[0], 10);
+    const startMin = "00";
+    const startSec = "00";
+
+    let endHour = parseInt(endParts[0], 10);
+    const endMin = "00";
+    const endSec = "00";
+
+    if (startTime.includes("PM") && startHour !== 12) {
+      startHour += 12;
+    }
+
+    if (endTime.includes("PM") && endHour !== 12) {
+      endHour += 12;
+    }
+
+    const formattedStartTime = `${startHour
+      .toString()
+      .padStart(2, "0")}:${startMin}:${startSec}`;
+    const formattedEndTime = `${endHour
+      .toString()
+      .padStart(2, "0")}:${endMin}:${endSec}`;
+
+    return `${formattedStartTime} - ${formattedEndTime}`;
+  }
+
+  useEffect(() => {
+    let bookingList = [];
+
+    const getDataFromDB = async () => {
+      const data = await base.get("api/v1/arenas");
+      const arenaList = await data.data;
+
+      console.log(arenaList.data);
+
+      await arenaList.data.map(async (arenaInfo, index) => {
+        const bookings = await getBookingsOnArena(arenaInfo);
+        if (bookings.length !== 0 && !!bookings.length) {
+          bookingList.push(...bookings);
+          console.log("Booking List ====>>>");
+          console.log(bookingList);
+          setSampleData(formatDataFromDB(bookingList));
+          console.log(sampleData);
+        }
+      });
+    };
+
+    const getBookingsOnArena = async (arenaInfo) => {
+      const response = await base.get(
+        `api/v1/arenas/${arenaInfo.id}/bookings?arenaId=${arenaInfo.id}`
+      );
+      return await response.data.data;
+    };
+
+    getDataFromDB();
+  }, []);
 
   const [activeTab, setActiveTab] = useState("view booking");
 

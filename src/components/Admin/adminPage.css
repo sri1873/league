@@ -12,5 +12,21 @@ main {
 }
 
 :root {
-    --primary-bg: rgb(248, 250, 252)
+    --primary-bg: rgb(248, 250, 252);
+    --error-text: rgb(240, 40, 40);
 }
+
+.revenue-and-donut-chart-card-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5vh;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .revenue-and-donut-chart-card-container {
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+  }

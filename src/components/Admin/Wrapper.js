@@ -11,7 +11,6 @@ In this file, there are only one entry where this is used (the tabSelect)
 
 import { Card, Tab, TabList } from "@tremor/react";
 import "@tremor/react/dist/esm/tremor.css";
-import TempNav from "./TempNav";
 import Dashboard from "./dashboard/DashBoard";
 import "./adminPage.css";
 import { useState } from "react";
@@ -38,7 +37,6 @@ const AdminWrapper = () => {
         {showCard === "dashboard" && <Dashboard></Dashboard>}
         {showCard === "manage booking" && <AdminControls></AdminControls>}
       </Card>
-
     </main>
   );
 };

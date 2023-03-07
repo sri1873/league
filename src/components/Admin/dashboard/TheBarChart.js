@@ -3,33 +3,33 @@ import { BarChart } from "@tremor/react";
 const TheBarChart = (props) => {
   const activeData = props.data;
 
-  function getRevenuePerGround() {
-    const bookings = activeData;
-    const arenaTotals = {};
+  function countBookingsByBranch() {
+    const branches = {};
+    const bookingsList = activeData;
 
-    bookings.forEach((booking) => {
-      const arena = booking.arena;
-      const amount = booking.amount;
+    bookingsList.forEach((booking) => {
+      const branch = booking.userBranch;
 
-      if (!arenaTotals[arena]) {
-        arenaTotals[arena] = 0;
+      if (branch in branches) {
+        branches[branch] += 1;
+      } else {
+        branches[branch] = 1;
       }
-
-      arenaTotals[arena] += amount;
     });
 
-    const result = Object.keys(arenaTotals).map((arena) => {
-      return { arena: arena, "Amount Generated": arenaTotals[arena] };
+    return Object.keys(branches).map((branch) => {
+      return {
+        "User Branch": branch,
+        "Number of Bookings": branches[branch],
+      };
     });
-
-    return result;
   }
 
   return (
     <BarChart
-      data={getRevenuePerGround()}
-      dataKey="arena"
-      categories={["Amount Generated"]}
+      data={countBookingsByBranch()}
+      dataKey="User Branch"
+      categories={["Number of Bookings"]}
       marginTop="mt-6"
       yAxisWidth="w-12"
     ></BarChart>

@@ -3,6 +3,8 @@ import { DonutChart } from "@tremor/react";
 const TheDonutChart = (props) => {
   const activeData = props.data;
 
+  const valueFormatter = (number) => "Count: " + number;
+
   function countBookingsByArena() {
     const bookings = activeData;
     const arenaCounts = {};
@@ -27,6 +29,7 @@ const TheDonutChart = (props) => {
       data={countBookingsByArena()}
       category="timesBooked"
       dataKey="arena"
+      valueFormatter={valueFormatter}
     ></DonutChart>
   );
 };
