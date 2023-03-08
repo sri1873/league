@@ -14,7 +14,7 @@ const Slot = ({ slots, arenaId, date }) => {
     useEffect(() => {
         if (pay)
             base.get(`/api/v1/payu/users/${userId}/arenas/${arenaId}/slots/${slotId}/day/${date}/get-payu-button`).then(res => setHTML({ "__html": res.data }))
-    }, [slotId])
+    }, [slotId,userId,arenaId,date,pay])
 
     const handleSubmit = (e) => {
         base({

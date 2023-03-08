@@ -22,6 +22,7 @@ const App = () => {
             return <>
                 <Route path="/" element={<Registration />} />
                 <Route path="/adminPage" element={<AdminWrapper />} />
+                <Route path="/bookings" element={<Booking />} />
             </>
         } else if (roles.includes("STUDENT")) {
             return <> <Route path="/" element={<Registration />} />

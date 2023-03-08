@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import base from "../../apis/base";
 import './registration.css';
 import Slot from "./Slot";
-import { Button, Form, Input, Card, Select } from "antd";
-import { Option } from "antd/es/mentions";
-import { DoubleRightOutlined, SendOutlined } from "@ant-design/icons"
+import { Button} from "antd";
 
 const icons = {
     "volleyball": "fa-solid fa-volleyball",

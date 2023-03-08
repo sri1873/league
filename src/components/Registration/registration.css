@@ -15,6 +15,7 @@
   border-bottom: 2px solid #422c22;
   border-radius: 0%;
   width: 20%;
+  font-size: 0.9em;
 }
 /* .btn-date, */
 .btn-date,
@@ -23,6 +24,7 @@
   color: #000000 !important;
   border: none !important;
   cursor: default !important;
+  font-size: 1em !important;
 }
 
 .arena-container {
@@ -39,7 +41,7 @@
   width: 90%;
   padding: 1em;
   padding-left: 0;
-  font-size: 1.75rem;
+  font-size: 1.75em;
   font-weight: bold;
   letter-spacing: 0.5em;
   border-bottom: 2px solid #000000;
@@ -49,11 +51,12 @@
   width: 90%;
   display: grid;
   grid-template-columns: 25% 25% 25%;
-  grid-template-rows: 5.5em 5.5em 5.5em 5.5em 5.5em;
+  grid-template-rows: 5.5em 5.5em 5.5em 5.5em 5.5em 5.5em 5.5em 5.5em;
   height: 75%;
   row-gap: 2em;
-  column-gap: 6em;
+  column-gap: 3em;
   overflow-y: scroll;
+  justify-content: center;
 }
 
 .arena {
@@ -72,13 +75,13 @@
   cursor: pointer;
 }
 .arena i {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   text-align: end;
   padding-right: 0.5em;
   padding-top: 0.1em;
 }
 .arena h1 {
-  font-size: 1rem;
+  font-size: 1em;
   padding-left: 1em;
 }
 .ar-bottom {
@@ -87,44 +90,10 @@
   width: 100%;
   height: 20%;
 }
-@media (max-width: 950px) {
-  .arena h1 {
-    font-size: 0.75rem;
-    padding-left: 0.75em;
-  }
-}
-@media (max-width: 740px) {
-  .arena i {
-    font-size: 1.25rem;
-  }
-  .arena h1 {
-    font-size: 0.7rem;
-    padding-left: 0.5em;
-  }
-}
-@media (max-width: 550px) {
-  .arena i {
-    font-size: 1rem;
-  }
-  .arena h1 {
-    font-size: 0.5rem;
-    padding-left: 0.5em;
-  }
-  .arena-name {
-    font-size: 1.25rem;
-  }
-  .arena-details {
-    grid-template-columns: 25% 25% 25%;
-    grid-template-rows: 3em 3em 3em 3em 3em;
-  }
-}
-@media (max-width: 400px) {
-  .arena-name {
-    font-size: 1rem;
-  }
+
+@media (max-width: 470px) {
   .arena-details {
     grid-template-columns: 40% 40%;
-    grid-template-rows: 2em 2em 2em 2em 2em;
     row-gap: 10%;
     column-gap: 10%;
   }
@@ -138,6 +107,7 @@
   padding: 2em;
   width: 90%;
   height: 60%;
+  overflow-y: scroll;
 }
 
 .slots {
@@ -151,7 +121,29 @@
   width: 10;
   border-radius: 0%;
   border-bottom: 2px solid #000000;
-  font-size: 0.9em;
+  font-size: 1em;
+}
+
+@media (max-width: 1110px) {
+  body {
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 900px) {
+  body {
+    font-size: 0.8em;
+  }
+  .slots {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+@media (max-width: 530px) {
+  .slots {
+    grid-template-columns: auto auto auto;
+  }
+  body {
+    font-size: 0.5em;
+  }
 }
 
 .women {
