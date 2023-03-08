@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom/dist";
 import base from "../../apis/base";
@@ -25,8 +25,8 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
   console.log(errorMsg);
   const getQuestion = (e) => {
-    base.get(`api/v1/auth/security-question?email=${formDetails?.email}`).
-      then(res => {
+    base.get(`api/v1/auth/security-question?email=${formDetails?.email}`)
+      .then(res => {
         setQuestion(res.data?.data);
         setFormDetails(prevState => ({ ...prevState, "securityQuestionId": res.data?.data?.id }));
       }).err(err => setErrorMsg(err.message))

@@ -1,43 +1,71 @@
 .registration {
-  max-height: 90vh;
-  color: #422c22;
-  background-color: #f9f5f3;
+  height: 90vh;
+  color: #000000;
+  background-color: #ffffff;
   display: flex;
+  flex-direction: column;
+}
+.date-slots {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.time {
+  border: none;
+  border-bottom: 2px solid #422c22;
+  border-radius: 0%;
+  width: 20%;
+  font-size: 0.9em;
+}
+/* .btn-date, */
+.btn-date,
+.btn-date:hover {
+  background-color: none;
+  color: #000000 !important;
+  border: none !important;
+  cursor: default !important;
+  font-size: 1em !important;
 }
 
-.arena-name {
+.arena-container {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
-  padding: 2%;
-  text-align: center;
-  font-size: x-large;
+}
+.fa-arrow-left-long {
+  padding-right: 1em;
+}
+.arena-name {
+  width: 90%;
+  padding: 1em;
+  padding-left: 0;
+  font-size: 1.75em;
   font-weight: bold;
-  writing-mode: vertical-lr;
-  rotate: 180deg;
-  letter-spacing: 10px;
+  letter-spacing: 0.5em;
+  border-bottom: 2px solid #000000;
 }
 .arena-details {
-  border: 2px solid #422c22;
-  border-bottom: none;
-  border-radius: 30px 0 0 0px;
-  padding: 5%;
+  padding: 2em 0;
+  width: 90%;
   display: grid;
-  grid-template-columns: auto auto auto auto;
-  grid-template-rows: 15% 15% 15% 15% 15%;
-  row-gap: 10%;
-  column-gap: 10%;
+  grid-template-columns: 25% 25% 25%;
+  grid-template-rows: 5.5em 5.5em 5.5em 5.5em 5.5em 5.5em 5.5em 5.5em;
+  height: 75%;
+  row-gap: 2em;
+  column-gap: 3em;
   overflow-y: scroll;
+  justify-content: center;
 }
 
 .arena {
-  border: 1px solid #422c22;
   box-shadow: 5px 5px 2px #495057;
   display: flex;
+  flex-direction: column;
   background-color: #e6d5ce;
   position: relative;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
+  justify-content: space-between;
   border-radius: 10px;
 }
 .arena:hover {
@@ -46,56 +74,93 @@
   color: #f8f9fa;
   cursor: pointer;
 }
+.arena i {
+  font-size: 1.5em;
+  text-align: end;
+  padding-right: 0.5em;
+  padding-top: 0.1em;
+}
+.arena h1 {
+  font-size: 1em;
+  padding-left: 1em;
+}
+.ar-bottom {
+  border-radius: 0 0 10px 10px;
+  background-color: #000000;
+  width: 100%;
+  height: 20%;
+}
 
+@media (max-width: 470px) {
+  .arena-details {
+    grid-template-columns: 40% 40%;
+    row-gap: 10%;
+    column-gap: 10%;
+  }
+}
 /* SLOTS--------------------------- */
 
 .arena-slots {
-  border: 2px solid #422c22;
-  border-radius: 30px 0 0 30px;
-  padding: 2% 5%;
-  display: grid;
-  grid-template-rows: auto auto auto auto auto;
-  row-gap: 15%;
-  width: 100%;
-}
-
-.time-slots {
-  display: flex;
-  justify-content: space-between;
-}
-.time {
-  border: 2px solid #422c22;
-  border-radius: 0%;
-}
-.time.selected,
-.booking-btn,
-.selected-btn,
-#payu-btn,.time:hover,
-.booking-btn:hover,
-#payu-btn:hover,.slot:hover {
-  background-color: #422c22;
-  color: #f9f5f3;
+  border-radius: 20px;
+  margin-top: 1em;
+  background: linear-gradient(to bottom right, #ffffff 0%, #00cc99 70%);
+  padding: 2em;
+  width: 90%;
+  height: 60%;
+  overflow-y: scroll;
 }
 
 .slots {
-  grid-row: span 4;
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   column-gap: 10%;
   row-gap: 10%;
-  overflow-y: scroll;
-  padding: 2%;
 }
 
 .slot {
   width: 10;
-  border: 1px solid #422c22;
+  border-radius: 0%;
+  border-bottom: 2px solid #000000;
+  font-size: 1em;
+}
+
+@media (max-width: 1110px) {
+  body {
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 900px) {
+  body {
+    font-size: 0.8em;
+  }
+  .slots {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+@media (max-width: 530px) {
+  .slots {
+    grid-template-columns: auto auto auto;
+  }
+  body {
+    font-size: 0.5em;
+  }
 }
 
 .women {
-  border: 2px solid #fb747d;
-  color: #9f040e;
+  border-bottom: 2px solid #fb747d;
+  color: #ff3745;
 }
+.time.selected,
+.time:hover,
+.selected-btn,
+#payu-btn,
+.booking-btn:hover,
+#payu-btn:hover,
+.slot:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .women.selected-btn,
 .women:hover {
   background-color: #fb747d;
@@ -103,16 +168,43 @@
 
 .booking-btn,
 #payu-btn {
-  padding: 1%;
+  padding: 0.5em;
   border: none;
   cursor: pointer;
+  border-bottom: 2px solid #000000;
+  margin-top: 1em;
 }
 
-#payu-btn{
+#payu-btn {
   width: 100%;
 }
 
-.booking-btn.disabled{
-  background-color: grey;
-  cursor: default;
+.booking-btn.disabled {
+  background-color: rgb(77, 77, 77);
+  color: white;
+  cursor: not-allowed;
+  border: none;
+}
+
+/* ------------------HOME */
+
+.home {
+  padding: 2.5em;
+}
+
+@media (max-width: 650px) {
+  .ant-table-content {
+    font-size: 0.75rem;
+  }
+}
+@media (max-width: 530px) {
+  .ant-table-content {
+    font-size: 0.65rem;
+  }
+}
+@media (max-width: 380px) {
+  .ant-table-content {
+    font-size: 0.5rem;
+    overflow-x: scroll;
+  }
 }

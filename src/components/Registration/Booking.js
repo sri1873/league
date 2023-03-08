@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Table, Popconfirm } from 'antd';
+import { Input, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import base from '../../apis/base'
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ const Booking = () => {
             setData(res.data?.data)
 
         })
-    }, [])
+    }, [userId])
     useEffect(() => {
         if (extend)
             base.get(`/api/v1/payu/bookings/${bookingId}/extension/get-payu-button`).then(res => setHTML({ "__html": res.data }))
@@ -134,7 +134,7 @@ const Booking = () => {
             title: 'Action',
             dataIndex: '',
             key: 'x',
-            render: () => <a style={{ color: "blue" }} onClick={e => setModal(true)}>Extend</a>
+            render: () => <button style={{ color: "blue" }} onClick={e => setModal(true)}>Extend</button>
         },
     ];
 

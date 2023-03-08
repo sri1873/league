@@ -1,6 +1,7 @@
 import React from "react";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from 'antd';
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const onLogoutClick = (e) => {
@@ -37,12 +38,12 @@ const NavBar = () => {
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">
-                            {/* <Avatar
-                                type="icon"
-                                style={{ cursor: "pointer", marginRight: "10px" }}
-                            >
-                                <span className="k-icon k-i-user" />
-                            </Avatar> */}
+                                <Avatar 
+                                    style={{
+                                        backgroundColor: '#87d068', cursor: "pointer", marginRight: "10px"
+                                    }}
+                                    icon={<UserOutlined />}
+                                />
                             <div className="fw-bold" style={{ color: "white" }}>
                                 {userName}
                             </div>

@@ -5,22 +5,22 @@ import './onboarding.css'
 
 
 const Onboarding = ({ children }) => {
-    const location=useLocation();
-    const user = useSelector ((state) => {
+    const location = useLocation();
+    const user = useSelector((state) => {
         return state.isValid
     })
     return (
         <>
-        {!user?
-        <div className='onboarding'>
-            <div className='container'>
-                <div className='welcome-img'>
-                    <h1>Welcome To The League</h1>
-                </div>
-                {children}
-            </div>
-        </div>:<Navigate to={'/'} state={{from: location}} replace/>
-}
+            {!user ?
+                <div className='onboarding'>
+                    <div className='contain'>
+                        <div className='welcome-img'>
+                            <h1>Welcome To The League</h1>
+                        </div>
+                        {children}
+                    </div>
+                </div> : <Navigate to={'/'} state={{ from: location }} replace />
+            }
         </>
     );
 }
