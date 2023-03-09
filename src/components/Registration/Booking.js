@@ -26,7 +26,7 @@ const Booking = () => {
     useEffect(() => {
         if (extend)
             base.get(`/api/v1/payu/bookings/${bookingId}/extension/get-payu-button`).then(res => setHTML({ "__html": res.data }))
-    }, [extend])
+    }, [extend, bookingId])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -139,7 +139,7 @@ const Booking = () => {
     ];
 
     const extendSlot = (
-        <form class="modal" tabindex="-1">
+        <div class="modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -156,7 +156,7 @@ const Booking = () => {
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     )
     const handleClick = (record) => {
         setBookingId(record?.bookingId);
@@ -168,7 +168,6 @@ const Booking = () => {
             onRow={(record) => ({
                 onClick: event => { handleClick(record) }
             })} /></div>;
-
     </>);
 
 }

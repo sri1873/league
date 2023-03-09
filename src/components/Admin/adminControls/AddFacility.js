@@ -132,77 +132,6 @@ const AddFacility = () => {
             marginTop: "5px",
           }}
         >
-          <Card
-            bodyStyle={{
-              backgroundColor: "var(--primary-bg)",
-              border: "1px solid",
-              maxWidth: "500px",
-            }}
-          >
-            <Form
-              name="timeslot"
-              initialValues={{
-                amount: 0,
-                isFemaleOnly: false,
-              }}
-            >
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please add the timeslot",
-                  },
-                ]}
-                {...layout}
-                label="Add timeslots"
-                name="timeslot"
-              >
-                <TimePicker.RangePicker
-                  onChange={checkTimeRange}
-                  minuteStep={60}
-                  secondStep={60}
-                ></TimePicker.RangePicker>
-              </Form.Item>
-              <Form.Item
-                label="Cost to book, INR"
-                name="amount"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input the amount",
-                  },
-                ]}
-                {...layout}
-              >
-                <InputNumber
-                  onChange={setAmount}
-                  min={0}
-                  controls={false}
-                ></InputNumber>
-              </Form.Item>
-              <Form.Item
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Button
-                  type="dashed"
-                  htmlType="submit"
-                  onClick={submitTimeSlot}
-                >
-                  Add Timeslot
-                </Button>
-              </Form.Item>
-            </Form>
-            {timeslotList.map((entry, index) => (
-              <Tag color="blue">
-                {" "}
-                {entry.timeslot}, INR {entry.amount}
-              </Tag>
-            ))}
-          </Card>
           <Card bodyStyle={{ backgroundColor: "var(--primary-bg" }}>
             <Form
               onFinish={submitForm}
@@ -274,6 +203,78 @@ const AddFacility = () => {
               </Form.Item>
             </Form>
           </Card>
+          <Card
+            bodyStyle={{
+              backgroundColor: "var(--primary-bg)",
+              border: "1px solid",
+              maxWidth: "500px",
+            }}
+          >
+            <Form
+              name="timeslot"
+              initialValues={{
+                amount: 0,
+                isFemaleOnly: false,
+              }}
+            >
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please add the timeslot",
+                  },
+                ]}
+                {...layout}
+                label="Add timeslots"
+                name="timeslot"
+              >
+                <TimePicker.RangePicker
+                  onChange={checkTimeRange}
+                  minuteStep={60}
+                  secondStep={60}
+                ></TimePicker.RangePicker>
+              </Form.Item>
+              <Form.Item
+                label="Cost to book, INR"
+                name="amount"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input the amount",
+                  },
+                ]}
+                {...layout}
+              >
+                <InputNumber
+                  onChange={setAmount}
+                  min={0}
+                  controls={false}
+                ></InputNumber>
+              </Form.Item>
+              <Form.Item
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Button
+                  type="dashed"
+                  htmlType="submit"
+                  onClick={submitTimeSlot}
+                >
+                  Add Timeslot
+                </Button>
+              </Form.Item>
+            </Form>
+            {timeslotList.map((entry, index) => (
+              <Tag color="blue">
+                {" "}
+                {entry.timeslot}, INR {entry.amount}
+              </Tag>
+            ))}
+          </Card>
+
         </Card>
       </div>
     </main>
