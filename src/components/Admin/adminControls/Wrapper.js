@@ -8,11 +8,11 @@ One
 
 import { TabList, Tab } from "@tremor/react";
 import { useState } from "react";
-import AddBooking from "./AddBooking";
 import AddFacility from "./AddFacility";
 import ViewBooking from "./ViewBooking";
 import { useEffect } from "react";
 import base from "../../../apis/base";
+import { Link } from "react-router-dom";
 
 const tabSelectColor = "purple";
 
@@ -78,16 +78,11 @@ const AdminControls = () => {
       const data = await base.get("api/v1/arenas");
       const arenaList = await data.data;
 
-      console.log(arenaList.data);
-
       await arenaList.data.map(async (arenaInfo, index) => {
         const bookings = await getBookingsOnArena(arenaInfo);
         if (bookings.length !== 0 && !!bookings.length) {
           bookingList.push(...bookings);
-          console.log("Booking List ====>>>");
-          console.log(bookingList);
           setSampleData(formatDataFromDB(bookingList));
-          console.log(sampleData);
         }
       });
     };
@@ -104,6 +99,11 @@ const AdminControls = () => {
 
   const [activeTab, setActiveTab] = useState("view booking");
 
+  // useEffect(() => {
+  //   if (activeTab === "add booking") {
+  //   }
+  // }, [third]);
+
   return (
     <main>
       <TabList
@@ -114,15 +114,14 @@ const AdminControls = () => {
       >
         <Tab text="View All Bookings" value={"view booking"}></Tab>
         <Tab text="Add A New Facility" value={"add facility"}></Tab>
-        <Tab text="Add A New Booking" value={"add booking"}></Tab>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Tab text="Add A New Booking" value={"add booking"}></Tab>
+        </Link>
       </TabList>
       {activeTab === "view booking" && (
         <ViewBooking data={sampleData}></ViewBooking>
       )}
       {activeTab === "add facility" && <AddFacility data={sampleData} />}
-      {activeTab === "add booking" && (
-        <AddBooking data={sampleData}></AddBooking>
-      )}
     </main>
   );
 };

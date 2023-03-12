@@ -3,10 +3,10 @@ import {
   Card,
   Form,
   Input,
-  InputNumber,
   TimePicker,
   Tag,
   Select,
+  notification,
 } from "antd";
 
 import { useEffect, useState } from "react";
@@ -21,7 +21,6 @@ Make a confirmation toast notification?
 
 const AddFacility = () => {
   const [timeRange, setTimeRange] = useState(true);
-  const [amount, setAmount] = useState(0);
 
   const [timeslotList, setTimeslotList] = useState([]);
 
@@ -48,6 +47,12 @@ const AddFacility = () => {
     });
     const resJSON = await response.data.data;
 
+    notification.success({
+      message: "Arena Successfully Added",
+      description: "Arena created with ID = " + resJSON.id,
+      placement: "bottom",
+    });
+
     console.log(resJSON);
 
     const existingTimesSlotsResponse = await base.get("api/v1/slots");
@@ -70,13 +75,17 @@ const AddFacility = () => {
       base({
         method: "POST",
         url: `api/v1/arenas/${resJSON.id}/slots/${timeSlot.id}`,
+        data: { daysForWomen: 0 }, //TODO temporary data
       });
     }
     for (const timeSlot of uniqueTimeSlots) {
       base({
         method: "POST",
         url: `api/v1/slots`,
-        data: { slotName: timeSlot },
+        data: {
+          slotName: timeSlot,
+          slotStartTime: convertTimeToDBFormat(timeSlot),
+        },
       }).then((res) => {
         base({
           method: "POST",
@@ -101,8 +110,6 @@ const AddFacility = () => {
 
     if (newItem.timeslot === true || newItem.timeslot === "12AM-12AM") return;
 
-    newItem.amount = amount;
-
     setTimeslotList((timeslotList) => [...timeslotList, newItem]);
   }
 
@@ -115,6 +122,27 @@ const AddFacility = () => {
     });
 
     return `${formattedTimes[0]} - ${formattedTimes[1]}`;
+  }
+  function convertTimeToDBFormat(timeslot) {
+    const parts = timeslot.split(" - ");
+    const startTime = parts[0];
+    let [hour, period] = startTime.split(/[T ]/);
+    if (hour.length === 3) {
+      console.log("here");
+      hour = "0" + hour;
+    }
+    console.log(hour);
+    period = hour.substring(2, 4);
+    console.log(period);
+    if (period === "PM" && hour !== "12") {
+      hour = parseInt(hour, 10) + 12;
+    } else if (period === "AM" && hour === "12") {
+      hour = "00";
+    }
+    if (hour === "24") {
+      hour = "00";
+    }
+    return `${hour}:00:00`.replace(/\s*(AM|PM)\s*/i, "");
   }
 
   const layout = {
@@ -131,6 +159,57 @@ const AddFacility = () => {
             marginTop: "5px",
           }}
         >
+          <Card
+            bodyStyle={{
+              backgroundColor: "var(--primary-bg)",
+              border: "1px solid",
+              maxWidth: "500px",
+            }}
+          >
+            <Form
+              name="timeslot"
+              initialValues={{
+                isFemaleOnly: false,
+              }}
+            >
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please add the timeslot",
+                  },
+                ]}
+                {...layout}
+                label="Add timeslots"
+                name="timeslot"
+              >
+                <TimePicker.RangePicker
+                  onChange={checkTimeRange}
+                  minuteStep={60}
+                  secondStep={60}
+                ></TimePicker.RangePicker>
+              </Form.Item>
+
+              <Form.Item
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Button
+                  type="dashed"
+                  htmlType="submit"
+                  onClick={submitTimeSlot}
+                >
+                  Add Timeslot
+                </Button>
+              </Form.Item>
+            </Form>
+            {timeslotList.map((entry, index) => (
+              <Tag color="blue"> {entry.timeslot}</Tag>
+            ))}
+          </Card>
           <Card bodyStyle={{ backgroundColor: "var(--primary-bg" }}>
             <Form
               onFinish={submitForm}
@@ -202,78 +281,6 @@ const AddFacility = () => {
               </Form.Item>
             </Form>
           </Card>
-          <Card
-            bodyStyle={{
-              backgroundColor: "var(--primary-bg)",
-              border: "1px solid",
-              maxWidth: "500px",
-            }}
-          >
-            <Form
-              name="timeslot"
-              initialValues={{
-                amount: 0,
-                isFemaleOnly: false,
-              }}
-            >
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please add the timeslot",
-                  },
-                ]}
-                {...layout}
-                label="Add timeslots"
-                name="timeslot"
-              >
-                <TimePicker.RangePicker
-                  onChange={checkTimeRange}
-                  minuteStep={60}
-                  secondStep={60}
-                ></TimePicker.RangePicker>
-              </Form.Item>
-              <Form.Item
-                label="Cost to book, INR"
-                name="amount"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input the amount",
-                  },
-                ]}
-                {...layout}
-              >
-                <InputNumber
-                  onChange={setAmount}
-                  min={0}
-                  controls={false}
-                ></InputNumber>
-              </Form.Item>
-              <Form.Item
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Button
-                  type="dashed"
-                  htmlType="submit"
-                  onClick={submitTimeSlot}
-                >
-                  Add Timeslot
-                </Button>
-              </Form.Item>
-            </Form>
-            {timeslotList.map((entry, index) => (
-              <Tag color="blue">
-                {" "}
-                {entry.timeslot}, INR {entry.amount}
-              </Tag>
-            ))}
-          </Card>
-
         </Card>
       </div>
     </main>
