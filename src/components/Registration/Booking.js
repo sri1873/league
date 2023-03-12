@@ -16,7 +16,6 @@ const Booking = () => {
     const [extend, setExtend] = useState(false);
     const searchInput = useRef(null);
     const userId = useSelector(state => state.user.userId);
-
     useEffect(() => {
         base.get(`api/v1/users/${userId}/bookings`).then(res => {
             setData(res.data?.data)
@@ -134,7 +133,7 @@ const Booking = () => {
             title: 'Action',
             dataIndex: '',
             key: 'x',
-            render: () => <button style={{ color: "blue" }} onClick={e => setModal(true)}>Extend</button>
+            render: () => <button className="extend-btn" onClick={e => setModal(true)}>Extend</button>
         },
     ];
 
@@ -160,7 +159,7 @@ const Booking = () => {
     )
     const handleClick = (record) => {
         setBookingId(record?.bookingId);
-        record.extendable ? setExtend(true) : setExtend(false)
+        record.extendable && record.extended == null ? setExtend(true) : setExtend(false)
     }
     return (<>
         {modal ? extendSlot : ""}

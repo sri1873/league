@@ -7,7 +7,7 @@ const NavBar = () => {
     const onLogoutClick = (e) => {
         e.preventDefault();
         localStorage.clear();
-        window.location.reload();
+        window.location.href = "/";
     }
     const userName = useSelector(state => state.user.userName)
     const roles = useSelector(state => state.user.roles)
@@ -24,11 +24,14 @@ const NavBar = () => {
                         <li className="nav-item">
                             <a className="nav-link" aria-current="page" href="/">Home</a>
                         </li>
-                        {roles?.includes('ADMIN') ? "" :
+                        <li className="nav-item">
+                            <a className="nav-link" aria-current="page" href="/bookings">Bookings</a>
+                        </li>
+                        {roles?.includes('ADMIN') ?
                             <li className="nav-item">
-                                <a className="nav-link" aria-current="page" href="/bookings">Bookings</a>
+                                <a className="nav-link" aria-current="page" href="/adminpage">Admin Page</a>
                             </li>
-                        }
+                            : ""}
                     </ul>
                     <div className="dropdown" data-bs-toggle="dropdown">
                         <button
@@ -38,12 +41,12 @@ const NavBar = () => {
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">
-                                <Avatar 
-                                    style={{
-                                        backgroundColor: '#87d068', cursor: "pointer", marginRight: "10px"
-                                    }}
-                                    icon={<UserOutlined />}
-                                />
+                            <Avatar
+                                style={{
+                                    backgroundColor: '#87d068', cursor: "pointer", marginRight: "10px"
+                                }}
+                                icon={<UserOutlined />}
+                            />
                             <div className="fw-bold" style={{ color: "white" }}>
                                 {userName}
                             </div>

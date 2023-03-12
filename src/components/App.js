@@ -13,6 +13,7 @@ import InternalServerError from "./Utils/InternalServerError";
 import Registration from "./Registration/registration";
 import AdminWrapper from "./Admin/Wrapper";
 import { useSelector } from "react-redux";
+import Footer from "./Footer";
 
 const App = () => {
     const roles = useSelector(state => state.user.roles)
@@ -20,7 +21,7 @@ const App = () => {
         if (roles.includes("STUDENT") && roles.includes("ADMIN")) {
             return <>
                 <Route path="/" element={<Registration />} />
-                <Route path="/adminPage" element={<AdminWrapper />} />
+                <Route path="/adminpage" element={<AdminWrapper />} />
                 <Route path="/bookings" element={<Booking />} />
             </>
         } else if (roles.includes("STUDENT")) {
@@ -34,23 +35,25 @@ const App = () => {
     }
     return (<>
         <NavBar />
+        <div className="content">
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
+                    <Route path="/signUp" element={<Onboarding><SignUp /></Onboarding>} />
 
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
-                <Route path="/signUp" element={<Onboarding><SignUp /></Onboarding>} />
+                    <Route element={<RequireAuth />}>
+                        {roleAdmin()}
+                        <Route path="/" element={<Registration />} />
+                        <Route path="/success" element={<Success />} />
+                        <Route path="/failure" element={<Failure />} />
+                    </Route>
 
-                <Route element={<RequireAuth />}>
-                    {roleAdmin()}
-                    <Route path="/" element={<Registration />} />
-                    <Route path="/success" element={<Success />} />
-                    <Route path="/failure" element={<Failure />} />
-                </Route>
-
-                <Route path="*" element={<PageNotFound />} />
-                <Route path="/server-error" element={<InternalServerError />} />
-            </Routes>
-        </BrowserRouter>
+                    <Route path="*" element={<PageNotFound />} />
+                    <Route path="/server-error" element={<InternalServerError />} />
+                </Routes>
+            </BrowserRouter>
+        </div>
+        <Footer />
     </>
     );
 };

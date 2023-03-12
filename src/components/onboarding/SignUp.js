@@ -19,7 +19,7 @@ const SignUp = () => {
   const [courses, setCourses] = useState([]);
 
   const [errorMsg, setErrorMsg] = useState("");
-  const [formDetails, setFormDetails] = useState({ "graduationYear": 2024 });
+  const [formDetails, setFormDetails] = useState({});
 
   const [modal, setModal] = useState(false);
 

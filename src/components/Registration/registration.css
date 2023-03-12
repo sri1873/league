@@ -178,14 +178,33 @@
 #payu-btn {
   width: 100%;
 }
-
+#payu-ext {
+  display: inline-block;
+  border: 1px solid #198754;
+  background-color: transparent;
+  color: #198754;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  border-radius: 0.375rem;
+}
+#payu-ext:hover {
+  background-color: #198754;
+  color: white;
+}
 .booking-btn.disabled {
   background-color: rgb(77, 77, 77);
   color: white;
   cursor: not-allowed;
   border: none;
 }
-
+.extend-btn {
+  color: rgb(255, 84, 84);
+  border: none;
+  background-color: transparent;
+}
+.extend-btn:hover {
+  color: rgb(73, 73, 255);
+}
 /* ------------------HOME */
 
 .home {
