@@ -19,24 +19,6 @@ const tabSelectColor = "purple";
 const AdminControls = () => {
   const [sampleData, setSampleData] = useState([]);
 
-  function formatDataFromDB(dataFromDB) {
-    const data = [];
-    var entryMap;
-    dataFromDB.forEach(function (entry, index) {
-      entryMap = {
-        arena: entry.arena,
-        bookingDate: new Date(entry.bookingDate),
-        timeslot: formatTimeSlot(entry.slot),
-        userBranch: entry.userBranch,
-        bookingId: entry.bookingId,
-        userPhone: entry.userPhone,
-        paymentStatus: entry.paymentStatus,
-      };
-      data.push(entryMap);
-    });
-    return data;
-  }
-
   function formatTimeSlot(slot) {
     const times = slot.split(" - ");
     const startTime = times[0];
@@ -93,6 +75,24 @@ const AdminControls = () => {
       );
       return await response.data.data;
     };
+
+    function formatDataFromDB(dataFromDB) {
+      const data = [];
+      var entryMap;
+      dataFromDB.forEach(function (entry, index) {
+        entryMap = {
+          arena: entry.arena,
+          bookingDate: new Date(entry.bookingDate),
+          timeslot: formatTimeSlot(entry.slot),
+          userBranch: entry.userBranch,
+          bookingId: entry.bookingId,
+          userPhone: entry.userPhone,
+          paymentStatus: entry.paymentStatus,
+        };
+        data.push(entryMap);
+      });
+      return data;
+    }
 
     getDataFromDB();
   }, []);
