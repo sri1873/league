@@ -1,4 +1,6 @@
 import { BarChart } from "@tremor/react";
+// import { useEffect } from "react";
+// import base from "../../../apis/base";
 
 const TheBarChart = (props) => {
   const activeData = props.data;
@@ -24,6 +26,13 @@ const TheBarChart = (props) => {
       };
     });
   }
+
+  // useEffect(() => {
+  //   async function getArenaList() {
+  //     const response = await base.get("api/v1/Schools");
+  //     const resJSON = await response.data;
+  //   }
+  // }, []);
 
   return (
     <BarChart

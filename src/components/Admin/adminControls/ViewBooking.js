@@ -76,7 +76,15 @@ const ViewBooking = (props) => {
 
   return (
     <div>
-      <Table dataSource={getPrintableData()} columns={columns} rowKey="id" />
+      <Table
+        dataSource={getPrintableData()}
+        columns={columns}
+        size={props.size ?? "large"}
+        scroll={{
+          x: "calc(700px+50%)",
+        }}
+        rowKey="id"
+      />
     </div>
   );
 };

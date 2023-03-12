@@ -28,6 +28,10 @@ import TheDonutChart from "./TheDonutChart";
 import TheLineChart from "./TheLineChart";
 import { useEffect, useState } from "react";
 import "../adminPage.css";
+import TodayTomAndDayAfterPreview from "./TodayTomAndDayAfterPreview";
+import { Collapse } from "antd";
+import { RightCircleFilled } from "@ant-design/icons";
+const { Panel } = Collapse;
 
 const chartsDecorationColor = "purple";
 
@@ -42,9 +46,10 @@ const Dashboard = () => {
         arena: entry.arena,
         bookingDate: new Date(entry.bookingDate),
         timeslot: formatTimeSlot(entry.slot),
+        bookingId: entry.bookingId,
+        userPhone: entry.userPhone,
         userBranch: entry.userBranch,
       };
-      console.log(entryMap);
       data.push(entryMap);
     });
     return data;
@@ -107,17 +112,11 @@ const Dashboard = () => {
     const getDataFromDB = async () => {
       const data = await base.get("api/v1/arenas");
       const arenaList = await data.data;
-
-      console.log(arenaList.data);
-
       await arenaList.data.map(async (arenaInfo, index) => {
         const bookings = await getBookingsOnArena(arenaInfo);
         if (bookings.length !== 0 && !!bookings.length) {
           bookingList.push(...bookings);
-          console.log("Booking List ====>>>");
-          console.log(bookingList);
           setSampleData(formatDataFromDB(bookingList));
-          console.log(sampleData);
         }
       });
     };
@@ -130,6 +129,8 @@ const Dashboard = () => {
     };
 
     getDataFromDB();
+    console.log(bookingList);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -183,70 +184,85 @@ const Dashboard = () => {
 
   return (
     <div>
-      <ColGrid numColsMd={2}>
-        <Col>
-          <Card maxWidth="max-w-sm" min marginTop="mt-7">
-            <DateRangePicker
-              value={dateValue}
-              onValueChange={dateUpdate}
-            ></DateRangePicker>
-            <SelectBox
-              value={activeArena}
-              placeholder="Select Arena"
-              onValueChange={arenaUpdate}
-              marginTop="mt-5"
-            >
-              <SelectBoxItem value={null} text={"All"}></SelectBoxItem>
-              {getUniqueArenas().map((arena) => (
-                <SelectBoxItem
-                  key={arena}
-                  value={arena}
-                  text={arena}
-                ></SelectBoxItem>
-              ))}
-            </SelectBox>
-          </Card>
-        </Col>
-        <Col>
-          <Card
-            shadow={true}
-            decoration="top"
-            decorationColor={chartsDecorationColor}
-            maxWidth="max-w-lg"
-          >
-            <Title>Booking Count by Arena</Title>
-            <Divider />
-            <TheDonutChart data={activeData}></TheDonutChart>
-          </Card>
-        </Col>
-      </ColGrid>
+      <TodayTomAndDayAfterPreview
+        data={sampleData}
+      ></TodayTomAndDayAfterPreview>
+      <Collapse
+        size="large"
+        expandIcon={({ isActive }) => (
+          <RightCircleFilled rotate={isActive ? 90 : 0} />
+        )}
+      >
+        <Panel key={1} header="More Statistics">
+          <ColGrid numColsMd={2}>
+            <Col>
+              <Card maxWidth="max-w-sm" min marginTop="mt-7">
+                <DateRangePicker
+                  onValueChange={dateUpdate}
+                  defaultValue={[
+                    new Date(),
+                    new Date().setDate(new Date().getDate() + 3),
+                  ]}
+                ></DateRangePicker>
+                <SelectBox
+                  value={activeArena}
+                  placeholder="Select Arena"
+                  onValueChange={arenaUpdate}
+                  marginTop="mt-5"
+                >
+                  <SelectBoxItem value={null} text={"All"}></SelectBoxItem>
+                  {getUniqueArenas().map((arena) => (
+                    <SelectBoxItem
+                      key={arena}
+                      value={arena}
+                      text={arena}
+                    ></SelectBoxItem>
+                  ))}
+                </SelectBox>
+              </Card>
+            </Col>
+            <Col>
+              <Card
+                shadow={true}
+                decoration="top"
+                decorationColor={chartsDecorationColor}
+                maxWidth="max-w-lg"
+              >
+                <Title>Booking Usage by Arena</Title>
+                <Divider />
+                <TheDonutChart data={activeData}></TheDonutChart>
+              </Card>
+            </Col>
+          </ColGrid>
 
-      <ColGrid numColsMd={2}>
-        <Col>
-          <Card
-            maxWidth="max-w-lg"
-            marginTop="mt-16"
-            decoration="top"
-            decorationColor={chartsDecorationColor}
-          >
-            <Title>Booking Frequency by Branch</Title>
-            <Divider />
-            <TheBarChart data={activeData}></TheBarChart>
-          </Card>
-        </Col>
-        <Col>
-          <Card
-            maxWidth="max-w-lg"
-            marginTop="mt-16"
-            decoration="top"
-            decorationColor={chartsDecorationColor}
-          >
-            <Title>Frequency of Timeslot getting Booked</Title>
-            <Divider />
-            <TheLineChart data={activeData}></TheLineChart>
-          </Card>
-        </Col>
-      </ColGrid>
+          <ColGrid numColsMd={2}>
+            <Col>
+              <Card
+                maxWidth="max-w-lg"
+                marginTop="mt-16"
+                decoration="top"
+                decorationColor={chartsDecorationColor}
+              >
+                <Title>Booking Frequency by Student Course</Title>
+                <Divider />
+                <TheBarChart data={activeData}></TheBarChart>
+              </Card>
+            </Col>
+            <Col>
+              <Card
+                maxWidth="max-w-lg"
+                marginTop="mt-16"
+                decoration="top"
+                decorationColor={chartsDecorationColor}
+              >
+                <Title>Usage by Hour</Title>
+                <Divider />
+                <TheLineChart data={activeData}></TheLineChart>
+              </Card>
+            </Col>
+          </ColGrid>
+        </Panel>
+      </Collapse>
     </div>
   );
 };
