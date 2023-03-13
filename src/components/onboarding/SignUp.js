@@ -26,14 +26,14 @@ const SignUp = () => {
   const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    base.get("api/v1/branches").then((res) => {
+    base.get("api/v1/Schools").then((res) => {
       setBranches(res.data.data);
     });
     base.get("api/v1/security/questions").then(res => setQuestions(res.data.data))
   }, []);
   const getCourse = (e) => {
     e.preventDefault();
-    base.get(`api/v1/branches/${e.target.value}/courses`).then((res) => {
+    base.get(`api/v1/schools/${e.target.value}/courses`).then((res) => {
       setCourses(res.data.data);
     });
   };
