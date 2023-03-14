@@ -6,23 +6,22 @@ const TheBarChart = (props) => {
   const activeData = props.data;
 
   function countBookingsByBranch() {
-    const branches = {};
+    const schools = {};
     const bookingsList = activeData;
-
     bookingsList.forEach((booking) => {
-      const branch = booking.userBranch;
+      const school = booking.userSchool;
 
-      if (branch in branches) {
-        branches[branch] += 1;
+      if (school in schools) {
+        schools[school] += 1;
       } else {
-        branches[branch] = 1;
+        schools[school] = 1;
       }
     });
 
-    return Object.keys(branches).map((branch) => {
+    return Object.keys(schools).map((school) => {
       return {
-        "User Branch": branch,
-        "Number of Bookings": branches[branch],
+        "User School": school,
+        "Number of Bookings": schools[school],
       };
     });
   }
@@ -37,7 +36,7 @@ const TheBarChart = (props) => {
   return (
     <BarChart
       data={countBookingsByBranch()}
-      dataKey="User Branch"
+      dataKey="User School"
       categories={["Number of Bookings"]}
       marginTop="mt-6"
       yAxisWidth="w-12"
