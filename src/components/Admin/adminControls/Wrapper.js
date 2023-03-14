@@ -84,7 +84,7 @@ const AdminControls = () => {
           arena: entry.arena,
           bookingDate: new Date(entry.bookingDate),
           timeslot: formatTimeSlot(entry.slot),
-          userBranch: entry.userBranch,
+          userSchool: entry.userSchool,
           bookingId: entry.bookingId,
           userPhone: entry.userPhone,
           paymentStatus: entry.paymentStatus,

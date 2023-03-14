@@ -38,23 +38,6 @@ const chartsDecorationColor = "purple";
 const Dashboard = () => {
   const [sampleData, setSampleData] = useState([]);
 
-  function formatDataFromDB(dataFromDB) {
-    const data = [];
-    var entryMap;
-    dataFromDB.forEach(function (entry, index) {
-      entryMap = {
-        arena: entry.arena,
-        bookingDate: new Date(entry.bookingDate),
-        timeslot: formatTimeSlot(entry.slot),
-        bookingId: entry.bookingId,
-        userPhone: entry.userPhone,
-        userBranch: entry.userBranch,
-      };
-      data.push(entryMap);
-    });
-    return data;
-  }
-
   function formatTimeSlot(slot) {
     const times = slot.split(" - ");
     const startTime = times[0];
@@ -122,15 +105,28 @@ const Dashboard = () => {
     };
 
     const getBookingsOnArena = async (arenaInfo) => {
-      const response = await base.get(
-        `api/v1/arenas/${arenaInfo.id}/bookings?arenaId=${arenaInfo.id}`
-      );
+      const response = await base.get(`api/v1/arenas/${arenaInfo.id}/bookings`);
       return await response.data.data;
     };
 
+    function formatDataFromDB(dataFromDB) {
+      const data = [];
+      var entryMap;
+      dataFromDB.forEach(function (entry, index) {
+        entryMap = {
+          arena: entry.arena,
+          bookingDate: new Date(entry.bookingDate),
+          timeslot: formatTimeSlot(entry.slot),
+          bookingId: entry.bookingId,
+          userPhone: entry.userPhone,
+          userSchool: entry.userSchool,
+        };
+        data.push(entryMap);
+      });
+      return data;
+    }
+
     getDataFromDB();
-    console.log(bookingList);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
