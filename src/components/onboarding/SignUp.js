@@ -319,7 +319,7 @@ const SignUp = () => {
     <div>
       <h1>SignUp</h1>
       Already have an account?
-      <a href="/login">Login</a>
+      <a href="#/login">Login</a>
     </div>
   );
   return (

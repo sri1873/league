@@ -149,7 +149,7 @@ const Login = () => {
       <h1>Login</h1>
       <p style={{ color: "gray" }}>
         Don't have an account yet?
-        <a href="/signUp">Signup</a>
+        <a href="#/signup">Signup</a>
       </p>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import Login from "./onboarding/Login";
 import SignUp from "./onboarding/SignUp";
 import Onboarding from "./onboarding/Onboarding";
@@ -36,10 +36,10 @@ const App = () => {
     return (<>
         <NavBar />
         <div className="content">
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
-                    <Route path="/signUp" element={<Onboarding><SignUp /></Onboarding>} />
+                    <Route path="/signup" element={<Onboarding><SignUp /></Onboarding>} />
 
                     <Route element={<RequireAuth />}>
                         {roleAdmin()}
@@ -51,7 +51,7 @@ const App = () => {
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/server-error" element={<InternalServerError />} />
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </div>
         <Footer />
     </>

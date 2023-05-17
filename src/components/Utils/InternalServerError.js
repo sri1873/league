@@ -11,7 +11,7 @@ const InternalServerError = () => {
             <div className="description col-12">
                 <p>Its's not you! It's us.</p>
                 <p>Sorry. Try Again later</p>
-                <a href="/">Go Home</a>
+                <a href="#/">Go Home</a>
             </div>
             <div className="col-12" >
                 <a style={{ fontSize: "x-small" }} href="https://www.freepik.com/free-vector/500-internal-server-error-concept-illustration_13416109.htm#query=failed&position=4&from_view=search&track=sph">Image by storyset on Freepik</a>

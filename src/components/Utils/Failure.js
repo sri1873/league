@@ -16,7 +16,7 @@ const Failure = () => {
                 </div>
                 <div class="card-body text-danger">
                     <h5>Booking Failed</h5>
-                    <a href="/bookings" class="btn btn-outline-danger">Go Home</a>
+                    <a href="#/bookings" class="btn btn-outline-danger">Go Home</a>
                 </div>
             </div>
         </div>
