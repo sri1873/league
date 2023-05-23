@@ -36,7 +36,7 @@ const App = () => {
     return (<>
         <NavBar />
         <div className="content">
-            <HashRouter>
+            <BrowserRouter>
                 <Routes>
                     <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
                     <Route path="/signup" element={<Onboarding><SignUp /></Onboarding>} />
@@ -51,7 +51,7 @@ const App = () => {
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/server-error" element={<InternalServerError />} />
                 </Routes>
-            </HashRouter>
+            </BrowserRouter>
         </div>
         <Footer />
     </>

@@ -19,7 +19,7 @@ const Onboarding = ({ children }) => {
                         </div>
                         {children}
                     </div>
-                </div> : <Navigate to={'#/'} state={{ from: location }} replace />
+                </div> : <Navigate to={'/'} state={{ from: location }} replace />
             }
         </>
     );
