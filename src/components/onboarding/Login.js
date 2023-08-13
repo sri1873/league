@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [ConfirmButton, setConfirmButton] = useState("")
   const [modal, setModal] = useState(false);
   const [question, setQuestion] = useState({});
   const [formDetails, setFormDetails] = useState();
@@ -47,6 +48,7 @@ const Login = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+    setConfirmButton("disable")
     sessionStorage.clear();
     base({
       method: "POST",
@@ -60,11 +62,13 @@ const Login = () => {
     })
       .then((res) => {
         const user = Decrypt(res.data.data.token);
+        setConfirmButton("");
         dispatch(toggleActive());
         dispatch(addUser(user));
         navigate(from, { replace: true });
       })
       .catch((err) => {
+        setConfirmButton("");
         setErrorMsg("Invalid Credentials!");
       });
   };
@@ -137,7 +141,7 @@ const Login = () => {
           }
         />
       </div>
-      <button className="col-12 btn btn-outline-success" type="submit">
+      <button className={`col-12 btn btn-outline-success ${(ConfirmButton === "") ? "" : "disabled"}`} type="submit">
         Login
       </button>
       <Error setErrorMsg={setErrorMsg} color={"danger"} message={errorMsg} />
