@@ -98,12 +98,12 @@ const SignUp = () => {
         if (!values.password) {
           errors.password = "* Enter password";
         } else if (
-          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(
+          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]).{8,}$/i.test(
             values.password
           )
         ) {
           errors.password =
-            "* Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
+            "* Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number";
         } else if (values.password !== values.confirmPassword) {
           errors.confirmPassword = "* Both passowords must be same";
         }

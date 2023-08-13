@@ -14,9 +14,10 @@ const Slot = ({ slots, arenaId, date }) => {
     useEffect(() => {
         if (pay)
             base.get(`/api/v1/payu/users/${userId}/arenas/${arenaId}/slots/${slotId}/day/${date}/get-payu-button`).then(res => setHTML({ "__html": res.data }))
-    }, [slotId,userId,arenaId,date,pay])
+    }, [slotId, userId, arenaId, date, pay])
 
     const handleSubmit = (e) => {
+
         base({
             method: 'POST',
             url: `api/v1/users/${userId}/bookings?day=${date}`,
@@ -45,10 +46,9 @@ const Slot = ({ slots, arenaId, date }) => {
                 </div>
             </div>
             {pay ? <div dangerouslySetInnerHTML={html} /> :
-                <button className={`booking-btn col-md-2 ${slotId ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e => handleSubmit(e)}>Confirm Booking</button>}
+                <button className={`booking-btn col-md-2 ${slotId ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e => { e.currentTarget.disabled = true; handleSubmit(e) }}>Confirm Booking</button>}
         </>
     );
-
 
 
 }
