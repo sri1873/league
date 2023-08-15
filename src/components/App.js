@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import Login from "./onboarding/Login";
 import SignUp from "./onboarding/SignUp";
@@ -14,8 +14,26 @@ import Registration from "./Registration/registration";
 import AdminWrapper from "./Admin/Wrapper";
 import { useSelector } from "react-redux";
 import Footer from "./Footer";
+import axios from "../apis/base";
+import Loader from "./Utils/Loader";
 
 const App = () => {
+    const [loading, setLoading] = useState(false)
+    // Below 2 functions enable and disable loader for each api call
+    axios.interceptors.request.use(function (config) {
+        const newConfig = { ...config }
+        newConfig.metadata = { startTime: new Date() }
+        setLoading(true)
+        return newConfig;
+    })
+    axios.interceptors.response.use(function (response) {
+        const newRes = { ...response }
+        newRes.config.metadata.endTime = new Date();
+        newRes.duration =
+            newRes.config.metadata.endTime - newRes.config.metadata.startTime;
+        newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800-newRes.duration) : setLoading(false);
+        return newRes
+    })
     const roles = useSelector(state => state.user.roles)
     const roleAdmin = () => {
         if (roles.includes("STUDENT") && roles.includes("ADMIN")) {
@@ -35,6 +53,7 @@ const App = () => {
     }
     return (<>
         <NavBar />
+        <Loader state={loading} />
         <div className="content">
             <BrowserRouter>
                 <Routes>
