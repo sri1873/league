@@ -38,7 +38,7 @@ const SignUp = () => {
     });
   };
 
-  const onSubmit = (e) => {
+  const modalSubmit = (e) => {
     e.preventDefault();
     base({
       method: "POST",
@@ -110,25 +110,39 @@ const SignUp = () => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        setErrorMsg("");
         sessionStorage.clear();
         base
           .get(`/api/v1/util/availability/username?userName=${values.userName}`)
-          .then((res) => {
+          .then(res => {
             if (!res.data)
               setErrorMsg("Username not available")
             else {
-              setFormDetails(prevState => ({
-                ...prevState,
-                firstName: values.firstName,
-                lastName: values.lastName,
-                userName: values.userName,
-                email: values.email,
-                phone: values.phone,
-                password: values.password,
-                courseId: values.courseId
-              }))
-              setModal(true);
+              base.get(`api/v1/util/availability/email?email=${values.email}`)
+                .then(res => {
+                  if (!res.data)
+                    setErrorMsg("Mail-Id not available")
+                  else{
+                    setFormDetails(prevState => ({
+                      ...prevState,
+                      firstName: values.firstName,
+                      lastName: values.lastName,
+                      userName: values.userName,
+                      email: values.email,
+                      phone: values.phone,
+                      password: values.password,
+                      courseId: values.courseId
+                    }))
+                    setModal(true);
+                  }
+                }).catch(err => {
+                  console.log(err);
+                  setErrorMsg("Internal Server Error")
+                });
             }
+          }).catch(err => {
+            console.log(err);
+            setErrorMsg("Internal Server Error")
           });
       }}
     >
@@ -286,7 +300,7 @@ const SignUp = () => {
   );
 
   const securityQuestionModal = (
-    <form onSubmit={e => onSubmit(e)} class="modal" tabindex="-1">
+    <form onSubmit={e => modalSubmit(e)} class="modal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
