@@ -43,7 +43,7 @@ const NavBar = () => {
                             aria-expanded="false">
                             <Avatar
                                 style={{
-                                    backgroundColor: '#87d068', cursor: "pointer", marginRight: "10px"
+                                    color: "black",backgroundColor: '#befa19', cursor: "pointer", marginRight: "10px"
                                 }}
                                 icon={<UserOutlined />}
                             />
@@ -56,12 +56,12 @@ const NavBar = () => {
                             style={{ marginLeft: "-30px" }}
                             aria-labelledby="dropdownMenuButton"
                         >
-                            <button className="dropdown-item">
+                            {/* <button className="dropdown-item">
                                 <i className="bi bi-person mr-2"></i>My Profile
                             </button>
                             <button className="dropdown-item">
                                 <i className="bi bi-key mr-2"></i>Change Password
-                            </button>
+                            </button> */}
                             <button
                                 className="dropdown-item"
                                 type="button"

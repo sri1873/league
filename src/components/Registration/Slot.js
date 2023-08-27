@@ -23,8 +23,13 @@ const Slot = ({ slots, arenaId, date }) => {
             method: 'POST',
             url: `api/v1/users/${userId}/bookings?day=${date}`,
             data: { "arenaId": arenaId, "slotId": slotId }
-        }).then(res => { setConfirmButton(""); navigate("/bookings") })
-            .catch(err => { console.log(err); setConfirmButton(""); })
+        }).then(res => {
+            console.log(res.data?.success)
+            res.data?.success == true ? 
+                navigate("/bookings")
+                : alert(res.data?.message)
+        })
+            .catch(err => { console.log(err); })
     }
     const handleClick = (slot) => {
         setSlotId(slot.id);
@@ -48,7 +53,7 @@ const Slot = ({ slots, arenaId, date }) => {
                 </div>
             </div>
             {pay ? <div dangerouslySetInnerHTML={html} /> :
-                <button className={`booking-btn col-md-2 ${slotId && (ConfirmButton === "") ? "" : "disabled"}`} disabled={slotId && (ConfirmButton === "") ? "" : "false"} onClick={e => { setConfirmButton("disable"); handleSubmit(e) }}>Confirm Booking</button>}
+                <button className={`booking-btn col-md-2 ${slotId  ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e => { setConfirmButton("disable"); handleSubmit(e) }}>Confirm Booking</button>}
         </>
     );
 
