@@ -9,7 +9,6 @@ const Slot = ({ slots, arenaId, date }) => {
     const [slotId, setSlotId] = useState("")
     const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
-    const [ConfirmButton, setConfirmButton] = useState("")
     const userId = useSelector(state => state.user.userId);
 
     useEffect(() => {
@@ -25,7 +24,7 @@ const Slot = ({ slots, arenaId, date }) => {
             data: { "arenaId": arenaId, "slotId": slotId }
         }).then(res => {
             console.log(res.data?.success)
-            res.data?.success == true ? 
+            res.data?.success === true ? 
                 navigate("/bookings")
                 : alert(res.data?.message)
         })
@@ -53,7 +52,7 @@ const Slot = ({ slots, arenaId, date }) => {
                 </div>
             </div>
             {pay ? <div dangerouslySetInnerHTML={html} /> :
-                <button className={`booking-btn col-md-2 ${slotId  ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e => { setConfirmButton("disable"); handleSubmit(e) }}>Confirm Booking</button>}
+                <button className={`booking-btn col-md-2 ${slotId  ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e =>  handleSubmit(e) }>Confirm Booking</button>}
         </>
     );
 

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import Password from "./onboarding/Password";
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from "react-redux";
 
 const NavBar = () => {
+    const [modal, setModal] = useState(false);
     const onLogoutClick = (e) => {
         e.preventDefault();
         localStorage.clear();
@@ -43,7 +45,7 @@ const NavBar = () => {
                             aria-expanded="false">
                             <Avatar
                                 style={{
-                                    color: "black",backgroundColor: '#befa19', cursor: "pointer", marginRight: "10px"
+                                    color: "black", backgroundColor: '#befa19', cursor: "pointer", marginRight: "10px"
                                 }}
                                 icon={<UserOutlined />}
                             />
@@ -58,10 +60,11 @@ const NavBar = () => {
                         >
                             {/* <button className="dropdown-item">
                                 <i className="bi bi-person mr-2"></i>My Profile
-                            </button>
-                            <button className="dropdown-item">
-                                <i className="bi bi-key mr-2"></i>Change Password
                             </button> */}
+                            <button className="dropdown-item" type="button"
+                                onClick={e=>setModal(true)}>
+                                <i className="bi bi-key mr-2"></i>Change Password
+                            </button>
                             <button
                                 className="dropdown-item"
                                 type="button"
@@ -76,7 +79,8 @@ const NavBar = () => {
 
             </div>
         </nav>
-        : null}</>
+        : null}
+        {modal ? <Password setModal={setModal} /> : ""}</>
     );
 }
 export default NavBar;
