@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import base from "../../apis/base";
-import Error from "../../helpers/Error";
 const Password = ({ setModal }) => {
   const [question, setQuestion] = useState({});
   const [formDetails, setFormDetails] = useState();
-  const [errorMsg, setErrorMsg] = useState("");
-  console.log(question)
+
   const getQuestion = (e) => {
     base.get(`api/v1/auth/security-question?email=${formDetails?.email}`)
       .then(res => {
         setQuestion(res.data?.data);
         setFormDetails(prevState => ({ ...prevState, "securityQuestionId": res.data?.data?.id }));
-      }).err(err => setErrorMsg(err.message))
+      })
   }
 
   const handleForgotPassword = (e) => {
@@ -30,7 +28,7 @@ const Password = ({ setModal }) => {
         setModal(false);
         localStorage.clear();
         window.location.href = "/";
-      }).err(err => setErrorMsg(err.message))
+      })
     } else {
       getQuestion(e)
     }
@@ -77,7 +75,6 @@ const Password = ({ setModal }) => {
             <button type="button" className="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
             <button type="submit" className="btn btn-outline-success">Submit</button>
           </div>
-          <Error setErrorMsg={setErrorMsg} color={"danger"} message={errorMsg} />
         </div>
       </div>
     </form>

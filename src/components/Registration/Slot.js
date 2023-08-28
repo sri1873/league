@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import base from '../../apis/base';
+import { setErrorMsg } from '../../store';
 
 const Slot = ({ slots, arenaId, date }) => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const [slotId, setSlotId] = useState("")
     const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
@@ -24,9 +25,9 @@ const Slot = ({ slots, arenaId, date }) => {
             data: { "arenaId": arenaId, "slotId": slotId }
         }).then(res => {
             console.log(res.data?.success)
-            res.data?.success === true ? 
+            res.data?.success === true ?
                 navigate("/bookings")
-                : alert(res.data?.message)
+                : dispatch(setErrorMsg(res.data?.message))
         })
             .catch(err => { console.log(err); })
     }
@@ -52,7 +53,7 @@ const Slot = ({ slots, arenaId, date }) => {
                 </div>
             </div>
             {pay ? <div dangerouslySetInnerHTML={html} /> :
-                <button className={`booking-btn col-md-2 ${slotId  ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e =>  handleSubmit(e) }>Confirm Booking</button>}
+                <button className={`booking-btn col-md-2 ${slotId ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e => handleSubmit(e)}>Confirm Booking</button>}
         </>
     );
 

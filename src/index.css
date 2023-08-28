@@ -29,6 +29,7 @@ code {
 
 .navbar {
   background-color: var(--primary) !important;
+  z-index: 10 !important;
 }
 
 .footer-container {

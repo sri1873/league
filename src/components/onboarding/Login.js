@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom/dist";
 import base from "../../apis/base";
 import Decrypt from "../../helpers/decrypt";
-import Error from "../../helpers/Error";
-import { addUser, toggleActive } from "../../store";
+import { addUser, toggleActive, setErrorMsg } from "../../store";
 import "./onboarding.css";
 
 const Login = () => {
@@ -19,7 +18,7 @@ const Login = () => {
     email: null,
     password: null,
   });
-  const [errorMsg, setErrorMsg] = useState("");
+
 
   const from = location.state?.from?.pathname || "/";
 
@@ -46,7 +45,7 @@ const Login = () => {
       })
       .catch((err) => {
         setConfirmButton("");
-        setErrorMsg("Invalid Credentials!");
+        dispatch(setErrorMsg("Invalid Credentials!"));
       });
   };
 
@@ -86,7 +85,6 @@ const Login = () => {
       <button className={`col-12 btn btn-outline-success ${(ConfirmButton === "") ? "" : "disabled"}`} type="submit">
         Login
       </button>
-      <Error setErrorMsg={setErrorMsg} color={"danger"} message={errorMsg} />
       <button type="button" style={{ backgroundColor: "transparent", border: "none", color: "gray", fontSize: "small" }} onClick={e => setModal(true)} >Forgot Password?</button>
     </form>
   );

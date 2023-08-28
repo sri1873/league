@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "../apis/base";
 import RequireAuth from "../helpers/RequireAuth";
@@ -16,9 +16,12 @@ import Success from "./Utils/Success";
 import Login from "./onboarding/Login";
 import Onboarding from "./onboarding/Onboarding";
 import SignUp from "./onboarding/SignUp";
+import Error from "../helpers/Error";
+import { setErrorMsg } from "../store";
         
 const App = () => {
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch();
     // Below 2 functions enable and disable loader for each api call
     axios.interceptors.request.use(config => {
         const newConfig = { ...config }
@@ -35,6 +38,7 @@ const App = () => {
         return newRes
     }, error => {
         const newRes = { ...error }
+        dispatch(setErrorMsg(error?.response?.data?.message))
         newRes.config.metadata.endTime = new Date();
         newRes.duration =
             newRes.config.metadata.endTime - newRes.config.metadata.startTime;
@@ -61,7 +65,8 @@ const App = () => {
     return (<>
         <NavBar />
         <Loader state={loading} />
-        <div className="content">
+        <Error color={"danger"} message={useSelector(state => state.errorMsg)} />
+        
             <BrowserRouter>
                 <Routes>
                     <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
@@ -78,7 +83,7 @@ const App = () => {
                     <Route path="/server-error" element={<InternalServerError />} />
                 </Routes>
             </BrowserRouter>
-        </div>
+        {/* </div> */}
         <Footer />
     </>
     );
