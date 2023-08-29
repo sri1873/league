@@ -17,7 +17,8 @@ const authSlice = createSlice({
             token: null,
             userId: null,
             roles: []
-        }
+        },
+        errorMsg: ""
     },
     reducers: {
         toggleActive: (state) => {
@@ -29,7 +30,13 @@ const authSlice = createSlice({
             state.user.token = action.payload.token;
             state.user.roles = action.payload.roles;
             state.user.userName = action.payload.userName;
-        }
+        },
+        setErrorMsg: (state, action) => {
+            state.errorMsg = action.payload;
+        },
+        clearErrorMsg: (state) => {
+            state.errorMsg = "";
+        },
     }
 })
 const persistedReducer = persistReducer(persistConfig, authSlice.reducer)
@@ -41,4 +48,4 @@ const store = configureStore({
 
 export { store };
 export const persistor = persistStore(store)
-export const { toggleActive, addUser } = authSlice.actions;
+export const { toggleActive, addUser, setErrorMsg, clearErrorMsg } = authSlice.actions;

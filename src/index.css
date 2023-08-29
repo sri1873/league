@@ -14,7 +14,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+a{
+  text-decoration: none;
+}
 :root {
   --primary: #161a1d;
   --secondary: #b1a7a6;
@@ -29,6 +31,7 @@ code {
 
 .navbar {
   background-color: var(--primary) !important;
+  z-index: 10 !important;
 }
 
 .footer-container {
@@ -47,4 +50,31 @@ code {
 }
 .logo {
   width: 50%;
+}
+.follow h4 {
+  color: white;
+  font-size: 15px;
+  border-top: solid 2px #ee495c;
+  padding-top: 20px;
+}
+.follow ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    margin-bottom: 5px;
+}
+.follow ul li {
+    margin-right: 8px;
+    width: 76px;
+    font-size: 15px;
+    font-weight: 400;
+}
+.follow ul li img {
+    width: 29px;
+    height: 24px;
+    object-fit: scale-down;
+    margin: auto auto 6px;
+    display: block;
 }

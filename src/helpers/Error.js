@@ -1,15 +1,21 @@
 import React from "react";
 
-const Error = ({ setErrorMsg, color, message }) => {
-
+import { clearErrorMsg } from "../store";
+import { useDispatch } from "react-redux";
+const Error = ({ color, message }) => {
+    const dispatch = useDispatch();
     const errorResourse =
-        <div class={`alert alert-${color} d-flex align-items-center alert-dismissible`} role="alert">
+        
+
+        <div className={`alert alert-${color} alert-dismissible`} role="alert"
+            style={{position:"absolute", margin: 0,maxWidth:"40%",zIndex:100,top:"20px",right:"10px"}}>
 
             <div>
                 {message}
             </div>
-            <button type="button" class="btn-close" onClick={e => setErrorMsg(null)} ></button>
+            <button type="button" class="btn-close" onClick={e => dispatch(clearErrorMsg())} ></button>
         </div>
+                // </div>
 
     return (
         message ? errorResourse : <></>

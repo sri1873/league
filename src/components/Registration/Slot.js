@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import base from '../../apis/base';
+import { setErrorMsg } from '../../store';
 
 const Slot = ({ slots, arenaId, date }) => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const [slotId, setSlotId] = useState("")
     const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
-    const [ConfirmButton, setConfirmButton] = useState("")
     const userId = useSelector(state => state.user.userId);
 
     useEffect(() => {
@@ -23,8 +23,13 @@ const Slot = ({ slots, arenaId, date }) => {
             method: 'POST',
             url: `api/v1/users/${userId}/bookings?day=${date}`,
             data: { "arenaId": arenaId, "slotId": slotId }
-        }).then(res => { setConfirmButton(""); navigate("/bookings") })
-            .catch(err => { console.log(err); setConfirmButton(""); })
+        }).then(res => {
+            console.log(res.data?.success)
+            res.data?.success === true ?
+                navigate("/bookings")
+                : dispatch(setErrorMsg(res.data?.message))
+        })
+            .catch(err => { console.log(err); })
     }
     const handleClick = (slot) => {
         setSlotId(slot.id);
@@ -48,7 +53,7 @@ const Slot = ({ slots, arenaId, date }) => {
                 </div>
             </div>
             {pay ? <div dangerouslySetInnerHTML={html} /> :
-                <button className={`booking-btn col-md-2 ${slotId && (ConfirmButton === "") ? "" : "disabled"}`} disabled={slotId && (ConfirmButton === "") ? "" : "false"} onClick={e => { setConfirmButton("disable"); handleSubmit(e) }}>Confirm Booking</button>}
+                <button className={`booking-btn col-md-2 ${slotId ? "" : "disabled"}`} disabled={slotId ? "" : "false"} onClick={e => handleSubmit(e)}>Confirm Booking</button>}
         </>
     );
 

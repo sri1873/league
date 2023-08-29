@@ -59,6 +59,8 @@ a {
 }
 .modal {
   display: block !important;
+  background-color: #0009;
+  z-index: 10 !important;
 }
 
 @media (max-width: 900px) {

@@ -1,12 +1,11 @@
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom/dist";
-// import { isValidPhoneNumber } from "react-phone-number-input";
 import base from "../../apis/base";
 import "./onboarding.css";
 import Decrypt from "../../helpers/decrypt";
-import Error from "../../helpers/Error";
-import { addUser, toggleActive } from "../../store";
+
+import { addUser, toggleActive, clearErrorMsg, setErrorMsg } from "../../store";
 import { useDispatch } from "react-redux";
 
 const SignUp = () => {
@@ -18,7 +17,6 @@ const SignUp = () => {
   const [branches, setBranches] = useState([]);
   const [courses, setCourses] = useState([]);
 
-  const [errorMsg, setErrorMsg] = useState("");
   const [formDetails, setFormDetails] = useState({});
 
   const [modal, setModal] = useState(false);
@@ -38,7 +36,7 @@ const SignUp = () => {
     });
   };
 
-  const onSubmit = (e) => {
+  const modalSubmit = (e) => {
     e.preventDefault();
     base({
       method: "POST",
@@ -110,25 +108,39 @@ const SignUp = () => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        dispatch(clearErrorMsg());
         sessionStorage.clear();
         base
           .get(`/api/v1/util/availability/username?userName=${values.userName}`)
-          .then((res) => {
+          .then(res => {
             if (!res.data)
-              setErrorMsg("Username not available")
+              dispatch(setErrorMsg("Username not available"))
             else {
-              setFormDetails(prevState => ({
-                ...prevState,
-                firstName: values.firstName,
-                lastName: values.lastName,
-                userName: values.userName,
-                email: values.email,
-                phone: values.phone,
-                password: values.password,
-                courseId: values.courseId
-              }))
-              setModal(true);
+              base.get(`api/v1/util/availability/email?email=${values.email}`)
+                .then(res => {
+                  if (!res.data)
+                    dispatch(setErrorMsg("Mail-Id not available"))
+                  else {
+                    setFormDetails(prevState => ({
+                      ...prevState,
+                      firstName: values.firstName,
+                      lastName: values.lastName,
+                      userName: values.userName,
+                      email: values.email,
+                      phone: values.phone,
+                      password: values.password,
+                      courseId: values.courseId
+                    }))
+                    setModal(true);
+                  }
+                }).catch(err => {
+                  console.log(err);
+                  dispatch(setErrorMsg("Internal Server Error"))
+                });
             }
+          }).catch(err => {
+            console.log(err);
+            dispatch(setErrorMsg("Internal Server Error"))
           });
       }}
     >
@@ -237,11 +249,6 @@ const SignUp = () => {
             <button className="col-12 btn btn-outline-success" type="submit">
               Proceed
             </button>
-            <Error
-              setErrorMsg={setErrorMsg}
-              color={"danger"}
-              message={errorMsg}
-            />
           </div>
           <div className="col-md-6 errmsg">
             <ErrorMessage
@@ -286,7 +293,7 @@ const SignUp = () => {
   );
 
   const securityQuestionModal = (
-    <form onSubmit={e => onSubmit(e)} class="modal" tabindex="-1">
+    <form onSubmit={e => modalSubmit(e)} class="modal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

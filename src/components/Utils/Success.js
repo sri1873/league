@@ -30,7 +30,7 @@ const Success = () => {
                         <li class="list-group-item">Arena : {bookingDetails.arena}</li>
                         <li class="list-group-item">Slot : {bookingDetails.slot}</li>
                     </ul>
-                    <a href="#/bookings" class="btn btn-outline-success">Check Bookings</a>
+                    <a href="/bookings" class="btn btn-outline-success">Check Bookings</a>
                 </div>
             </div>
         </div>
