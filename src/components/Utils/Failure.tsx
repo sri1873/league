@@ -1,8 +1,9 @@
 import React from "react";
 
-const Failure = () => {
+const Failure:React.FC = () => {
 
-    return (<div style={{ display: "flex", maxHeight: "90vh",padding:'5%',alignItems:"center" }}>
+    return (
+        <div style={{ display: "flex", maxHeight: "90vh", padding: '5%', alignItems: "center" }}>
         <div className="col-md-6 img-wrapper">
             <img className="image" alt="failure" src="https://img.freepik.com/free-vector/tiny-people-examining-operating-system-error-warning-web-page-isolated-flat-illustration_74855-11104.jpg" />
             <div>
@@ -10,13 +11,13 @@ const Failure = () => {
             </div>
         </div>
         <div className="col-md-6">
-            <div class="card bg-transparent  border-danger mb-3">
-                <div class="card-header">
+            <div className="card bg-transparent  border-danger mb-3">
+                <div className="card-header">
                     Booking Details
                 </div>
-                <div class="card-body text-danger">
+                <div className="card-body text-danger">
                     <h5>Booking Failed</h5>
-                    <a href="/bookings" class="btn btn-outline-danger">Go Home</a>
+                    <a href="/bookings" className="btn btn-outline-danger">Go Home</a>
                 </div>
             </div>
         </div>

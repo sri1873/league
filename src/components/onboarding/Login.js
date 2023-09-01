@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom/dist";
 import base from "../../apis/base";
-import Decrypt from "../../helpers/decrypt";
+import Decrypt from "../../helpers/Decrypt";
 import { addUser, toggleActive, setErrorMsg } from "../../store";
 import "./onboarding.css";
 

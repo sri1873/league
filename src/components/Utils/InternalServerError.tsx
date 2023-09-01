@@ -1,7 +1,7 @@
 import React from "react";
 import "./utils.css"
 
-const InternalServerError = () => {
+const InternalServerError:React.FC = () => {
 
     return (<div style={{ display: "flex", padding: "2%", maxHeight: "90vh" }}>
         <div className="main col-12">
