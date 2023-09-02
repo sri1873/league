@@ -1,20 +1,27 @@
 import Password from './Password';
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom/dist";
+import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom/dist";
 import base from "../../apis/base";
 import Decrypt from "../../helpers/Decrypt";
 import { addUser, toggleActive, setErrorMsg } from "../../store";
 import "./onboarding.css";
+import { Dispatch } from '@reduxjs/toolkit';
+import { User } from '../../types';
+
+interface LoginDetails{
+  email: string|null,
+  password:string|null,
+}
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const dispatch:Dispatch = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const location: Location = useLocation();
 
-  const [ConfirmButton, setConfirmButton] = useState("")
-  const [modal, setModal] = useState(false);
-  const [loginDetails, setLoginDetails] = useState({
+  const [ConfirmButton, setConfirmButton] = useState<string>("")
+  const [modal, setModal] = useState<boolean>(false);
+  const [loginDetails, setLoginDetails] = useState<LoginDetails>({
     email: null,
     password: null,
   });
@@ -22,7 +29,7 @@ const Login = () => {
 
   const from = location.state?.from?.pathname || "/";
 
-  const handleSubmit = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     setConfirmButton("disable")
     sessionStorage.clear();
@@ -37,7 +44,7 @@ const Login = () => {
       },
     })
       .then((res) => {
-        const user = Decrypt(res.data.data.token);
+        const user:User = Decrypt(res.data.data.token);
         setConfirmButton("");
         dispatch(toggleActive());
         dispatch(addUser(user));

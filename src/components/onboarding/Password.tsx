@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 import base from "../../apis/base";
-const Password = ({ setModal }) => {
-  const [question, setQuestion] = useState({});
-  const [formDetails, setFormDetails] = useState();
+import { AxiosResponse } from "axios";
 
-  const getQuestion = (e) => {
-    base.get(`api/v1/auth/security-question?email=${formDetails?.email}`)
+interface PwProps {
+  setModal(val:boolean):void
+}
+interface SecurityQuestion {
+  id: string,
+  question: string
+}
+interface FormDetailsType{
+  email: string,
+  securityQuestionId: string,
+  securiyAnswer: string,
+  newPassword:string
+}
+const Password: React.FC<PwProps> = ({ setModal }) => {
+  const [question, setQuestion] = useState <SecurityQuestion>({"id":"","question":""});
+  const [formDetails, setFormDetails] = useState<FormDetailsType>({
+    "email":"",
+    "securityQuestionId":"",
+    "securiyAnswer":"",
+    "newPassword":""
+  });
+
+  const getQuestion = ():void => {
+    base.get<AxiosResponse<SecurityQuestion>>(`api/v1/auth/security-question?email=${formDetails?.email}`)
       .then(res => {
         setQuestion(res.data?.data);
-        setFormDetails(prevState => ({ ...prevState, "securityQuestionId": res.data?.data?.id }));
+        setFormDetails((prevState) => ({ ...prevState, "securityQuestionId": res.data?.data?.id }));
       })
   }
 
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword:React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (question?.id) {
       base({
@@ -30,13 +50,13 @@ const Password = ({ setModal }) => {
         window.location.href = "/";
       })
     } else {
-      getQuestion(e)
+      getQuestion()
     }
   }
 
   return (
 
-    <form onSubmit={e => handleForgotPassword(e)} className="modal" tabIndex="-1">
+    <form onSubmit={e => handleForgotPassword(e)} className="modal" tabIndex={-1}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -46,7 +66,7 @@ const Password = ({ setModal }) => {
           <div className="modal-body">
             <label className="form-label">Email</label>
             <input type={"text"} className="form-control" required onChange={e => {
-              setFormDetails(prevState => ({
+              setFormDetails((prevState) => ({
                 ...prevState,
                 "email": e.target.value
               }));

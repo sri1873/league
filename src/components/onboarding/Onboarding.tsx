@@ -2,11 +2,12 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom/dist';
 import './onboarding.css'
+import { AuthState } from '../../types';
 
 
-const Onboarding = ({ children }) => {
+const Onboarding: React.FC<React.PropsWithChildren> = ({ children }) => {
     const location = useLocation();
-    const user = useSelector((state) => {
+    const user = useSelector((state:AuthState) => {
         return state.isValid
     })
     return (

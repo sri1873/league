@@ -7,7 +7,7 @@ interface LoaderProps{
 
 const Loader:React.FC<LoaderProps> = ({ state }) => {
 
-    return (state &&
+    return (state ?
         <div className="loader-container">
                 <RingLoader
                 color="#befa19"
@@ -18,7 +18,7 @@ const Loader:React.FC<LoaderProps> = ({ state }) => {
                 />
             
             <p style={{ padding: "10px" }}>Preparing the Field...</p>
-        </div>
+        </div>:<></>
     )
 
 }

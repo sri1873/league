@@ -3,9 +3,11 @@
   padding: 0;
   margin: 0;
 }
+
 a {
   color: grey;
 }
+
 .onboarding {
   width: 100%;
   display: flex;
@@ -15,6 +17,7 @@ a {
   background-position: left;
   background-size: cover;
 }
+
 .contain {
   display: flex;
   flex-direction: row;
@@ -23,11 +26,13 @@ a {
   height: 100vh;
   overflow: hidden;
 }
+
 .welcome-img {
   flex: 3 1 100px;
   border-radius: 20px 0px 0px 20px;
   border: 1px solid white;
 }
+
 .welcome-img h1 {
   color: rgba(0, 0, 0, 0.941);
   text-shadow: -1px -1px 0 rgb(213, 255, 98), 1px -1px 0 rgb(213, 255, 98),
@@ -49,14 +54,21 @@ a {
   padding: 2%;
   overflow-y: scroll;
 }
+
 .signup {
   flex: 8 1 100px;
 }
+
 .errmsg {
   font-size: small;
   font-style: italic;
   text-align: justify;
 }
+
+.formikErrorMessage {
+  color: red;
+}
+
 .modal {
   display: block !important;
   background-color: #0009;
@@ -68,21 +80,25 @@ a {
     flex-direction: column;
     padding: 2em;
   }
+
   .login,
   .signup {
     width: 100%;
     border-radius: 0 0 20px 20px;
     flex: 3 1 100px;
   }
+
   .welcome-img {
     border-radius: 20px 20px 0 0;
     height: 10%;
     flex: 1 1 100px;
   }
+
   .welcome-img h1 {
     max-width: 90%;
     font-size: 3.5rem;
   }
+
   .signup {
     padding: 1em;
   }
@@ -93,6 +109,7 @@ a {
     max-width: 95%;
     font-size: 3rem;
   }
+
   .signup {
     padding: 1em;
   }

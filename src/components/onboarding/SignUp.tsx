@@ -1,42 +1,55 @@
-import { Field, Form, Formik, ErrorMessage } from "formik";
+import { Field, Form, Formik, ErrorMessage, FormikErrors } from "formik";
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom/dist";
+import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom/dist";
 import base from "../../apis/base";
 import "./onboarding.css";
 import Decrypt from "../../helpers/Decrypt";
 
 import { addUser, toggleActive, clearErrorMsg, setErrorMsg } from "../../store";
 import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { BranchType, CoursesType, QuestionType, SignUpFormDetails, User } from "../../types";
+import { AxiosResponse } from "axios";
 
 const SignUp = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const dispatch: Dispatch = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const location: Location = useLocation();
 
-  const [questions, setQuestions] = useState([]);
-  const [branches, setBranches] = useState([]);
-  const [courses, setCourses] = useState([]);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  const [branches, setBranches] = useState<BranchType[]>([]);
+  const [courses, setCourses] = useState<CoursesType[]>([]);
 
-  const [formDetails, setFormDetails] = useState({});
+  const [formDetails, setFormDetails] = useState<SignUpFormDetails>({
+    "gender": "",
+    "firstName": "",
+    "lastName": "",
+    "userName": "",
+    "email": "",
+    "phone": "",
+    "password": "",
+    "confirmPassword": "",
+    "courseId": ""
+  });
 
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState<boolean>(false);
 
-  const from = location.state?.from?.pathname || "/";
+  const from: string = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    base.get("api/v1/Schools").then((res) => {
+    base.get<AxiosResponse<BranchType[]>>("api/v1/Schools").then((res) => {
       setBranches(res.data.data);
     });
-    base.get("api/v1/security/questions").then(res => setQuestions(res.data.data))
+    base.get<AxiosResponse<QuestionType[]>>("api/v1/security/questions").then(res => setQuestions(res.data.data))
   }, []);
-  const getCourse = (e) => {
+  const getCourse: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     e.preventDefault();
-    base.get(`api/v1/schools/${e.target.value}/courses`).then((res) => {
+    base.get<AxiosResponse<CoursesType[]>>(`api/v1/schools/${e.target.value}/courses`).then((res) => {
       setCourses(res.data.data);
     });
   };
 
-  const modalSubmit = (e) => {
+  const modalSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     base({
       method: "POST",
@@ -48,7 +61,7 @@ const SignUp = () => {
       },
       data: formDetails,
     }).then((res) => {
-      const user = Decrypt(res.data.data.token);
+      const user: User = Decrypt(res.data.data.token);
       dispatch(toggleActive());
       dispatch(addUser(user));
       navigate(from, { replace: true });
@@ -65,10 +78,11 @@ const SignUp = () => {
         phone: "",
         password: "",
         confirmPassword: "",
-        courseId: ""
+        courseId: "",
+        gender:"",
       }}
-      validate={(values, props) => {
-        const errors = {};
+      validate={(values:SignUpFormDetails) => {
+        const errors: FormikErrors<SignUpFormDetails> = {};
         if (!values.email) {
           errors.email = "* Enter Woxsen email ID";
         } else if (!/^[A-Z0-9._%+-]+@woxsen.edu.in$/i.test(values.email)) {
@@ -211,7 +225,7 @@ const SignUp = () => {
               onChange={(e) => getCourse(e)}
               className="form-select"
             >
-              <option style={{ display: "none" }} value={null}>
+              <option style={{ display: "none" }} value=''>
                 Choose...
               </option>
               {branches.map((branch) => {
@@ -222,7 +236,7 @@ const SignUp = () => {
           <div className="col-md-4">
             <label className="form-label">Course</label>
             <Field as="select" name="courseId" className="form-select">
-              <option style={{ display: "none" }} value={null}>
+              <option style={{ display: "none" }} value=''>
                 Select Branch First
               </option>
               {courses.map((course) => {
@@ -232,15 +246,15 @@ const SignUp = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Gender</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" value={"MALE"} checked={formDetails?.gender === "MALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
-              <label class="form-check-label">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" value={"MALE"} checked={formDetails?.gender === "MALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.currentTarget.value })) }} />
+              <label className="form-check-label">
                 Male
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" value={"FEMALE"} checked={formDetails?.gender === "FEMALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
-              <label class="form-check-label">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" value={"FEMALE"} checked={formDetails?.gender === "FEMALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.currentTarget.value })) }} />
+              <label className="form-check-label">
                 Female
               </label>
             </div>
@@ -252,37 +266,38 @@ const SignUp = () => {
           </div>
           <div className="col-md-6 errmsg">
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="firstName"
               component="div"
+
             />
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="email"
               component="div"
             />
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="userName"
               component="div"
             />
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="phone"
               component="div"
             />
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="password"
               component="div"
             />
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="confirmPassword"
               component="div"
             />
             <ErrorMessage
-              style={{ color: "red" }}
+              className="formikErrorMessage"
               name="courseId"
               component="div"
             />
@@ -293,14 +308,14 @@ const SignUp = () => {
   );
 
   const securityQuestionModal = (
-    <form onSubmit={e => modalSubmit(e)} class="modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">Security Question</h1>
-            <button type="button" class="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+    <form onSubmit={e => modalSubmit(e)} className="modal" tabIndex={-1}>
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5">Security Question</h1>
+            <button type="button" className="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <label className="form-label">Choose Question</label>
             <select required className="form-select" onChange={e => { setFormDetails(prevState => ({ ...prevState, "securityQuestionId": e.target.value })) }}>
               <option>--Select--</option>
@@ -311,9 +326,9 @@ const SignUp = () => {
             <label className="form-label">Answer</label>
             <input type={"text"} className="form-control" required onChange={e => { setFormDetails(prevState => ({ ...prevState, "securityAnswer": e.target.value })) }} />
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
-            <button type="submit" class="btn btn-outline-success">Sign Up</button>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
+            <button type="submit" className="btn btn-outline-success">Sign Up</button>
           </div>
         </div>
       </div>
