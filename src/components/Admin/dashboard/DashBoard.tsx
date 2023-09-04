@@ -31,28 +31,29 @@ import "../adminPage.css";
 import TodayTomAndDayAfterPreview from "./TodayTomAndDayAfterPreview";
 import { Collapse } from "antd";
 import { RightCircleFilled } from "@ant-design/icons";
+import { BookingByUser } from "../../../types";
 const { Panel } = Collapse;
 
-const chartsDecorationColor = "purple";
+const chartsDecorationColor: string = "purple";
 
 const Dashboard = () => {
-  const [sampleData, setSampleData] = useState([]);
+  const [sampleData, setSampleData] = useState<BookingByUser>([]);
 
-  function formatTimeSlot(slot) {
-    const times = slot.split(" - ");
-    const startTime = times[0];
-    const endTime = times[1];
+  function formatTimeSlot(slot: string): string {
+    const times: string[] = slot.split(" - ");
+    const startTime: string = times[0];
+    const endTime: string = times[1];
 
-    const startParts = startTime.split(/[T:]/);
-    const endParts = endTime.split(/[T:]/);
+    const startParts: string[] = startTime.split(/[T:]/);
+    const endParts: string[] = endTime.split(/[T:]/);
 
-    let startHour = parseInt(startParts[0], 10);
-    const startMin = "00";
-    const startSec = "00";
+    let startHour: number = parseInt(startParts[0], 10);
+    const startMin: string = "00";
+    const startSec: string = "00";
 
-    let endHour = parseInt(endParts[0], 10);
-    const endMin = "00";
-    const endSec = "00";
+    let endHour: number = parseInt(endParts[0], 10);
+    const endMin: string = "00";
+    const endSec: string = "00";
 
     if (startTime.includes("PM") && startHour !== 12) {
       startHour += 12;
@@ -62,19 +63,19 @@ const Dashboard = () => {
       endHour += 12;
     }
 
-    const formattedStartTime = `${startHour
+    const formattedStartTime: string = `${startHour
       .toString()
       .padStart(2, "0")}:${startMin}:${startSec}`;
-    const formattedEndTime = `${endHour
+    const formattedEndTime: string = `${endHour
       .toString()
       .padStart(2, "0")}:${endMin}:${endSec}`;
 
     return `${formattedStartTime} - ${formattedEndTime}`;
   }
 
-  const [activeData, setActiveData] = useState(sampleData);
-  const [activeArena, setActiveArena] = useState(null);
-  const [dateValue, setDateValue] = useState([
+  const [activeData, setActiveData] = useState<BookingByUser>(sampleData);
+  const [activeArena, setActiveArena] = useState<string>("");
+  const [dateValue, setDateValue] = useState<Date[]>([
     new Date(2022, 1, 1),
     new Date(),
   ]);

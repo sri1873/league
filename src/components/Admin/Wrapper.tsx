@@ -13,16 +13,16 @@ import { Card, Tab, TabList } from "@tremor/react";
 import "@tremor/react/dist/esm/tremor.css";
 import Dashboard from "./dashboard/DashBoard";
 import "./adminPage.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import AdminControls from "./adminControls/Wrapper";
 
-const AdminWrapper = () => {
-  const [showCard, setShowCard] = useState("dashboard");
+const AdminWrapper: React.FC = () => {
+  const [showCard, setShowCard] = useState<string>("dashboard");
 
   return (
     <main className="admin-wrapper">
       <Card maxWidth="max-w-7xl" marginTop="mt-8">
-        <TabList
+        <TabList    
           defaultValue={"dashboard"}
           marginTop="mt-3"
           onValueChange={setShowCard}

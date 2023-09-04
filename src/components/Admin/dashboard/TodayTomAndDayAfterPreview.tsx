@@ -3,7 +3,7 @@ import { Card } from "antd";
 import { useEffect, useState } from "react";
 import DashBoardTable from "./DashBoardTable";
 
-const TodayTomAndDayAfterPreview = (props) => {
+const TodayTomAndDayAfterPreview: React.FC = (props) => {
   const [data, setData] = useState([[], [], []]);
 
   useEffect(() => {

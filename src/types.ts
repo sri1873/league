@@ -1,24 +1,24 @@
-interface User {
+export interface User {
   userName: string | null;
   token: string | null;
   userId: string | null;
   roles: string[];
 }
 
-interface AuthState {
+export interface AuthState {
   isValid: boolean;
   user: User;
   errorMsg: string;
 }
 
-interface AuthActions {
+export interface AuthActions {
   toggleActive: () => void;
   addUser: (payload: User) => void;
   setErrorMsg: (payload: string) => void;
   clearErrorMsg: () => void;
 }
 
-interface BookingDetails {
+export interface BookingDetails {
   paymentStatus: string;
   arena: string;
   bookingDate: string;
@@ -26,7 +26,7 @@ interface BookingDetails {
   slot: string;
 }
 
-interface Arena {
+export interface Arena {
   readonly id: string;
   name: string;
   description: string;
@@ -36,7 +36,7 @@ interface Arena {
   readonly createdDate: string;
   underMaintainence: boolean;
 }
-interface SlotType {
+export interface SlotType {
   readonly id: string;
   forWomen: boolean;
   available: boolean;
@@ -47,7 +47,7 @@ interface SlotType {
 }
 // Signup.tsx
 
-interface BranchType {
+export interface BranchType {
   id: string,
   name: string,
   status: string,
@@ -55,11 +55,11 @@ interface BranchType {
   readonly createdDate: string,
 
 }
-interface QuestionType {
+export interface QuestionType {
   id: string,
   question: string,
 }
-interface CoursesType {
+export interface CoursesType {
 
   readonly id: string,
   name: string,
@@ -70,7 +70,7 @@ interface CoursesType {
   readonly createdDate: string,
 
 }
-interface SignUpFormDetails {
+export interface SignUpFormDetails {
   gender:string,
   firstName: string,
   lastName: string,
@@ -82,17 +82,14 @@ interface SignUpFormDetails {
   courseId: string
 }
 
+// ADMIN MODULE
+export interface BookingByUser{
+  arena: string,
+  bookingDate: Date,
+  // timeslot: formatTimeSlot(entry.slot),
+  bookingId: string,
+  userPhone: string,
+  userSchool: string,
+}
 
 
-export {
-  AuthState,
-  AuthActions,
-  User,
-  BookingDetails,
-  Arena,
-  SlotType,
-  BranchType,
-  QuestionType,
-  CoursesType,
-  SignUpFormDetails,
-};
