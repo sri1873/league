@@ -82,7 +82,7 @@ const Login = () => {
           }
         />
       </div>
-      <button className={`col-12 btn btn-outline-success ${(ConfirmButton === "") ? "" : "disabled"}`} type="submit">
+      <button className={`col-12 btn login-signup-succeed ${(ConfirmButton === "") ? "" : "disabled"}`} type="submit">
         Login
       </button>
       <button type="button" style={{ backgroundColor: "transparent", border: "none", color: "gray", fontSize: "small" }} onClick={e => setModal(true)} >Forgot Password?</button>
@@ -91,10 +91,10 @@ const Login = () => {
   const signupResource = (
     <div>
       <h1>Login</h1>
-      <p style={{ color: "gray" }}>
-        Don't have an account yet?
-        <a href="/signup">Signup</a>
-      </p>
+      <span style={{ color: "gray" }}>
+        Don't have an account yet?&nbsp;
+      </span>
+        <a href="/signup">Sign-up</a>
     </div>
   );
   return (

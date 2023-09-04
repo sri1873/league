@@ -4,8 +4,20 @@
   margin: 0;
 }
 a {
-  color: grey;
+  color: #ef495d;
+  text-decoration: underline;
 }
+.login-signup-succeed{
+  border: 1px solid #ef495d;
+  color: #ef495d;
+}
+.login-signup-succeed:hover{
+  
+  background-color: #ef495d;
+  color: white;
+}
+
+
 .onboarding {
   width: 100%;
   display: flex;

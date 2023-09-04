@@ -246,7 +246,7 @@ const SignUp = () => {
             </div>
           </div>
           <div className="col-md-6">
-            <button className="col-12 btn btn-outline-success" type="submit">
+            <button className="col-12 btn btn login-signup-succeed" type="submit">
               Proceed
             </button>
           </div>
@@ -325,7 +325,9 @@ const SignUp = () => {
   const loginResource = (
     <div>
       <h1>SignUp</h1>
-      Already have an account?
+      <span style={{ color: "gray" }}>
+        Already have an account? &nbsp;
+      </span>
       <a href="/login">Login</a>
     </div>
   );

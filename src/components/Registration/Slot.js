@@ -10,6 +10,8 @@ const Slot = ({ slots, arenaId, date }) => {
     const [slotId, setSlotId] = useState("")
     const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
+    const [modal, setModal] = useState(true);
+    const [bookingResponse, setBookingResponse] = useState({});
     const userId = useSelector(state => state.user.userId);
 
     useEffect(() => {
@@ -25,9 +27,15 @@ const Slot = ({ slots, arenaId, date }) => {
             data: { "arenaId": arenaId, "slotId": slotId }
         }).then(res => {
             console.log(res.data?.success)
-            res.data?.success === true ?
-                navigate("/bookings")
-                : dispatch(setErrorMsg(res.data?.message))
+            if (res.data?.success === true) {
+                setBookingResponse({
+                    "bookingId": res.data.data?.id,
+                    "bookingDate": res.data.data?.bookingDate,
+                    "arena": res.data.data?.arena,
+                    "slot": res.data.data?.slot,
+                });
+                setModal(true);
+            } else { dispatch(setErrorMsg(res.data?.message)) }
         })
             .catch(err => { console.log(err); })
     }
@@ -35,9 +43,38 @@ const Slot = ({ slots, arenaId, date }) => {
         setSlotId(slot.id);
         setPay(slot?.paid)
     }
+
+    const confirmationModal = () => {
+        return (
+            <div className="modal">
+                <div className=" modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5">Booking Details</h1>
+                            <button type="button" className="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <ul class="list-group" style={{ padding: "2%" }}>
+                                <li class="list-group-item">Booking Status : Success </li>
+                                <li class="list-group-item">Booking ID : {bookingResponse.bookingId}</li>
+                                <li class="list-group-item">Date : {bookingResponse.bookingDate}</li>
+                                <li class="list-group-item">Arena : {bookingResponse.arena}</li>
+                                <li class="list-group-item">Slot : {bookingResponse.slot}</li>
+                            </ul>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={e => { setModal(false) }} >Close</button>
+                            <button type="button" className="btn btn-outline-success" onClick={e => { setModal(false); navigate("/bookings") }} >View Bookings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
-
+            {modal ? confirmationModal() : <></>}
             <div className='arena-slots'>
                 <div className='slots'>
                     {slots.map((slot) => {

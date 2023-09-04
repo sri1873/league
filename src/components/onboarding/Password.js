@@ -71,7 +71,7 @@ const Password = ({ setModal }) => {
           }).then(res => {
             setModal(false);
             localStorage.clear();
-            // window.location.href = "/";
+            window.location.href = "/";
           })
         } else {
           getQuestion()
