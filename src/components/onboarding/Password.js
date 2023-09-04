@@ -30,7 +30,7 @@ const Password = ({ setModal }) => {
       }).then(res => {
         setModal(false);
         localStorage.clear();
-        window.location.href = "/";
+        // window.location.href = "/";
       })
     } else {
       getQuestion()
@@ -58,11 +58,24 @@ const Password = ({ setModal }) => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         dispatch(clearErrorMsg());
         sessionStorage.clear();
-        setFormDetails(prevState => ({
-          ...prevState,
-          newPassword: values.newPassword,
-        }))
-        handleForgotPassword()
+        if (question?.id) {
+          base({
+            method: "POST",
+            url: `api/v1/auth/password/reset`,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": true,
+            },
+            data: {...formDetails, "newPassword": values.newPassword },
+          }).then(res => {
+            setModal(false);
+            localStorage.clear();
+            // window.location.href = "/";
+          })
+        } else {
+          getQuestion()
+        }
       }
       }
     >
@@ -101,7 +114,6 @@ const Password = ({ setModal }) => {
                     name="newPassword"
                     id="newPassword"
                     className="form-control"
-                    
                     placeholder="Shh! Its's a secret" />
                 </> : ""}
               </div>
