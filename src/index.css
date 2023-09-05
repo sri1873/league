@@ -48,6 +48,10 @@ a{
   align-items: center;
   /* max-width :80%; */
 }
+.navbar-nav {
+  width: 100%;
+  justify-content: center;
+}
 .logo {
   width: 50%;
 }

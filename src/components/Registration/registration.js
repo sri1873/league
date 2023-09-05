@@ -123,7 +123,7 @@ const Registration = () => {
                         );
                     })}
                 </div>
-                : <Slot date={date} arenaId={arenaId} slots={slots} />}
+                : <Slot date={date} arenaId={arenaId} slots={slots} setArenaId={setArenaId} setArenaName= {setArenaName} />}
         </div>
     </div>);
 }

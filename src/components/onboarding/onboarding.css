@@ -30,10 +30,19 @@ a {
 .contain {
   display: flex;
   flex-direction: row;
-  padding: 5em;
+  padding: 1em 5em 5em 5em;
   background-color: rgba(0, 0, 0, 0.4);
   height: 100vh;
   overflow: hidden;
+}
+.logo-login{
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  width: 100vw;
+  padding-left: 1em;
+}
+.logo-login img{
+  float: right;
 }
 .welcome-img {
   flex: 3 1 100px;

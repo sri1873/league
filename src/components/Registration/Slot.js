@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import base from '../../apis/base';
 import { setErrorMsg } from '../../store';
 
-const Slot = ({ slots, arenaId, date }) => {
+const Slot = ({ slots, arenaId, date, setArenaId, setArenaName }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [slotId, setSlotId] = useState("")
     const [html, setHTML] = useState({ __html: "" });
     const [pay, setPay] = useState(false)
-    const [modal, setModal] = useState(true);
+    const [modal, setModal] = useState(false);
     const [bookingResponse, setBookingResponse] = useState({});
     const userId = useSelector(state => state.user.userId);
 
@@ -51,7 +51,7 @@ const Slot = ({ slots, arenaId, date }) => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5">Booking Details</h1>
-                            <button type="button" className="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+                            <button type="button" className="btn-close" onClick={e => { setModal(false); setArenaId(""); setArenaName("SELECT ARENA") }} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <ul class="list-group" style={{ padding: "2%" }}>
@@ -63,8 +63,8 @@ const Slot = ({ slots, arenaId, date }) => {
                             </ul>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={e => { setModal(false) }} >Close</button>
                             <button type="button" className="btn btn-outline-success" onClick={e => { setModal(false); navigate("/bookings") }} >View Bookings</button>
+                            <button type="button" className="btn btn-secondary" onClick={e => { setModal(false); setArenaId(""); setArenaName("SELECT ARENA") }} >Close</button>
                         </div>
                     </div>
                 </div>

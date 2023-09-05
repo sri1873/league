@@ -22,10 +22,7 @@ const NavBar = () => {
           data-bs-theme="dark"
         >
           <div className="container-fluid justify-content-between">
-            <a className="navbar-brand flex-column" href="/">
-              <img alt="Woxsen Logo" src={logo} width="100" height="60" />
-              The League
-            </a>
+            <a className="navbar-brand flex-column" href="/">The League</a>
             <button
               className="navbar-toggler"
               style={{ backgroundColor: "aliceblue" }}
@@ -67,23 +64,27 @@ const NavBar = () => {
                 ) : (
                   ""
                 )}
-              </ul>
-              <div
-                className="dropdown align-self-end justify-content-end"
+              <li
+                className="dropdown nav-item align-center"
                 data-bs-toggle="dropdown"
               >
-                <button
+                  <button
+                    className="nav-link"
                   type="button"
                   style={{
                     border: "none",
                     display: "flex",
                     backgroundColor: "transparent",
+                    paddingRight: "1em",
                   }}
                   id="dropdownMenuButton"
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
-                >
+                  >
+                    <div className="" >
+                      {userName}&nbsp;
+                    </div>
                   <Avatar
                     style={{
                       color: "black",
@@ -93,9 +94,7 @@ const NavBar = () => {
                     }}
                     icon={<UserOutlined />}
                   />
-                  <div className="fw-bold" style={{ color: "white" }}>
-                    {userName}
-                  </div>
+
                 </button>
                 <div
                   className="dropdown-menu"
@@ -122,8 +121,10 @@ const NavBar = () => {
                     <i className="bi bi-box-arrow-right mr-2"></i>Logout
                   </button>
                 </div>
-              </div>
+              </li>
+              </ul>
             </div>
+              <img alt="Woxsen Logo" src={logo} width="100" height="60" />
           </div>
         </nav>
       ) : null}
