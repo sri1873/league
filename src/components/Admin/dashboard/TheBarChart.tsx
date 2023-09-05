@@ -1,15 +1,11 @@
 import { BarChart } from "@tremor/react";
-// import { useEffect } from "react";
-// import base from "../../../apis/base";
+import { BookingByUser } from "../../../types";
 
-const TheBarChart = (props) => {
-  const activeData = props.data;
-
-  function countBookingsByBranch() {
-    const schools = {};
-    const bookingsList = activeData;
-    bookingsList.forEach((booking) => {
-      const school = booking.userSchool;
+const TheBarChart: React.FC<{ allBookings: BookingByUser[] }> = ({allBookings}) => {
+  function countBookingsByBranch(): { "User School": string, "Number of Bookings": number }[] {
+    const schools: { [key: string]: number } = {};
+    allBookings.forEach((booking) => {
+      const school: string = booking.userSchool;
 
       if (school in schools) {
         schools[school] += 1;
@@ -25,13 +21,6 @@ const TheBarChart = (props) => {
       };
     });
   }
-
-  // useEffect(() => {
-  //   async function getArenaList() {
-  //     const response = await base.get("api/v1/Schools");
-  //     const resJSON = await response.data;
-  //   }
-  // }, []);
 
   return (
     <BarChart

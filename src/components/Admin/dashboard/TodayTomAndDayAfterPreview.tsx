@@ -1,34 +1,35 @@
 import { ColGrid, Col } from "@tremor/react";
 import { Card } from "antd";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import DashBoardTable from "./DashBoardTable";
+import { BookingByUser } from "../../../types";
 
-const TodayTomAndDayAfterPreview: React.FC = (props) => {
-  const [data, setData] = useState([[], [], []]);
+const TodayTomAndDayAfterPreview: React.FC<{ allBookings: BookingByUser[] }> = ({allBookings}) => {
+  const [data, setData] = useState<BookingByUser[][]>([[], [], []]);
 
   useEffect(() => {
-    setData(categorizeBookingsByDate(props.data));
-  }, [props.data]);
+    setData(categorizeBookingsByDate(allBookings));
+  }, [allBookings]);
 
-  function categorizeBookingsByDate(bookings) {
-    const today = new Date();
-    const tomorrow = new Date(today);
+  function categorizeBookingsByDate(bookings: BookingByUser[]): BookingByUser[][] {
+    const today: Date = new Date();
+    const tomorrow: Date = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const dayAfterTomorrow = new Date(today);
+    const dayAfterTomorrow: Date = new Date(today);
     dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
 
-    const todayBookings = bookings.filter((booking) => {
-      const bookingDate = new Date(booking.bookingDate);
+    const todayBookings: BookingByUser[] = bookings.filter((booking) => {
+      const bookingDate :Date= new Date(booking.bookingDate);
       return bookingDate.toDateString() === today.toDateString();
     });
 
-    const tomorrowBookings = bookings.filter((booking) => {
-      const bookingDate = new Date(booking.bookingDate);
+    const tomorrowBookings: BookingByUser[] = bookings.filter((booking) => {
+      const bookingDate:Date = new Date(booking.bookingDate);
       return bookingDate.toDateString() === tomorrow.toDateString();
     });
 
-    const dayAfterTomorrowBookings = bookings.filter((booking) => {
-      const bookingDate = new Date(booking.bookingDate);
+    const dayAfterTomorrowBookings: BookingByUser[] = bookings.filter((booking) => {
+      const bookingDate :Date= new Date(booking.bookingDate);
       return bookingDate.toDateString() === dayAfterTomorrow.toDateString();
     });
 

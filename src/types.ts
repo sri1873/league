@@ -19,7 +19,10 @@ export interface AuthActions {
 }
 
 export interface BookingDetails {
-  paymentStatus: string;
+  
+  extendable:boolean
+  extended:null|string,
+  paymentStatus: string|null;
   arena: string;
   bookingDate: string;
   bookingId: string;
@@ -90,6 +93,10 @@ export interface BookingByUser{
   bookingId: string,
   userPhone: string,
   userSchool: string,
+  extendable: boolean
+  extended: null | string,
+  paymentStatus: string | null;
+  slot: string;
 }
 
 

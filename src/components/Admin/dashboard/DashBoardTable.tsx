@@ -8,11 +8,16 @@ import {
   TableRow,
   Divider,
 } from "@tremor/react";
+import { BookingByUser } from "../../../types";
+interface DashTableProps {
+  data: BookingByUser[],
+  title: string
+}
 
-const DashBoardTable = (props) => {
+const DashBoardTable: React.FC<DashTableProps> = ({ data, title }) => {
   return (
     <div>
-      <Title>{props.title}</Title>
+      <Title>{title}</Title>
       <Divider />
       <Table>
         <TableHead>
@@ -30,10 +35,10 @@ const DashBoardTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data.map((item) => (
+          {data.map((item) => (
             <TableRow key={item.bookingId}>
               <TableCell>{item.arena}</TableCell>
-              <TableCell>{item.timeslot}</TableCell>
+              <TableCell>{item.slot}</TableCell>
               <TableCell>{item.bookingId}</TableCell>
               <TableCell>{item.userPhone}</TableCell>
             </TableRow>

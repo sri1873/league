@@ -1,23 +1,24 @@
 /* TODO
-Add more entries in columns constant depending on format of data
+Add more entries in columns constant depending on format of bookings
 Write more filter/search operations if required
 */
 
 import { Table } from "antd";
 import "./adminControls.css";
+import React from "react";
+import { BookingByUser } from "../../../types";
 
-const ViewBooking = (props) => {
-  const data = props.data;
+const ViewBooking: React.FC<{bookings:BookingByUser[]}>= ({bookings}) => {
 
   function getPrintableData() {
-    data.map((el) => {
-      let date = new Date(el.bookingDate);
-      el.printableBookingDate =
+    bookings.map((booking) => {
+      let date = new Date(booking.bookingDate);
+      booking.printableBookingDate =
         date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-      if (el.paymentStatus == null) el.paymentStatus = "NA";
-      return el;
+      if (booking.paymentStatus == null) booking.paymentStatus = "NA";
+      return booking;
     });
-    return data;
+    return bookings;
   }
 
   function compareDates(obj1, obj2) {

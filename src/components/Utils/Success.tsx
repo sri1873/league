@@ -12,6 +12,8 @@ const Success: React.FC = () => {
     bookingDate: "",
     bookingId: "",
     slot: "",
+    extendable: false,
+    extended:""
   });
 
   const bookingId = searchParams.get("bookingId");

@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import React from "react";
 import base from "../../../apis/base";
+import { BookingByUser } from "../../../types";
 
 /*TODO
 Bind inputs to variables
@@ -19,8 +20,8 @@ Bind inputs to variables
 Make a confirmation toast notification?
 */
 
-const AddFacility = () => {
-  const [timeRange, setTimeRange] = useState(true);
+const AddFacility: React.FC<{bookings: BookingByUser[]}> = ({bookings}) => {
+  const [timeRange, setTimeRange] = useState<boolean>(true);
 
   const [timeslotList, setTimeslotList] = useState([]);
 

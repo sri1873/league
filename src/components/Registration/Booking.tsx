@@ -5,14 +5,12 @@ import Highlighter from "react-highlight-words";
 import base from "../../apis/base";
 import { useSelector } from "react-redux";
 import { AuthState, BookingDetails } from "../../types";
-import type { ColumnsType, TableProps } from "antd/es/table";
+import type { ColumnType, ColumnsType } from 'antd/es/table';
+import type { FilterConfirmProps } from 'antd/es/table/interface';
+import type { InputRef } from 'antd';
 
-interface BookingRecord {
-  title: string;
-  dataIndex: string;
-  key: string;
-  width: string;
-}
+
+type DataIndex = keyof BookingDetails;
 const Booking = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [data, setData] = useState<BookingDetails[]>([]);
@@ -22,7 +20,7 @@ const Booking = () => {
 
   const [modal, setModal] = useState<boolean>(false);
   const [extend, setExtend] = useState<boolean>(false);
-  const searchInput = useRef(null);
+  const searchInput = useRef<InputRef>(null);
   const userId = useSelector((state: AuthState) => state.user.userId);
   useEffect(() => {
     base.get(`api/v1/users/${userId}/bookings`).then((res) => {
@@ -36,13 +34,15 @@ const Booking = () => {
         .then((res) => setHTML({ __html: res.data }));
   }, [extend, bookingId]);
 
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+  const handleSearch = (
+    selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex,
+  ) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
 
-  const getColumnSearchProps = (dataIndex) => ({
+  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<BookingDetails> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
       <div
         style={{
@@ -57,7 +57,7 @@ const Booking = () => {
           onChange={(e) => {
             setSelectedKeys(e.target.value ? [e.target.value] : []);
           }}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
           style={{
             marginBottom: 8,
             display: "block",
@@ -65,15 +65,12 @@ const Booking = () => {
         />
       </div>
     ),
-    filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? "#1890ff" : undefined,
-        }}
-      />
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+      record[dataIndex]!.toString().toLowerCase().includes((value as string).toLowerCase()),
+
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -94,13 +91,13 @@ const Booking = () => {
         text
       ),
   });
-  const columns: ColumnsType<BookingRecord> = [
+  const columns: ColumnsType<BookingDetails> = [
     {
       title: "Booking Id",
       dataIndex: "bookingId",
       key: "bookingId",
       width: "30%",
-      ...getColumnSearchProps("id"),
+      ...getColumnSearchProps("bookingId"),
     },
     {
       title: "Date",
@@ -108,10 +105,6 @@ const Booking = () => {
       key: "bookingDate",
       width: "20%",
       ...getColumnSearchProps("bookingDate"),
-      sorter: {
-        compare: (a: number, b: number) => a.age - b.age,
-        multiple: 1,
-      },
     },
     {
       title: "Status",
@@ -123,7 +116,7 @@ const Booking = () => {
       title: "Arena",
       dataIndex: "arena",
       key: "arena",
-      ...getColumnSearchProps("arena.name"),
+      ...getColumnSearchProps("arena"),
     },
     {
       title: "Slot",
@@ -178,7 +171,8 @@ const Booking = () => {
       </div>
     </div>
   );
-  const handleClick = (record: BookingRecord) => {
+  const handleClick = (record: BookingDetails) => {
+    console.log("object")
     setBookingId(record?.bookingId);
     record.extendable && record.extended == null
       ? setExtend(true)
@@ -192,9 +186,10 @@ const Booking = () => {
           columns={columns}
           dataSource={data}
           size="middle"
-          onRow={(record: BookingRecord) => ({
-            onClick: (event) => {
-              handleClick(event, record);
+          onRow={(record: BookingDetails) => ({
+
+            onClick: () => {
+              handleClick(record);
             },
           })}
         />
