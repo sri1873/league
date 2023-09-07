@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "commonjs",
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": true, // Allows TypeScript to check .js files
+    "checkJs": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules" // Exclude node_modules or other directories you don't want to check
+  ],
+}
