@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "../apis/base";
 import RequireAuth from "../helpers/RequireAuth";
@@ -18,23 +18,25 @@ import Onboarding from "./onboarding/Onboarding";
 import SignUp from "./onboarding/SignUp";
 import Error from "../helpers/Error";
 import { setErrorMsg } from "../store";
-        
-const App = () => {
-    const [loading, setLoading] = useState(false)
-    const dispatch = useDispatch();
+import { Dispatch } from '@reduxjs/toolkit';
+import { AuthState } from "../types";
+
+const App: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(false)
+    const dispatch: Dispatch = useDispatch();
     // Below 2 functions enable and disable loader for each api call
-    axios.interceptors.request.use(config => {
+    axios.interceptors.request.use((config) => {
         const newConfig = { ...config }
-        newConfig.metadata = { startTime: new Date() }
+        newConfig.headers.startDate = new Date();
         setLoading(true)
         return newConfig;
     })
-    axios.interceptors.response.use(response=> {
+    axios.interceptors.response.use(response => {
         const newRes = { ...response }
-        newRes.config.metadata.endTime = new Date();
-        newRes.duration =
-            newRes.config.metadata.endTime - newRes.config.metadata.startTime;
-        newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800-newRes.duration) : setLoading(false);
+        newRes.config.headers.endTime = new Date();
+        newRes.headers.duration =
+            newRes.config.headers.endTime - newRes.config.headers.startTime;
+        newRes.headers.duration < 700 ? setTimeout(() => { setLoading(false) }, 800 - newRes.headers.duration) : setLoading(false);
         return newRes
     }, error => {
         const newRes = { ...error }
@@ -45,7 +47,7 @@ const App = () => {
         newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800 - newRes.duration) : setLoading(false);
         return newRes
     })
-    const roles = useSelector(state => state.user.roles)
+    const roles = useSelector((state: AuthState) => state.user.roles)
     const roleAdmin = () => {
         if (roles.includes("STUDENT") && roles.includes("ADMIN")) {
             return <>
@@ -65,24 +67,24 @@ const App = () => {
     return (<>
         <NavBar />
         <Loader state={loading} />
-        <Error color={"danger"} message={useSelector(state => state.errorMsg)} />
-        
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
-                    <Route path="/signup" element={<Onboarding><SignUp /></Onboarding>} />
+        <Error color={"danger"} message={useSelector((state: AuthState) => state.errorMsg)} />
 
-                    <Route element={<RequireAuth />}>
-                        {roleAdmin()}
-                        <Route path="/" element={<Registration />} />
-                        <Route path="/success" element={<Success />} />
-                        <Route path="/fail" element={<Failure />} />
-                    </Route>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
+                <Route path="/signup" element={<Onboarding><SignUp /></Onboarding>} />
 
-                    <Route path="*" element={<PageNotFound />} />
-                    <Route path="/server-error" element={<InternalServerError />} />
-                </Routes>
-            </BrowserRouter>
+                <Route element={<RequireAuth />}>
+                    {roleAdmin()}
+                    <Route path="/" element={<Registration />} />
+                    <Route path="/success" element={<Success />} />
+                    <Route path="/fail" element={<Failure />} />
+                </Route>
+
+                <Route path="*" element={<PageNotFound />} />
+                <Route path="/server-error" element={<InternalServerError />} />
+            </Routes>
+        </BrowserRouter>
         {/* </div> */}
         <Footer />
     </>
