@@ -101,7 +101,7 @@ const Login = () => {
       <span style={{ color: "gray" }}>
         Don't have an account yet?&nbsp;
       </span>
-      <a href="/signup">Sign-up</a>
+        <a href="/signup">Sign-up</a>
     </div>
   );
   return (

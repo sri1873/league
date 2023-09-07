@@ -8,14 +8,12 @@ a {
   color: #ef495d;
   text-decoration: underline;
 }
-
-.login-signup-succeed {
+.login-signup-succeed{
   border: 1px solid #ef495d;
   color: #ef495d;
 }
-
-.login-signup-succeed:hover {
-
+.login-signup-succeed:hover{
+  
   background-color: #ef495d;
   color: white;
 }
@@ -39,18 +37,15 @@ a {
   height: 100vh;
   overflow: hidden;
 }
-
-.logo-login {
+.logo-login{
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
   width: 100vw;
   padding-left: 1em;
 }
-
-.logo-login img {
+.logo-login img{
   float: right;
 }
-
 .welcome-img {
   flex: 3 1 100px;
   border-radius: 20px 0px 0px 20px;
