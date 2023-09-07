@@ -24,10 +24,10 @@ const Registration = () => {
     const [acceptTerms, setAcceptTerms] = useState(false);
 
     var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    var dayAfter = new Date();
-    dayAfter.setDate(dayAfter.getDate() + 2);
+    // var tomorrow = new Date();
+    // tomorrow.setDate(tomorrow.getDate() + 1);
+    // var dayAfter = new Date();
+    // dayAfter.setDate(dayAfter.getDate() + 2);
 
 
     useEffect(() => {
@@ -103,8 +103,8 @@ const Registration = () => {
                     <div className="date-slots">
                         <Button size="large" className="btn-date col-md-3 ">Select Date</Button>
                         <button size="large" onClick={e => handleDate(e)} value="today" className={` col-md-3 time ${date === "today" ? "selected" : ""}`}>Today - {today.toLocaleDateString('en-GB')}</button>
-                        <button size="large" onClick={e => handleDate(e)} value="tomorrow" className={` col-md-3 time ${date === "tomorrow" ? "selected" : ""}`}>Tomorrow - {tomorrow.toLocaleDateString('en-GB')}</button>
-                        <button size="large" onClick={e => handleDate(e)} value="day-after" className={` col-md-3 time ${date === "day-after" ? "selected" : ""}`}>{dayAfter.toLocaleDateString('en-GB')}</button>
+                        {/* <button size="large" onClick={e => handleDate(e)} value="tomorrow" className={` col-md-3 time ${date === "tomorrow" ? "selected" : ""}`}>Tomorrow - {tomorrow.toLocaleDateString('en-GB')}</button>
+                        <button size="large" onClick={e => handleDate(e)} value="day-after" className={` col-md-3 time ${date === "day-after" ? "selected" : ""}`}>{dayAfter.toLocaleDateString('en-GB')}</button> */}
                     </div>
                 </div> : <></>}
             <div className="arena-name col-md-12">
