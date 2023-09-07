@@ -24,10 +24,7 @@ const NavBar = () => {
           data-bs-theme="dark"
         >
           <div className="container-fluid justify-content-between">
-            <a className="navbar-brand" href="/">
-              <img alt="Woxsen Logo" src={logo} width="100" height="60" />
-              The League
-            </a>
+            <a className="navbar-brand flex-column" href="/">The League</a>
             <button
               className="navbar-toggler"
               style={{ backgroundColor: "aliceblue" }}
@@ -41,7 +38,7 @@ const NavBar = () => {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div
-              className="collapse navbar-collapse "
+              className="collapse navbar-collapse justify-content-between"
               style={{ flexGrow: "0 !important", flexBasis: "10% !important" }}
               id="navbarScroll"
             >
@@ -69,58 +66,67 @@ const NavBar = () => {
                 ) : (
                   ""
                 )}
-              </ul>
-            </div>
-            <div className="dropdown" data-bs-toggle="dropdown">
-              <button
-                type="button"
-                style={{
-                  border: "none",
-                  display: "flex",
-                  backgroundColor: "transparent",
-                }}
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <Avatar
-                  style={{
-                    color: "black",
-                    backgroundColor: "#befa19",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                  }}
-                  icon={<UserOutlined />}
-                />
-                <div className="fw-bold" style={{ color: "white" }}>
-                  {userName}
-                </div>
-              </button>
-              <div
-                className="dropdown-menu"
-                style={{ marginLeft: "-30px" }}
-                aria-labelledby="dropdownMenuButton"
-              >
-                {/* <button className="dropdown-item">
+                <li
+                  className="dropdown nav-item align-center"
+                  data-bs-toggle="dropdown"
+                >
+                  <button
+                    className="nav-link"
+                    type="button"
+                    style={{
+                      border: "none",
+                      display: "flex",
+                      backgroundColor: "transparent",
+                      paddingRight: "1em",
+                    }}
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <div className="" >
+                      {userName}&nbsp;
+                    </div>
+                    <Avatar
+                      style={{
+                        color: "black",
+                        backgroundColor: "#befa19",
+                        cursor: "pointer",
+                        marginRight: "10px",
+                      }}
+                      icon={<UserOutlined />}
+                    />
+
+                  </button>
+                  <div
+                    className="dropdown-menu"
+                    style={{ marginLeft: "-30px" }}
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    {/* <button className="dropdown-item">
                                 <i className="bi bi-person mr-2"></i>My Profile
                             </button> */}
-                <button
-                  className="dropdown-item"
-                  type="button"
-                  onClick={(e) => setModal(true)}
-                >
-                  <i className="bi bi-key mr-2"></i>Change Password
-                </button>
-                <button
-                  className="dropdown-item"
-                  type="button"
-                  onClick={(event) => onLogoutClick(event)}
-                >
-                  <i className="bi bi-box-arrow-right mr-2"></i>Logout
-                </button>
-              </div>
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={(e) => setModal(true)}
+                    >
+                      <i className="bi bi-key mr-2"></i>Change Password
+                    </button>
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={(e) => {
+                        onLogoutClick(e);
+                      }}
+                    >
+                      <i className="bi bi-box-arrow-right mr-2"></i>Logout
+                    </button>
+                  </div>
+                </li>
+              </ul>
             </div>
+            <img alt="Woxsen Logo" src={logo} width="100" height="60" />
           </div>
         </nav>
       ) : null}

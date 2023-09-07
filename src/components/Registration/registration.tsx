@@ -24,6 +24,7 @@ const Registration: React.FC = () => {
     const [slots, setSlots] = useState<SlotType[]>([]);
     const [date, setDate] = useState<string>("today")
     const [modal, setModal] = useState<boolean>(false);
+    const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
 
     var today: Date = new Date();
     var tomorrow: Date = new Date();
@@ -36,8 +37,8 @@ const Registration: React.FC = () => {
         base.get("api/v1/arenas").then(res => setArenas(res.data.data))
     }, [])
     useEffect(() => {
-        if (arenaId) base.get(`api/v1/arenas/${arenaId}/slots?day=${date}`).then(res => setSlots(res.data.data));
-    }, [date, arenaId])
+        if (arenaId && acceptTerms) base.get(`api/v1/arenas/${arenaId}/slots?day=${date}`).then(res => setSlots(res.data.data));
+    }, [date, arenaId, acceptTerms])
 
     const handleClick = (
         id: string,
@@ -91,8 +92,8 @@ const Registration: React.FC = () => {
                             </ul>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={e => { setModal(false); setArenaId(""); setArenaName("SELECT ARENA") }} >Close</button>
-                            <button type="button" className="btn btn-outline-success" onClick={e => setModal(false)}>Accept</button>
+                            <button type="button" className="btn btn-secondary" onClick={e => { setAcceptTerms(false); setModal(false); setArenaId(""); setArenaName("SELECT ARENA") }} >Close</button>
+                            <button type="button" className="btn btn-outline-success" onClick={e => { setModal(false); setAcceptTerms(true) }}>Accept</button>
                         </div>
                     </div>
                 </div>
@@ -111,7 +112,7 @@ const Registration: React.FC = () => {
                     </div>
                 </div> : <></>}
             <div className="arena-name col-md-12">
-                {arenaId ? <i onClick={e => { setArenaId(""); setSlots([]); setArenaName(("SELECT ARENA")) }} className="fa-solid fa-arrow-left-long"></i> : <></>}
+                {arenaId ? <i onClick={e => { setAcceptTerms(false); setArenaId(""); setSlots([]); setArenaName(("SELECT ARENA")) }} className="fa-solid fa-arrow-left-long"></i> : <></>}
                 {arenaName}
             </div>
             {!arenaId ?
@@ -126,7 +127,7 @@ const Registration: React.FC = () => {
                         );
                     })}
                 </div>
-                : <Slot date={date} arenaId={arenaId} slots={slots} />}
+                : <Slot date={date} arenaId={arenaId} slots={slots} setArenaId={setArenaId} setArenaName={setArenaName} />}
         </div>
     </div>);
 }

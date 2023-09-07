@@ -5,15 +5,28 @@
 }
 
 a {
-  color: grey;
+  color: #ef495d;
+  text-decoration: underline;
 }
+
+.login-signup-succeed {
+  border: 1px solid #ef495d;
+  color: #ef495d;
+}
+
+.login-signup-succeed:hover {
+
+  background-color: #ef495d;
+  color: white;
+}
+
 
 .onboarding {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  background-image: url("https://woxsen.edu.in/uploads/A20221015102934.jpg");
+  background-image: url("https://woxsen.edu.in/uploads/a20230816082233.webp");
   background-position: left;
   background-size: cover;
 }
@@ -21,10 +34,21 @@ a {
 .contain {
   display: flex;
   flex-direction: row;
-  padding: 5em;
+  padding: 1em 5em 5em 5em;
   background-color: rgba(0, 0, 0, 0.4);
   height: 100vh;
   overflow: hidden;
+}
+
+.logo-login {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  width: 100vw;
+  padding-left: 1em;
+}
+
+.logo-login img {
+  float: right;
 }
 
 .welcome-img {
@@ -60,13 +84,10 @@ a {
 }
 
 .errmsg {
+  color: red;
   font-size: small;
   font-style: italic;
   text-align: justify;
-}
-
-.formikErrorMessage {
-  color: red;
 }
 
 .modal {

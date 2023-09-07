@@ -41,9 +41,9 @@ const App: React.FC = () => {
     }, error => {
         const newRes = { ...error }
         dispatch(setErrorMsg(error?.response?.data?.message))
-        newRes.config.metadata.endTime = new Date();
+        newRes.config.headers.endTime = new Date();
         newRes.duration =
-            newRes.config.metadata.endTime - newRes.config.metadata.startTime;
+            newRes.config.headers.endTime - newRes.config.headers.startTime;
         newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800 - newRes.duration) : setLoading(false);
         return newRes
     })
