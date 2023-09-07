@@ -63,6 +63,7 @@ const App: React.FC = () => {
                 <Route path="/bookings" element={<PageNotFound />} />
             </>
         }
+        else return <></>
     }
     return (<>
         <NavBar />

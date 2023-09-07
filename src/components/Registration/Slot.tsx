@@ -41,9 +41,7 @@ const Slot: React.FC<SlotProps> = ({ slots, arenaId, date, setArenaId, setArenaN
         )
         .then((res) => setHTML({ __html: res.data }));
   }, [slotId, userId, arenaId, date, pay]);
-  useEffect(() => {
-    var element = document.getElementById("confirmBtn");
-  })
+
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     base({
       method: "POST",

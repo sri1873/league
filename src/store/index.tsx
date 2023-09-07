@@ -2,7 +2,7 @@ import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
-import { AuthState, AuthActions, User } from "../types";
+import { AuthState, User } from "../types";
 
 const persistConfig = {
   key: "root",
