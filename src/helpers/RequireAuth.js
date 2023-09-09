@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 const RequireAuth = () => {
     const user = useSelector((state) => state.isValid)
     const roles = useSelector(state => state.user.roles)
-    console.log(roles)
     const location = useLocation();
     return (
         (user) ? <Outlet /> : <Navigate to={'/login'} state={{ from: location }} replace />
