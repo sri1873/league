@@ -18,19 +18,19 @@ const Success = () => {
         </div>
         </div>
         <div className="col-md-6">
-            <div class="card bg-transparent  border-success mb-3">
-                <div class="card-header">
+            <div className="card bg-transparent  border-success mb-3">
+                <div className="card-header">
                     Booking Details
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Payment Status : {bookingDetails.paymentStatus?.toUpperCase()}</h5>
-                    <ul class="list-group list-group-flush" style={{padding:"2%"}}>
-                        <li class="list-group-item">Booking ID :{bookingDetails.bookingId}</li>
-                        <li class="list-group-item">Date : {bookingDetails.bookingDate}</li>
-                        <li class="list-group-item">Arena : {bookingDetails.arena}</li>
-                        <li class="list-group-item">Slot : {bookingDetails.slot}</li>
+                <div className="card-body">
+                    <h5 className="card-title">Payment Status : {bookingDetails.paymentStatus?.toUpperCase()}</h5>
+                    <ul className="list-group list-group-flush" style={{padding:"2%"}}>
+                        <li className="list-group-item">Booking ID :{bookingDetails.bookingId}</li>
+                        <li className="list-group-item">Date : {bookingDetails.bookingDate}</li>
+                        <li className="list-group-item">Arena : {bookingDetails.arena}</li>
+                        <li className="list-group-item">Slot : {bookingDetails.slot}</li>
                     </ul>
-                    <a href="/bookings" class="btn btn-outline-success">Check Bookings</a>
+                    <a href="/bookings" className="btn btn-outline-success">Check Bookings</a>
                 </div>
             </div>
         </div>

@@ -138,18 +138,18 @@ const Booking = () => {
     ];
 
     const extendSlot = (
-        <div class="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">Extend Slot</h1>
-                        <button type="button" class="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+        <div className="modal" tabindex="-1">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h1 className="modal-title fs-5">Extend Slot</h1>
+                        <button type="button" className="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                         {extend ? <p>You will be redirected to payment page. Please Confirm</p> : <p>This slot cannot be extended</p>}
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
                         {extend ? <div dangerouslySetInnerHTML={html} />
                             : <></>}
                     </div>

@@ -54,12 +54,12 @@ const Slot = ({ slots, arenaId, date, setArenaId, setArenaName }) => {
                             <button type="button" className="btn-close" onClick={e => { setModal(false); setArenaId(""); setArenaName("SELECT ARENA") }} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <ul class="list-group" style={{ padding: "2%" }}>
-                                <li class="list-group-item">Booking Status : Success </li>
-                                <li class="list-group-item">Booking ID : {bookingResponse.bookingId}</li>
-                                <li class="list-group-item">Date : {bookingResponse.bookingDate}</li>
-                                <li class="list-group-item">Arena : {bookingResponse.arena}</li>
-                                <li class="list-group-item">Slot : {bookingResponse.slot}</li>
+                            <ul className="list-group" style={{ padding: "2%" }}>
+                                <li className="list-group-item">Booking Status : Success </li>
+                                <li className="list-group-item">Booking ID : {bookingResponse.bookingId}</li>
+                                <li className="list-group-item">Date : {bookingResponse.bookingDate}</li>
+                                <li className="list-group-item">Arena : {bookingResponse.arena}</li>
+                                <li className="list-group-item">Slot : {bookingResponse.slot}</li>
                             </ul>
                         </div>
                         <div className="modal-footer">

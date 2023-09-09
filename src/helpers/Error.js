@@ -13,7 +13,7 @@ const Error = ({ color, message }) => {
             <div>
                 {message}
             </div>
-            <button type="button" class="btn-close" onClick={e => dispatch(clearErrorMsg())} ></button>
+            <button type="button" className="btn-close" onClick={e => dispatch(clearErrorMsg())} ></button>
         </div>
                 // </div>
 

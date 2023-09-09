@@ -114,7 +114,7 @@ const AdminControls = () => {
       >
         <Tab text="View All Bookings" value={"view booking"}></Tab>
         <Tab text="Add A New Facility" value={"add facility"}></Tab>
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/registration" style={{ textDecoration: "none" }}>
           <Tab text="Add A New Booking" value={"add booking"}></Tab>
         </Link>
       </TabList>

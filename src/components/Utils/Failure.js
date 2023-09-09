@@ -10,13 +10,13 @@ const Failure = () => {
             </div>
         </div>
         <div className="col-md-6">
-            <div class="card bg-transparent  border-danger mb-3">
-                <div class="card-header">
+            <div className="card bg-transparent  border-danger mb-3">
+                <div className="card-header">
                     Booking Details
                 </div>
-                <div class="card-body text-danger">
+                <div className="card-body text-danger">
                     <h5>Booking Failed</h5>
-                    <a href="/bookings" class="btn btn-outline-danger">Go Home</a>
+                    <a href="/bookings" className="btn btn-outline-danger">Go Home</a>
                 </div>
             </div>
         </div>

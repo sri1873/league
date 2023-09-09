@@ -51,7 +51,7 @@ const NavBar = () => {
                     Bookings
                   </a>
                 </li>
-                {roles?.includes("ADMIN") ? (
+                {(roles?.includes("ADMIN") && roles.includes("STUDENT") )? (
                   <li className="nav-item">
                     <a
                       className="nav-link"

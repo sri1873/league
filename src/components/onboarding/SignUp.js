@@ -232,15 +232,15 @@ const SignUp = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Gender</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" value={"MALE"} checked={formDetails?.gender === "MALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
-              <label class="form-check-label">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" value={"MALE"} checked={formDetails?.gender === "MALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
+              <label className="form-check-label">
                 Male
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" value={"FEMALE"} checked={formDetails?.gender === "FEMALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
-              <label class="form-check-label">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" value={"FEMALE"} checked={formDetails?.gender === "FEMALE"} onClick={e => { setFormDetails(prevState => ({ ...prevState, "gender": e.target.value })) }} />
+              <label className="form-check-label">
                 Female
               </label>
             </div>
@@ -293,14 +293,14 @@ const SignUp = () => {
   );
 
   const securityQuestionModal = (
-    <form onSubmit={e => modalSubmit(e)} class="modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">Security Question</h1>
-            <button type="button" class="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
+    <form onSubmit={e => modalSubmit(e)} className="modal" tabindex="-1">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5">Security Question</h1>
+            <button type="button" className="btn-close" onClick={e => setModal(false)} aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <label className="form-label">Choose Question</label>
             <select required className="form-select" onChange={e => { setFormDetails(prevState => ({ ...prevState, "securityQuestionId": e.target.value })) }}>
               <option>--Select--</option>
@@ -311,9 +311,9 @@ const SignUp = () => {
             <label className="form-label">Answer</label>
             <input type={"text"} className="form-control" required onChange={e => { setFormDetails(prevState => ({ ...prevState, "securityAnswer": e.target.value })) }} />
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
-            <button type="submit" class="btn btn-outline-success">Sign Up</button>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={e => setModal(false)}>Close</button>
+            <button type="submit" className="btn btn-outline-success">Sign Up</button>
           </div>
         </div>
       </div>

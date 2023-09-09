@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "../apis/base";
 import RequireAuth from "../helpers/RequireAuth";
@@ -18,7 +18,7 @@ import Onboarding from "./onboarding/Onboarding";
 import SignUp from "./onboarding/SignUp";
 import Error from "../helpers/Error";
 import { setErrorMsg } from "../store";
-        
+
 const App = () => {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch();
@@ -29,12 +29,12 @@ const App = () => {
         setLoading(true)
         return newConfig;
     })
-    axios.interceptors.response.use(response=> {
+    axios.interceptors.response.use(response => {
         const newRes = { ...response }
         newRes.config.metadata.endTime = new Date();
         newRes.duration =
             newRes.config.metadata.endTime - newRes.config.metadata.startTime;
-        newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800-newRes.duration) : setLoading(false);
+        newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800 - newRes.duration) : setLoading(false);
         return newRes
     }, error => {
         const newRes = { ...error }
@@ -58,7 +58,8 @@ const App = () => {
                 <Route path="/bookings" element={<Booking />} /></>
         } else if (roles.includes("ADMIN")) {
             return <><Route path="/" element={<AdminWrapper />} />
-                <Route path="/bookings" element={<PageNotFound />} />
+                <Route path="/registration" element={<Registration />} />
+                <Route path="/bookings" element={<Booking />} />
             </>
         }
     }
@@ -66,23 +67,23 @@ const App = () => {
         <NavBar />
         <Loader state={loading} />
         <Error color={"danger"} message={useSelector(state => state.errorMsg)} />
-        
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
-                    <Route path="/signup" element={<Onboarding><SignUp /></Onboarding>} />
 
-                    <Route element={<RequireAuth />}>
-                        {roleAdmin()}
-                        <Route path="/" element={<Registration />} />
-                        <Route path="/success" element={<Success />} />
-                        <Route path="/fail" element={<Failure />} />
-                    </Route>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Onboarding><Login /></Onboarding>} />
+                <Route path="/signup" element={<Onboarding><SignUp /></Onboarding>} />
 
-                    <Route path="*" element={<PageNotFound />} />
-                    <Route path="/server-error" element={<InternalServerError />} />
-                </Routes>
-            </BrowserRouter>
+                <Route element={<RequireAuth />}>
+                    {roleAdmin()}
+                    <Route path="/" element={<Registration />} />
+                    <Route path="/success" element={<Success />} />
+                    <Route path="/fail" element={<Failure />} />
+                </Route>
+
+                <Route path="*" element={<PageNotFound />} />
+                <Route path="/server-error" element={<InternalServerError />} />
+            </Routes>
+        </BrowserRouter>
         {/* </div> */}
         <Footer />
     </>
