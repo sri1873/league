@@ -23,23 +23,114 @@ import {
 } from "@tremor/react";
 import "@tremor/react/dist/esm/tremor.css";
 import base from "../../../apis/base";
-import TheBarChart from "./TheBarChart";
+// import TheBarChart from "./TheBarChart";
 
 import TheDonutChart from "./TheDonutChart";
 import TheLineChart from "./TheLineChart";
 import { useEffect, useState } from "react";
 import "../adminPage.css";
-import TodayTomAndDayAfterPreview from "./TodayTomAndDayAfterPreview";
 import { Collapse } from "antd";
 import { RightCircleFilled } from "@ant-design/icons";
-import { BookingByUser } from "../../../types";
+import { BookingByUser, BookingDetails } from "../../../types";
+import DashBoardTable from "./DashBoardTable";
 const { Panel } = Collapse;
 
 const threedayspan = new Date();
 threedayspan.setDate(threedayspan.getDate() + 3);
 
 const Dashboard: React.FC = () => {
-  const [allBookings, setAllBookings] = useState<BookingByUser[]>([]);
+  const [allBookings, setAllBookings] = useState<BookingDetails[]>([
+    {
+      "bookingId": "WOUBK0002120",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 6",
+      "slot": "7PM - 8PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002121",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 5",
+      "slot": "7PM - 8PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002122",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 6",
+      "slot": "9PM - 10PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002123",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 2",
+      "slot": "9PM - 10PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002124",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 4",
+      "slot": "7PM - 8PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002125",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 4",
+      "slot": "6PM - 7PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002126",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 4",
+      "slot": "6PM - 7PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002127",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 2",
+      "slot": "10PM - 11PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002128",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 5",
+      "slot": "8PM - 9PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    },
+    {
+      "bookingId": "WOUBK0002129",
+      "bookingDate": "2023-10-06",
+      "arena": "Badminton court 5",
+      "slot": "9PM - 10PM",
+      "paymentStatus": null,
+      "extended": null,
+      "extendable": false
+    }
+  ]);
 
 
   function formatTimeSlot(slot: string): string {
@@ -76,79 +167,60 @@ const Dashboard: React.FC = () => {
     return `${formattedStartTime} - ${formattedEndTime}`;
   }
 
-  const [activeData, setActiveData] = useState<BookingByUser[]>(allBookings);
+  const [activeData, setActiveData] = useState<BookingDetails[]>(allBookings);
   const [activeArena, setActiveArena] = useState<string>("");
   const [dateValue, setDateValue] = useState<DateRangePickerValue>([new Date(), threedayspan]);
 
   function dateUpdate(newDate: DateRangePickerValue): void {
     setDateValue(newDate);
-    entriesInRangeAndArena();
+    // entriesInRangeAndArena();
   }
 
   function arenaUpdate(newArena: string): void {
     setActiveArena(newArena);
-    entriesInRangeAndArena();
+    // entriesInRangeAndArena();
   }
   useEffect(() => {
-    base.get("api/v1/bookings").then(res => {
+    base.get("api/v1/bookings/today").then(res => {
       setAllBookings(res.data.data);
     });
-
-    // function formatDataFromDB(dataFromDB) {
-    //   const data = [];
-    //   var entryMap;
-    //   dataFromDB.forEach(function (entry, index) {
-    //     entryMap = {
-    //       arena: entry.arena,
-    //       bookingDate: new Date(entry.bookingDate),
-    //       timeslot: formatTimeSlot(entry.slot),
-    //       userSchool: entry.userSchool,
-    //       bookingId: entry.bookingId,
-    //       userPhone: entry.userPhone,
-    //       paymentStatus: entry.paymentStatus,
-    //     };
-    //     data.push(entryMap);
-    //   });
-    //   return data;
-    // }
   }, []);
 
-  useEffect(() => {
-    entriesInRangeAndArena();
-    // eslint-disable-next-line
-  }, [dateValue, activeArena, allBookings]);
+  // useEffect(() => {
+  //   entriesInRangeAndArena();
+  // }, [dateValue, activeArena, allBookings]);
   //Extracts all the entries within the time range
-  function entriesInRangeAndArena(): BookingByUser[] {
-    var entries: BookingByUser[] = [];
-    const fromDate = dateValue[0];
-    const toDate = dateValue[1];
-    const arena = activeArena;
-    var data = allBookings;
-    if (!!toDate) {
-      data.forEach((entry) => {
-        if (fromDate) if (
-          entry.bookingDate > fromDate &&
-          entry.bookingDate <= toDate &&
-          (entry.arena === arena || !arena)
-        )
-          entries.push(entry);
+  // function entriesInRangeAndArena(): BookingByUser[] {
+  //   var entries: BookingByUser[] = [];
+  //   const fromDate = dateValue[0];
+  //   const toDate = dateValue[1];
+  //   const arena = activeArena;
+  //   var data = allBookings;
+  //   if (!!toDate) {
+  //     data.forEach((entry) => {
+  //       if (fromDate) if (
+  //         entry.bookingDate > fromDate &&
+  //         entry.bookingDate <= toDate &&
+  //         (entry.arena === arena || !arena)
+  //       )
+  //         entries.push(entry);
 
-      });
-    } else {
-      data.forEach((entry) => {
-        if (fromDate) if (
-          entry.bookingDate.getDate() === fromDate.getDate() &&
-          entry.bookingDate.getMonth() === fromDate.getMonth() &&
-          entry.bookingDate.getFullYear() === fromDate.getFullYear() &&
-          (entry.arena === arena || !arena)
-        ) {
-          entries.push(entry);
-        }
-      });
-    }
-    setActiveData(entries);
-    return entries;
-  }
+  //     });
+  //   } else {
+  //     data.forEach((entry) => {
+  //       if (fromDate) if (
+  //         entry.bookingDate.getDate() === fromDate.getDate() &&
+  //         entry.bookingDate.getMonth() === fromDate.getMonth() &&
+  //         entry.bookingDate.getFullYear() === fromDate.getFullYear() &&
+  //         (entry.arena === arena || !arena)
+  //       ) {
+  //         entries.push(entry);
+  //       }
+  //     });
+  //   }
+  //   setActiveData(entries);
+  //   return entries;
+  // }
 
   //Used in SelectBox
   function getUniqueArenas(): string[] {
@@ -162,9 +234,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      <TodayTomAndDayAfterPreview
-        allBookings={allBookings}
-      ></TodayTomAndDayAfterPreview>
+      <DashBoardTable  data={allBookings} title="Today's Bookings" />
       <Collapse
         size="large"
         expandIcon={({ isActive }) => (
@@ -221,7 +291,7 @@ const Dashboard: React.FC = () => {
               >
                 <Title>Booking Frequency by Student Course</Title>
                 <Divider />
-                <TheBarChart allBookings={activeData}></TheBarChart>
+                {/* <TheBarChart allBookings={activeData}></TheBarChart> */}
               </Card>
             </Col>
             <Col>

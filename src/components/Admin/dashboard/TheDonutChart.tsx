@@ -1,7 +1,7 @@
 import { DonutChart } from "@tremor/react";
-import { BookingByUser } from "../../../types";
+import {  BookingDetails } from "../../../types";
 
-const TheDonutChart: React.FC<{ allBookings: BookingByUser[] }> = ({allBookings}) => {
+const TheDonutChart: React.FC<{ allBookings: BookingDetails[] }> = ({allBookings}) => {
   const valueFormatter = (number: number) => "Count: " + number;
 
   function countBookingsByArena(): { arena: string, timesBooked: number }[] {

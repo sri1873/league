@@ -17,7 +17,7 @@ import { BookingByUser } from "../../../types";
 
 const tabSelectColor = "purple";
 
-const AdminControls = () => {
+const   AdminControls = () => {
   const [allBookings, setAllBookings] = useState<BookingByUser[]>([]);
 
   function formatTimeSlot(slot: string): string {
