@@ -20,7 +20,7 @@ import { setErrorMsg } from "../store";
 import { Dispatch } from '@reduxjs/toolkit';
 import { AuthState } from "../types";
 import AdminControls from "./Admin/Wrapper";
-import Dashboard from "./Admin/Dashboard";
+
 
 const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -57,7 +57,7 @@ const App: React.FC = () => {
         } else if (roles.includes("ADMIN")) {
             return <>
                 <Route path="/register" element={<Registration />} />
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<AdminControls />} />
                 <Route path="/bookings" element={<AdminControls />} />
             </>
         }
