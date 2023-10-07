@@ -53,19 +53,6 @@ const NavBar = () => {
                     Bookings
                   </a>
                 </li>
-                {roles?.includes("ADMIN") ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      aria-current="page"
-                      href="/adminpage"
-                    >
-                      Admin Page
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )}
                 <li
                   className="dropdown nav-item align-center"
                   data-bs-toggle="dropdown"

@@ -12,8 +12,8 @@ import {
 import type { Dayjs } from 'dayjs';
 import { useEffect, useState } from "react";
 import React from "react";
-import base from "../../../apis/base";
-import { BookingByUser } from "../../../types";
+import base from "../../apis/base";
+import { BookingByUser, BookingDetails } from "../../types";
 
 
 /*TODO
@@ -38,7 +38,7 @@ interface Slots {
 declare type EventValue<DateType> = DateType | null;
 declare type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
 
-const AddFacility: React.FC<{ bookings: BookingByUser[] }> = ({ bookings }) => {
+const AddFacility: React.FC<{ bookings: BookingDetails[] }> = ({ bookings }) => {
   const [timeRange, setTimeRange] = useState<string>("");
 
   const [timeslotList, setTimeslotList] = useState<{ timeslot: string }[]>([]);

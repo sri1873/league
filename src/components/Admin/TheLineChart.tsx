@@ -1,5 +1,5 @@
 import { LineChart } from "@tremor/react";
-import { BookingByUser, BookingDetails } from "../../../types";
+import { BookingByUser, BookingDetails } from "../../types";
 
 const TheLineChart: React.FC<{ allBookings: BookingDetails[] }> = ({ allBookings }) => {
 
