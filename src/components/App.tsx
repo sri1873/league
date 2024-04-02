@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "../apis/base";
 import RequireAuth from "../helpers/RequireAuth";
-import AdminWrapper from "./Admin/Wrapper";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import Booking from "./Registration/Booking";
@@ -20,6 +19,8 @@ import Error from "../helpers/Error";
 import { setErrorMsg } from "../store";
 import { Dispatch } from '@reduxjs/toolkit';
 import { AuthState } from "../types";
+import AdminControls from "./Admin/Wrapper";
+
 
 const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -49,18 +50,15 @@ const App: React.FC = () => {
     })
     const roles = useSelector((state: AuthState) => state.user.roles)
     const roleAdmin = () => {
-        if (roles.includes("STUDENT") && roles.includes("ADMIN")) {
+        if (roles.includes("STUDENT")) {
             return <>
                 <Route path="/" element={<Registration />} />
-                <Route path="/adminpage" element={<AdminWrapper />} />
-                <Route path="/bookings" element={<Booking />} />
-            </>
-        } else if (roles.includes("STUDENT")) {
-            return <> <Route path="/" element={<Registration />} />
                 <Route path="/bookings" element={<Booking />} /></>
         } else if (roles.includes("ADMIN")) {
-            return <><Route path="/" element={<AdminWrapper />} />
-                <Route path="/bookings" element={<PageNotFound />} />
+            return <>
+                <Route path="/register" element={<Registration />} />
+                <Route path="/" element={<AdminControls />} />
+                <Route path="/bookings" element={<AdminControls />} />
             </>
         }
         else return <></>
@@ -86,7 +84,7 @@ const App: React.FC = () => {
                 <Route path="/server-error" element={<InternalServerError />} />
             </Routes>
         </BrowserRouter>
-        {/* </div> */}
+
         <Footer />
     </>
     );
