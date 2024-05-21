@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import base from "../../apis/base";
-import './registration.css';
-import Slot from "./Slot";
 import { Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import base from "../../apis/base";
+import { State } from "../../store";
 import { Arena, SlotType } from "../../types";
+import Slot from "./Slot";
+import './registration.css';
 
 
 
@@ -26,6 +28,8 @@ const Registration: React.FC = () => {
     const [modal, setModal] = useState<boolean>(false);
     const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
 
+    const roles: string[] = useSelector((state: State) => state.auth.user.roles);
+    console.log(roles.includes('ADMIN'))
     var today: Date = new Date();
     var tomorrow: Date = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -114,6 +118,7 @@ const Registration: React.FC = () => {
             <div className="arena-name col-md-12">
                 {arenaId ? <i onClick={e => { setAcceptTerms(false); setArenaId(""); setSlots([]); setArenaName(("SELECT ARENA")) }} className="fa-solid fa-arrow-left-long"></i> : <></>}
                 {arenaName}
+                {roles.includes('ADMIN') ? <button value="Add New" className="col-md-2 ">Add New</button> : <></>}
             </div>
             {!arenaId ?
                 <div className="arena-details col-md-12">

@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom/dist';
-import './onboarding.css'
-import { AuthState } from '../../types';
 import logo from "../../assets/logo.png";
+import { State } from '../../store';
+import './onboarding.css';
 
 
 const Onboarding: React.FC<React.PropsWithChildren> = ({ children }) => {
     const location = useLocation();
-    const user = useSelector((state: AuthState) => {
-        return state.isValid
+    const user = useSelector((state: State) => {
+        return state.auth.isValid
     })
     return (
         <>

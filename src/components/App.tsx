@@ -1,10 +1,15 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "../apis/base";
+import Error from "../helpers/Error";
 import RequireAuth from "../helpers/RequireAuth";
+import { State, setErrorMsg } from "../store";
+import AdminControls from "./Admin/Wrapper";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import ArenaScreen from "./Registration/Arena";
 import Booking from "./Registration/Booking";
 import Registration from "./Registration/registration";
 import Failure from "./Utils/Failure";
@@ -15,11 +20,6 @@ import Success from "./Utils/Success";
 import Login from "./onboarding/Login";
 import Onboarding from "./onboarding/Onboarding";
 import SignUp from "./onboarding/SignUp";
-import Error from "../helpers/Error";
-import { setErrorMsg } from "../store";
-import { Dispatch } from '@reduxjs/toolkit';
-import { AuthState } from "../types";
-import AdminControls from "./Admin/Wrapper";
 
 
 const App: React.FC = () => {
@@ -48,7 +48,7 @@ const App: React.FC = () => {
         newRes.duration < 700 ? setTimeout(() => { setLoading(false) }, 800 - newRes.duration) : setLoading(false);
         return newRes
     })
-    const roles = useSelector((state: AuthState) => state.user.roles)
+    const roles = useSelector((state: State) => state.auth.user.roles)
     const roleAdmin = () => {
         if (roles.includes("STUDENT")) {
             return <>
@@ -56,7 +56,7 @@ const App: React.FC = () => {
                 <Route path="/bookings" element={<Booking />} /></>
         } else if (roles.includes("ADMIN")) {
             return <>
-                <Route path="/register" element={<Registration />} />
+                <Route path="/register" element={<ArenaScreen />} />
                 <Route path="/" element={<AdminControls />} />
                 <Route path="/bookings" element={<AdminControls />} />
             </>
@@ -66,7 +66,7 @@ const App: React.FC = () => {
     return (<>
         <NavBar />
         <Loader state={loading} />
-        <Error color={"danger"} message={useSelector((state: AuthState) => state.errorMsg)} />
+        <Error color={"danger"} message={useSelector((state: State) => state.auth.errorMsg)} />
 
         <BrowserRouter>
             <Routes>
@@ -75,7 +75,7 @@ const App: React.FC = () => {
 
                 <Route element={<RequireAuth />}>
                     {roleAdmin()}
-                    <Route path="/" element={<Registration />} />
+                    <Route path="/" element={<ArenaScreen />} />
                     <Route path="/success" element={<Success />} />
                     <Route path="/fail" element={<Failure />} />
                 </Route>

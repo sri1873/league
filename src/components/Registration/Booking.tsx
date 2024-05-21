@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import type { InputRef } from 'antd';
 import { Input, Table } from "antd";
-import Highlighter from "react-highlight-words";
-import base from "../../apis/base";
-import { useSelector } from "react-redux";
-import { AuthState, BookingDetails } from "../../types";
 import type { ColumnType, ColumnsType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
-import type { InputRef } from 'antd';
+import { useEffect, useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
+import { useSelector } from "react-redux";
+import base from "../../apis/base";
+import { State } from "../../store";
+import { BookingDetails } from "../../types";
 
 
 type DataIndex = keyof BookingDetails;
@@ -21,7 +22,7 @@ const Booking = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [extend, setExtend] = useState<boolean>(false);
   const searchInput = useRef<InputRef>(null);
-  const userId = useSelector((state: AuthState) => state.user.userId);
+  const userId = useSelector((state: State) => state.auth.user.userId);
   useEffect(() => {
     base.get(`api/v1/users/${userId}/bookings`).then((res) => {
       setData(res.data?.data);

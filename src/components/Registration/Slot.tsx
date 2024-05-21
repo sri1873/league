@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import base from "../../apis/base";
-import { setErrorMsg } from "../../store";
-import { SlotType, AuthState } from "../../types";
+import { State, setErrorMsg } from "../../store";
+import { SlotType } from "../../types";
 
 interface SlotProps {
   slots: SlotType[];
@@ -31,7 +31,7 @@ const Slot: React.FC<SlotProps> = ({ slots, arenaId, date, setArenaId, setArenaN
     "arena": "",
     "slot": "",
   });
-  const userId = useSelector((state: AuthState) => state.user.userId);
+  const userId = useSelector((state: State) => state.auth.user.userId);
 
   useEffect(() => {
     if (pay)

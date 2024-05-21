@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import Password from "./onboarding/Password";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { AuthState } from "../types";
 import logo from "../assets/logo.png";
+import { State } from "../store";
+import Password from "./onboarding/Password";
 
 const NavBar = () => {
   const [modal, setModal] = useState(false);
@@ -13,9 +13,9 @@ const NavBar = () => {
     window.location.href = "/";
   };
   const userName: string | null = useSelector(
-    (state: AuthState) => state.user.userName
+    (state: State) => state.auth.user.userName
   );
-  const roles: string[] = useSelector((state: AuthState) => state.user.roles);
+  const roles: string[] = useSelector((state: State) => state.auth.user.roles);
   return (
     <>
       {userName ? (
