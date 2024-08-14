@@ -79,9 +79,9 @@ const SignUp = () => {
         password: "",
         confirmPassword: "",
         courseId: "",
-        gender:"",
+        gender: "",
       }}
-      validate={(values:SignUpFormDetails) => {
+      validate={(values: SignUpFormDetails) => {
         const errors: FormikErrors<SignUpFormDetails> = {};
         if (!values.email) {
           errors.email = "* Enter Woxsen email ID";
@@ -128,12 +128,12 @@ const SignUp = () => {
           .get(`/api/v1/util/availability/username?userName=${values.userName}`)
           .then(res => {
             if (!res.data)
-              dispatch(setErrorMsg("Username not available"))
+              dispatch(setErrorMsg({ errMsg: "Username not available🥲", errColor: "danger" }))
             else {
               base.get(`api/v1/util/availability/email?email=${values.email}`)
                 .then(res => {
                   if (!res.data)
-                    dispatch(setErrorMsg("Mail-Id not available"))
+                    dispatch(setErrorMsg({ errMsg: "Mail-Id not available🥲", errColor: "danger" }))
                   else {
                     setFormDetails(prevState => ({
                       ...prevState,
@@ -149,12 +149,12 @@ const SignUp = () => {
                   }
                 }).catch(err => {
                   console.log(err);
-                  dispatch(setErrorMsg("Internal Server Error"))
+                  dispatch(setErrorMsg({ errMsg: "Internal Server Error🫠", errColor: "danger" }))
                 });
             }
           }).catch(err => {
             console.log(err);
-            dispatch(setErrorMsg("Internal Server Error"))
+            dispatch(setErrorMsg({ errMsg: "Internal Server Error🫠", errColor: "danger" }))
           });
       }}
     >

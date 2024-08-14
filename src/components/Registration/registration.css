@@ -26,7 +26,13 @@
   cursor: default !important;
   font-size: 1em !important;
 }
-
+.add-new-arena{
+  border:1px solid #422c22
+}
+.add-new-arena:hover{
+  background-color:#422c22;
+  color:whitesmoke ;
+}
 .arena-container {
   padding: 2em;
   display: flex;
@@ -45,6 +51,8 @@
   font-weight: bold;
   letter-spacing: 0.5em;
   border-bottom: 2px solid #000000;
+  display: flex;
+  justify-content: space-between;
 }
 .arena-details {
   padding: 2em 0;
@@ -207,9 +215,7 @@
 }
 /* ------------------HOME */
 
-.home {
-  padding: 2.5em;
-}
+
 
 @media (max-width: 650px) {
   .ant-table-content {

@@ -52,7 +52,7 @@ const Login = () => {
       })
       .catch((err) => {
         setConfirmButton("");
-        dispatch(setErrorMsg("Invalid Credentials!"));
+        dispatch(setErrorMsg({ errMsg:"Invalid Credentials!😒", errColor: "danger" }));
       });
   };
 

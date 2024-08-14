@@ -9,6 +9,7 @@ export interface AuthState {
   isValid: boolean;
   user: User;
   errorMsg: string;
+  errorColor: "success" | "danger" | "warning";
 }
 
 export interface AuthActions {
@@ -27,6 +28,7 @@ export interface BookingDetails {
   bookingDate: string;
   bookingId: string;
   slot: string;
+  school?: string;
 }
 
 export interface Arena {
@@ -47,6 +49,7 @@ export interface SlotType {
   slot: string;
   status: string;
   activeIndex: boolean;
+  startTime: string;
 }
 // Signup.tsx
 

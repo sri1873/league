@@ -1,15 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface arenaState{
+interface arenaState {
     arenaId: null | string,
-    arenaName:null|string
+    arenaName: null | string
 }
 
 const arenaSlice = createSlice({
     name: "arenaSlice",
     initialState: {
         arenaId: null,
-        arenaName:null
+        arenaName: null
     } as arenaState,
     reducers: {
         setArenaDetails: (state: arenaState, action: PayloadAction<arenaState>) => {

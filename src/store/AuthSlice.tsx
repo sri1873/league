@@ -12,6 +12,7 @@ const authSlice = createSlice({
             roles: [],
         },
         errorMsg: "",
+        errorColor: "danger"
     } as AuthState,
     reducers: {
         toggleActive: (state: AuthState) => {
@@ -24,11 +25,13 @@ const authSlice = createSlice({
             state.user.roles = action.payload.roles;
             state.user.userName = action.payload.userName;
         },
-        setErrorMsg: (state: AuthState, action: PayloadAction<string>) => {
-            state.errorMsg = action.payload;
+        setErrorMsg: (state: AuthState, action: PayloadAction<{ errMsg: string, errColor: "success" | "danger" | "warning" }>) => {
+            state.errorMsg = action.payload.errMsg;
+            state.errorColor=action.payload.errColor
         },
         clearErrorMsg: (state: AuthState) => {
             state.errorMsg = "";
+            state.errorColor = "danger";
         },
     },
 });

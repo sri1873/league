@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import base from "../../apis/base";
 import { State } from "../../store";
 import { BookingDetails } from "../../types";
+import { Tab, TabList } from "@tremor/react";
+import BookingsToday from "../Admin/BookingsToday";
 
 
 type DataIndex = keyof BookingDetails;
@@ -28,6 +30,7 @@ const Booking = () => {
       setData(res.data?.data);
     });
   }, [userId]);
+
   useEffect(() => {
     if (extend)
       base
@@ -35,9 +38,7 @@ const Booking = () => {
         .then((res) => setHTML({ __html: res.data }));
   }, [extend, bookingId]);
 
-  const handleSearch = (
-    selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex,
-  ) => {
+  const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex,) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
@@ -179,11 +180,13 @@ const Booking = () => {
       ? setExtend(true)
       : setExtend(false);
   };
+  const [activeTab, setActiveTab] = useState("bookings");
   return (
     <>
+      
       {modal ? extendSlot : ""}
       <div className="home">
-        <Table
+        {activeTab==='myBookings'&&<Table
           columns={columns}
           dataSource={data}
           size="middle"
@@ -193,9 +196,9 @@ const Booking = () => {
               handleClick(record);
             },
           })}
-        />
+        />}
+        {activeTab==='bookings'&&<BookingsToday data={data}/>}
       </div>
-      ;
     </>
   );
 };

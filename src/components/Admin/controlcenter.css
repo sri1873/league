@@ -1,0 +1,114 @@
+.control-center-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.label-name-disabled {
+    background: linear-gradient(90deg, #ffffff3b 0%, #44ff8f 100%);
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    grid-area: 1/1/1/span 3;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.5em;
+}
+
+.label-name-disabled:hover {
+    color: white;
+    background: linear-gradient(90deg, #09053c 0%, #44ff8f 100%);
+}
+
+.slot-control-container {
+    border-bottom: 2px solid;
+    padding: 1rem;
+}
+
+.slot-display-container {
+    grid-template-columns: auto auto auto auto auto auto !important;
+}
+
+
+
+.school-control-container {
+    border-bottom: 2px solid;
+    padding: 1rem;
+}
+
+.school-operations {
+    padding: 1rem;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    /* width: 50%; */
+}
+
+.school-operations input {
+    width: 50%;
+}
+
+.school-display-container,
+.slot-display-container {
+    background: rgb(2, 0, 36);
+    /* background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 120, 121, 1) 100%); */
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 55%, rgba(9, 120, 121, 1) 100%);
+
+    color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 1.5rem;
+    row-gap: 1.5rem;
+}
+
+.school-display-item,
+.slot-display-item {
+    border: 1px solid rgb(21, 220, 167);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.school-display-item:hover,
+.slot-display-item:hover {
+    cursor: pointer;
+    background-color: rgb(24, 218, 166);
+}
+
+
+.arena-control-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 1rem;
+}
+
+.control-center-container .arena-name {
+    grid-area: 1/1/1/span 3;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.5em;
+}
+
+.arena-control-container .arena{
+    border: none;
+    padding: 1.5rem;
+    margin: 1rem 2rem;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 15px solid black;
+}
+
+.under-maintenance {
+    background-color: #949191;
+    display: block !important;
+    padding: 1rem;
+    padding-bottom: 0.5rem !important;
+}
+.under-maintenance:hover {
+    background-color: #737373;
+}

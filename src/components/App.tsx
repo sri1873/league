@@ -6,12 +6,15 @@ import axios from "../apis/base";
 import Error from "../helpers/Error";
 import RequireAuth from "../helpers/RequireAuth";
 import { State, setErrorMsg } from "../store";
-import AdminControls from "./Admin/Wrapper";
+// import AdminControls from "./Admin/Wrapper";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import ArenaScreen from "./Registration/Arena";
 import Booking from "./Registration/Booking";
-import Registration from "./Registration/registration";
+// import Registration from "./Registration/registration";
+// import Dashboard from './Admin/Dashboard';
+import ControlCenter from './Admin/ControlCenter';
+import Slot from './Registration/Slot';
 import Failure from "./Utils/Failure";
 import InternalServerError from "./Utils/InternalServerError";
 import Loader from "./Utils/Loader";
@@ -41,7 +44,7 @@ const App: React.FC = () => {
         return newRes
     }, error => {
         const newRes = { ...error }
-        dispatch(setErrorMsg(error?.response?.data?.message))
+        dispatch(setErrorMsg({errMsg:error?.response?.data?.message + "😔",errColor:"danger"}))
         newRes.config.headers.endTime = new Date();
         newRes.duration =
             newRes.config.headers.endTime - newRes.config.headers.startTime;
@@ -52,13 +55,15 @@ const App: React.FC = () => {
     const roleAdmin = () => {
         if (roles.includes("STUDENT")) {
             return <>
-                <Route path="/" element={<Registration />} />
+                <Route path="/" element={<ArenaScreen />} />
+                <Route path="/slotBooking" element={<Slot />} />
                 <Route path="/bookings" element={<Booking />} /></>
         } else if (roles.includes("ADMIN")) {
             return <>
-                <Route path="/register" element={<ArenaScreen />} />
-                <Route path="/" element={<AdminControls />} />
-                <Route path="/bookings" element={<AdminControls />} />
+                <Route path="/" element={<ArenaScreen />} />
+                <Route path="/slotBooking" element={<Slot />} />
+                <Route path="/bookings" element={<Booking />} />
+                <Route path="/controlcenter" element={<ControlCenter />} />
             </>
         }
         else return <></>
@@ -66,7 +71,7 @@ const App: React.FC = () => {
     return (<>
         <NavBar />
         <Loader state={loading} />
-        <Error color={"danger"} message={useSelector((state: State) => state.auth.errorMsg)} />
+        <Error color={useSelector((state: State) => state.auth.errorColor)} message={useSelector((state: State) => state.auth.errorMsg)} />
 
         <BrowserRouter>
             <Routes>

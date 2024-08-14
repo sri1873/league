@@ -4,9 +4,10 @@ import { clearErrorMsg } from "../store";
 import { useDispatch } from "react-redux";
 
 interface ErrorProps {
-  color: string;
+  color: "success"|"danger"|"warning";
   message: string;
 }
+
 const Error: React.FC<ErrorProps> = ({ color, message }) => {
   const dispatch = useDispatch();
   const errorResourse: React.JSX.Element = (
@@ -14,7 +15,7 @@ const Error: React.FC<ErrorProps> = ({ color, message }) => {
       className={`alert alert-${color} alert-dismissible`}
       role="alert"
       style={{
-        position: "absolute",
+        position: "fixed",
         margin: 0,
         maxWidth: "40%",
         zIndex: 100,

@@ -2,26 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import base from "../../apis/base";
-import { State, setErrorMsg } from "../../store";
+import { State, clearArenaDetails, setErrorMsg } from "../../store";
 import { SlotType } from "../../types";
+import TermsAndConditions from "../Utils/TermsAndConditions";
 
-interface SlotProps {
-  slots: SlotType[];
-  arenaId: string;
-  date: string;
-  setArenaId: React.Dispatch<React.SetStateAction<string>>,
-  setArenaName: React.Dispatch<React.SetStateAction<string>>
-}
+
 interface BookingResponse {
   bookingId: string,
   bookingDate: string,
   arena: string,
   slot: string,
 }
-const Slot: React.FC<SlotProps> = ({ slots, arenaId, date, setArenaId, setArenaName }) => {
+
+const Slot: React.FC = () => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch = useDispatch();
+  const [TnCmodal, setTnCModal] = useState(true);
   const [slotId, setSlotId] = useState<string>("");
+  const [slots, setSlots] = useState<SlotType[]>([]);
   const [html, setHTML] = useState<{ readonly __html: string }>({ __html: "" });
   const [pay, setPay] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
@@ -32,20 +30,26 @@ const Slot: React.FC<SlotProps> = ({ slots, arenaId, date, setArenaId, setArenaN
     "slot": "",
   });
   const userId = useSelector((state: State) => state.auth.user.userId);
+  const arenaId = useSelector((state: State) => state.arena.arenaId)
+  const arenaName = useSelector((state: State) => state.arena.arenaName)
 
+  useEffect(() => {
+    arenaId ?
+      base.get(`api/v1/arenas/${arenaId}/slots?day=today`).then(res => setSlots(res.data.data)) : navigate('/')
+  }, [])
   useEffect(() => {
     if (pay)
       base
         .get(
-          `/api/v1/payu/users/${userId}/arenas/${arenaId}/slots/${slotId}/day/${date}/get-payu-button`
+          `/api/v1/payu/users/${userId}/arenas/${arenaId}/slots/${slotId}/day/today/get-payu-button`
         )
         .then((res) => setHTML({ __html: res.data }));
-  }, [slotId, userId, arenaId, date, pay]);
+  }, [slotId, userId, arenaId, pay]);
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     base({
       method: "POST",
-      url: `api/v1/users/${userId}/bookings?day=${date}`,
+      url: `api/v1/users/${userId}/bookings?day=today`,
       data: { arenaId: arenaId, slotId: slotId },
     })
       .then((res) => {
@@ -68,6 +72,11 @@ const Slot: React.FC<SlotProps> = ({ slots, arenaId, date, setArenaId, setArenaN
     setSlotId(slot.id);
     setPay(slot?.paid);
   };
+
+  const handleBack = () => {
+    dispatch(clearArenaDetails())
+    navigate('/')
+  }
 
   const confirmationModal = (): React.JSX.Element => {
     return (
@@ -97,40 +106,46 @@ const Slot: React.FC<SlotProps> = ({ slots, arenaId, date, setArenaId, setArenaN
     );
   }
   return (
-    <>
-      {modal ? confirmationModal() : <></>}
-      <div className="arena-slots">
-        <div className="slots">
-          {slots.map((slot) => {
-            var unavailable = slot.available
-              ? ""
-              : "btn-outline-secondary disabled";
-            var women = slot.forWomen ? "women" : "";
-            return (
-              <button
-                key={slot.id}
-                onClick={(e) => handleClick(slot)}
-                className={`slot btn ${unavailable} ${women} ${slot.id === slotId ? "selected-btn" : ""
-                  }`}
-              >
-                {slot.slot}
-              </button>
-            );
-          })}
+    <div className="registration">
+      {TnCmodal ? <TermsAndConditions setTnCModal={setTnCModal} /> : <></>}
+      <div className="arena-container">
+        <div className="arena-name col-md-12">
+          <i style={{ cursor: 'pointer' }} onClick={handleBack} className="fa-solid fa-arrow-left-long"></i>
+          {arenaName}
         </div>
-      </div>
-      {pay ? (
-        <div dangerouslySetInnerHTML={html} />
-      ) : (
-        <button
-          className={`booking-btn col-md-2 ${slotId ? "" : "disabled"}`}
-          id="confirmBtn"
-          onClick={(event) => slotId ? handleSubmit(event) : null}
-        >
-          Confirm Booking
-        </button>
-      )}
-    </>
+        {modal ? confirmationModal() : <></>}
+        <div className="arena-slots">
+          <div className="slots">
+            {slots.map((slot) => {
+              var unavailable = slot.available
+                ? ""
+                : "btn-outline-secondary disabled";
+              var women = slot.forWomen ? "women" : "";
+              return (
+                <button
+                  key={slot.id}
+                  onClick={(e) => handleClick(slot)}
+                  className={`slot btn ${unavailable} ${women} ${slot.id === slotId ? "selected-btn" : ""
+                    }`}
+                >
+                  {slot.slot}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        {pay ? (
+          <div dangerouslySetInnerHTML={html} />
+        ) : (
+          <button
+            className={`booking-btn col-md-2 ${slotId ? "" : "disabled"}`}
+            id="confirmBtn"
+            onClick={(event) => slotId ? handleSubmit(event) : null}
+          >
+            Confirm Booking
+          </button>
+        )}
+      </div></div>
   );
 };
 export default Slot;

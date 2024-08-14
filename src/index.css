@@ -1,11 +1,12 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .content {
   height: 90vh;
 }
@@ -14,9 +15,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-a{
+
+a {
   text-decoration: none;
 }
+
 :root {
   --primary: #161a1d;
   --secondary: #b1a7a6;
@@ -38,6 +41,7 @@ a{
   padding: 2em;
   background-color: #161a1d;
 }
+
 .footer {
   color: #ffffff;
   padding: 1em;
@@ -48,37 +52,62 @@ a{
   align-items: center;
   /* max-width :80%; */
 }
+
 .navbar-nav {
   width: 100%;
   justify-content: center;
 }
+
 .logo {
   width: 50%;
 }
+
 .follow h4 {
   color: white;
   font-size: 15px;
   border-top: solid 2px #ee495c;
   padding-top: 20px;
 }
+
 .follow ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 22px;
-    margin-bottom: 5px;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  margin-bottom: 5px;
 }
+
 .follow ul li {
-    margin-right: 8px;
-    width: 76px;
-    font-size: 15px;
-    font-weight: 400;
+  margin-right: 8px;
+  width: 76px;
+  font-size: 15px;
+  font-weight: 400;
 }
+
 .follow ul li img {
-    width: 29px;
-    height: 24px;
-    object-fit: scale-down;
-    margin: auto auto 6px;
-    display: block;
+  width: 29px;
+  height: 24px;
+  object-fit: scale-down;
+  margin: auto auto 6px;
+  display: block;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
 }
