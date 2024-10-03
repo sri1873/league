@@ -84,7 +84,7 @@ const NavBar = () => {
                     <Avatar
                       style={{
                         color: "black",
-                        backgroundColor: "#befa19",
+                        backgroundColor: "#74fbc9",
                         cursor: "pointer",
                         marginRight: "10px",
                       }}

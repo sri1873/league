@@ -10,7 +10,7 @@ const Loader:React.FC<LoaderProps> = ({ state }) => {
     return (state ?
         <div className="loader-container">
                 <RingLoader
-                color="#befa19"
+                color="#74fbc9"
                     loading={state}
                     speedMultiplier={1.8}
                     size={"60px"}  

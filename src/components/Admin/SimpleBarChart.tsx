@@ -28,7 +28,7 @@ export default function SimpleBarChart({ allBookings }: { allBookings: BookingDe
     return (
         <ResponsiveChartContainer
             series={[
-                { type: 'bar', data: xValues, label: 'Schools', id: 'uvId' },
+                { type: 'bar', data: xValues, label: 'Schools', id: 'uvId', color:'#262628' },
             ]}
             xAxis={[{ data: xLabels, scaleType: 'band' }]}
         >

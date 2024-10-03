@@ -5,7 +5,7 @@
 }
 
 .label-name-disabled {
-    background: linear-gradient(90deg, #ffffff3b 0%, #44ff8f 100%);
+    background: linear-gradient(347deg, rgb(117, 81, 66) 0%, rgba(211, 187, 177, 1) 70%);
     border-radius: 20px;
     cursor: pointer;
     display: flex;
@@ -19,7 +19,7 @@
 
 .label-name-disabled:hover {
     color: white;
-    background: linear-gradient(90deg, #09053c 0%, #44ff8f 100%);
+    background: linear-gradient(347deg, rgb(117, 81, 66) 0%, rgb(181, 156, 146) 70%);
 }
 
 .slot-control-container {
@@ -31,8 +31,6 @@
     grid-template-columns: auto auto auto auto auto auto !important;
 }
 
-
-
 .school-control-container {
     border-bottom: 2px solid;
     padding: 1rem;
@@ -43,7 +41,6 @@
     padding-bottom: 0;
     display: flex;
     justify-content: space-between;
-    /* width: 50%; */
 }
 
 .school-operations input {
@@ -52,10 +49,8 @@
 
 .school-display-container,
 .slot-display-container {
-    background: rgb(2, 0, 36);
-    /* background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 120, 121, 1) 100%); */
-    background: radial-gradient(circle, rgba(2, 0, 36, 1) 55%, rgba(9, 120, 121, 1) 100%);
-
+    /* background: rgb(231, 231, 235); */
+    /* background: linear-gradient(347deg, rgb(117, 81, 66) 0%, rgba(211, 187, 177, 1) 70%); */
     color: white;
     border-radius: 10px;
     padding: 2rem;

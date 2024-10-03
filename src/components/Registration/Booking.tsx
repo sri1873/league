@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import base from "../../apis/base";
 import { State } from "../../store";
 import { BookingDetails } from "../../types";
-import { Tab, TabList } from "@tremor/react";
 import BookingsToday from "../Admin/BookingsToday";
 
 

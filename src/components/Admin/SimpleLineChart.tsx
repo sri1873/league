@@ -38,7 +38,7 @@ export default function SimpleLineChart({ allBookings }: { allBookings: BookingD
   return (
     <ResponsiveChartContainer
       series={[
-        { type: 'line', data: xValues, label: 'Times Booked', connectNulls: true },
+        { type: 'line', data: xValues, label: 'Times Booked', connectNulls: true, color: '#262628' },
       ]}
       xAxis={[{ scaleType: 'point', data: xLabels }]}
       yAxis={[{ min: 0 },]}

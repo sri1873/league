@@ -9,11 +9,11 @@
     padding: 1.5em;
     row-gap: 1em;
     column-gap: 2em;
-    background-color: #e6d5ce48;
+    background-color: #262628;
+    color: #f8f8fa;
 }
 
 .search-form {
-    /* border: 2px solid red; */
     display: flex;
     justify-content: space-between;
     width: 55vw;
@@ -21,20 +21,17 @@
 }
 
 .bookings-today-table {
-    background-color: #ffffff;
+    background-color: #f8f8fa;
     border-radius: 10px;
-    border: 1.5px solid #8a6f63;
     grid-area: 2/1/span 5/span 3;
-    /* max-height: 40vh; */
     overflow-y: scroll;
     width: 60vw;
 }
 
 .bookings-today-line {
     grid-area: 3 / 4 /span 4;
-    background-color: #ffffff;
+    background-color: #f8f8fa;
     border-radius: 10px;
-    border: 1.5px solid #8a6f63;
     max-height: 40vh;
     padding-bottom: 0.5em;
 }
@@ -42,21 +39,18 @@
 .booking-today-bar {
     grid-area: 1 / 4 /span 2;
     padding-bottom: 0.5em;
-    background-color: #ffffff;
-    border: 1.5px solid #8a6f63;
+    background-color: #f8f8fa;
     max-height: 30vh;
     border-radius: 10px;
 }
 
 .booking-today-pie {
     padding-bottom: 0.5em;
-    border: 1.5px solid #8a6f63;
     max-height: 20vh;
-    /* max-width: 15vw; */
     border-radius: 10px;
     grid-row-start: 1;
     grid-column-start: 2;
-    background-color: #ffffff;
+    background-color: #f8f8fa;
 }
 
 
